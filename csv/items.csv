@@ -1,0 +1,36 @@
+grade,name,effect,value
+minor,Healing Potion,40,8
+minor,Explosive Mana Vial,39,7
+minor,Health Regen Potion,10,30
+minor,Haste Potion,20,36
+minor,Weapon Repair Tincture,10,50
+weak,Healing Potion,80,16
+weak,Explosive Mana Vial,93,18
+weak,Health Regen Potion,17,51
+weak,Haste Potion,30,54
+weak,Weapon Repair Tincture,15,75
+Standard,Healing Potion,200,40
+Standard,Explosive Mana Vial,138,27
+Standard,Health Regen Potion,30,90
+Standard,Haste Potion,40,72
+Standard,Weapon Repair Tincture,20,100
+Above-average,Healing Potion,400,80
+Above-average,Explosive Mana Vial,205,41
+Above-average,Health Regen Potion,53,159
+Above-average,Haste Potion,50,90
+Above-average,Weapon Repair Tincture,25,125
+Satisfying,Healing Potion,700,140
+Satisfying,Explosive Mana Vial,510,102
+Satisfying,Health Regen Potion,94,282
+Satisfying,Haste Potion,60,108
+Satisfying,Weapon Repair Tincture,30,150
+Excessive,Healing Potion,1200,240
+Excessive,Explosive Mana Vial,1269,253
+Excessive,Health Regen Potion,168,504
+Excessive,Haste Potion,70,126
+Excessive,Weapon Repair Tincture,40,200
+100% Pure,Healing Potion,3000,600
+100% Pure,Explosive Mana Vial,4428,885
+100% Pure,Health Regen Potion,300,900
+100% Pure,Haste Potion,80,144
+100% Pure,Weapon Repair Tincture,50,250
