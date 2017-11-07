@@ -1,9 +1,12 @@
+import os
 import random
 from sqlite3 import connect
-import os
 
 import Enemy
 import Hero
+import Armor
+import Weapon
+import Shield
 
 
 # One round of a battle
@@ -54,6 +57,7 @@ def getenemy():
     conn.execute('SELECT * FROM enemies WHERE level = ' + str(ourHero.level) + ';')
     rows = conn.fetchall()
     new_enemy = random.choice(rows)
+    # create random enemy name
     adjectives1 = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
     adjectives2 = random.choice((rows[0][3], rows[1][3], rows[2][3], rows[3][3], rows[4][3]))
     ourNewEnemy = Enemy.Enemy(new_enemy[0], adjectives1, adjectives2, new_enemy[3], new_enemy[4], new_enemy[5],
@@ -64,16 +68,41 @@ def getenemy():
 def newhero():
     conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
     rows = conn.fetchall()
-
+    print('[w]arrior, [m]age, [h]unter')
+    ourclass = input()
     new_hero_data = rows[0]
-    ournewhero = Hero.Hero(new_hero_data[0], new_hero_data[1], new_hero_data[2], new_hero_data[3], new_hero_data[4], [])
+    ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2], new_hero_data[3],
+                           new_hero_data[4], [])
     return ournewhero
 
 
-def equipweapon():
+def newweapon():
     conn.execute('SELECT * FROM weapons where level = ' + str(ourHero.level) + ';')
     rows = conn.fetchall()
-    #print(rows)
+    new_weapon_data = rows[0]
+    ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3], new_weapon_data[4])
+    return ournewweapon
+    # print(rows)
+
+
+def newarmor():
+    conn.execute('SELECT * FROM armor WHERE level = ' + str(ourHero.level) + ' AND WHERE classtype = ' + str(
+        ourHero.ourclass) + ';')
+    rows = conn.fetchall()
+    new_armor_data = rows[0]
+    ournewarmor = Armor.Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3], new_armor_data[4])
+    return ournewarmor
+    return
+
+
+def newshield():
+    conn.execute('SELECT * FROM shield WHERE level = ' + str(ourHero.level) + ' AND WHERE classtype = ' + str(
+        ourHero.ourclass) + ';')
+    rows = conn.fetchall()
+    new_shield_data = rows[0]
+    ournewshield = Shield.Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3], new_shield_data[4])
+    return ournewshield
+    return
 
 
 def enemyturn():
@@ -124,8 +153,7 @@ def inventory_management():
 
 def gameloop():
     print('Welcome to MiniRPG\n\n')
-    print('[w]arrior, [m]age, [h]unter')
-    ourHero.ourclass = input()
+
     while True:
         adventure()
 
@@ -168,8 +196,8 @@ conn = gamedb.cursor()
 # Make new global hero and enemy which will change over time
 ourHero = newhero()
 
-# Equip a basic weapon
-equipweapon()
+# new a basic weapon
+newweapon()
 
 ourEnemy = getenemy()
 

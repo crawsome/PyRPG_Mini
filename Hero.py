@@ -3,7 +3,8 @@ import math
 
 class Hero:
     #Level,HP,ATK,DEF,xptonextlevel
-    def __init__(self, herolevel, herohp, heroatk, herodefn, heronextlevel, heroitems):
+    def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, heroitems):
+        self.ourclass = heroclass
         self.level = herolevel
         self.maxhp = herohp
         self.hp = self.maxhp
@@ -14,6 +15,7 @@ class Hero:
         self.xp = 0
         self.ourclass = 'm'
 
+        self.ourweapon = heroitems[0]
         self.weaponlevel = 1
         self.weaponname = 'Novice Sword'
         self.weapondmg = 8
@@ -21,6 +23,12 @@ class Hero:
         self.baseattack = self.weapondmg + self.weapondmg
         self.durability = 40
         self.power = 'none'
+
+        self.ourarmor = self.items[1]
+
+        self.ourshield = self.items[2]
+
+        self.item = self.items[3]
 
 
     def isalive(self):
