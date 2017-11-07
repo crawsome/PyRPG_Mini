@@ -24,9 +24,9 @@ class Enemy:
     def printenemyinfo(self):
         print('\t' + str(self.name) + ' HP:\t\t' + str(self.hp))
 
-    def allprintenemyinfo(self):
+    def printenemyinfodetail(self):
+        print(str(self.name))
         print('\tLevel:\t' + str(self.level))
-        print('\tName:\t' + str(self.name))
         print('\tAttack:\t' + str(self.atk))
         print('\tXP:\t\t' + str(self.xp))
         print('\tGold:\t' + str(self.gold))

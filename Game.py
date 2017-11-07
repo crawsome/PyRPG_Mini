@@ -8,16 +8,18 @@ import Item
 import Shield
 import Weapon
 
+
 # One round of a battle
 def battle():
-    ourHero.printheroinfo()
-    ourEnemy.printenemyinfo()
+    ourHero.printheroinfodetail()
+    print('\n')
+    ourEnemy.printenemyinfodetail()
     print('[a]tk, [d]ef, [r]un\n')
     nextmove = input()
-    playerturn(nextmove)
+    playerturn(nextmove, ourHero, ourEnemy)
     if ourHero.isbattling == False:
         return
-    enemyturn()
+
     if not ourHero.isalive():
         ourHero.isbattling = False
         print('YOU DIED')
@@ -30,10 +32,12 @@ def battle():
         ourHero.xp += ourEnemy.xp
         if ourHero.xp > ourHero.nextlevel:
             levelup()
+    else:
+        enemyturn()
     pass
 
 
-def playerturn(m):
+def playerturn(m,ourHero,ourEnemy):
     crit = 0
     critchance = random.randrange(0, 31)
     if critchance == 0:
@@ -91,13 +95,13 @@ def levelup():
     print('LEVEL UP!')
     ourHero.printheroinfodetail()
     ourHero.level += 1
-    conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
+    conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(ourHero.level) + ';')
     rows = conn.fetchall()
     new_hero_data = rows[0]
-    ourHero.maxhp += new_hero_data[1]
+    ourHero.maxhp = new_hero_data[1]
     ourHero.hp = ourHero.maxhp
     ourHero.atk += new_hero_data[2]
-    ourHero.defn += new_hero_data[3]
+    ourHero.defn = new_hero_data[3]
     ourHero.nextlevel += new_hero_data[4]
     ourHero.printheroinfodetail()
 
@@ -134,7 +138,7 @@ def newshield():
 
 def applyequip():
     ourHero.atk += ourweapon.baseatk
-    # ourHero.defn += ourarmor.defn + ourshield.defn
+    ourHero.defn += ourarmor.defn + ourshield.defn
 
 
 def newitem():
@@ -146,7 +150,7 @@ def newitem():
 
 
 def enemyturn():
-    effatk = int(round(ourEnemy.atk - ourHero.defn, 1))
+    effatk = int(round(ourEnemy.atk - .2 * ourHero.defn, 1))
     if effatk < 0:
         effatk = 0
     print('\nEnemy Attacks Player for ' + str(effatk))
@@ -207,7 +211,7 @@ def adventure():
             ourEnemy = getenemy()
             print('\nYou are confronted by a ' + str(ourEnemy.name))
             # battle until one is dead
-            ourEnemy.printenemyinfo()
+            ourEnemy.printenemyinfodetail()
             while ourHero.isalive() and ourEnemy.isalive() and ourHero.isbattling:
                 battle()
         if 80 < ourrand <= 85:
