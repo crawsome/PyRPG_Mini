@@ -2,8 +2,8 @@ import math
 
 
 class Hero:
-    #Level,HP,ATK,DEF,xptonextlevel
-    def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, heroitems):
+    # Level,HP,ATK,DEF,xptonextlevel
+    def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel):
         self.ourclass = heroclass
         self.level = herolevel
         self.maxhp = herohp
@@ -11,32 +11,14 @@ class Hero:
         self.atk = heroatk
         self.defn = herodefn
         self.nextlevel = heronextlevel
-        self.items = heroitems
+        self.items = [0, 0, 0, 0]
         self.xp = 0
-        self.ourclass = 'm'
-
-        self.ourweapon = heroitems[0]
-        self.weaponlevel = 1
-        self.weaponname = 'Novice Sword'
-        self.weapondmg = 8
-        self.weapontype = 'Sword'
-        self.baseattack = self.weapondmg + self.weapondmg
-        self.durability = 40
-        self.power = 'none'
-
-        self.ourarmor = self.items[1]
-
-        self.ourshield = self.items[2]
-
-        self.item = self.items[3]
-
 
     def isalive(self):
         if self.hp > 0:
             return True
         else:
             return False
-
 
     def levelup(self):
         print('LEVEL UP!')
@@ -45,10 +27,12 @@ class Hero:
         self.maxhp = self.maxhp + math.ceil(self.maxhp * .14)
         self.atk = self.atk + self.atk * .2
         self.atk = self.atk + self.atk * .2
-        self.nextlevel += math.ceil(self.nextlevel * 2.2)
-
+        self.nextlevel += math.ceil(self.nextlevel * 1.8)
 
     def printheroinfo(self):
+        print('\tCurrent HP:\t' + str(self.hp))
+
+    def printheroinfodetail(self):
         print('Hero Data: ')
         print('\tMax HP:\t\t' + str(self.maxhp))
         print('\tCurrent HP:\t' + str(self.hp))
