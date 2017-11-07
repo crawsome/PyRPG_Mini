@@ -1,36 +1,35 @@
-import os
 import random
 from sqlite3 import connect
 
 import Armor
 import Enemy
 import Hero
+import Item
 import Shield
 import Weapon
-import Item
-
 
 # One round of a battle
 def battle():
     ourHero.printheroinfo()
-
+    ourEnemy.printenemyinfo()
     print('[a]tk, [d]ef, [r]un\n')
     nextmove = input()
     playerturn(nextmove)
+    if ourHero.isbattling == False:
+        return
     enemyturn()
     if not ourHero.isalive():
-        isbattling = False
+        ourHero.isbattling = False
         print('YOU DIED')
         quit()
     if not ourEnemy.isalive():
-        isbattling = False
+        ourHero.isbattling = False
         ourEnemy.reset()
         print('VICTORY')
         print('You gained ' + str(ourEnemy.xp) + ' EXP')
         ourHero.xp += ourEnemy.xp
         if ourHero.xp > ourHero.nextlevel:
-            ourHero.levelup()
-        camp()
+            levelup()
     pass
 
 
@@ -51,7 +50,7 @@ def playerturn(m):
         rand = random.randrange(0, 4)
         if rand == 0:
             print('you ran away')
-            isbattling = False
+            ourHero.isbattling = False
             return
         else:
             print('you can\'t run!')
@@ -64,9 +63,9 @@ def getenemy():
     # create random enemy name
     adjectives1 = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
     adjectives2 = random.choice((rows[0][3], rows[1][3], rows[2][3], rows[3][3], rows[4][3]))
-    ourNewEnemy = Enemy.Enemy(new_enemy[0], adjectives1, adjectives2, new_enemy[3], new_enemy[4], new_enemy[5],
+    ournewenemy = Enemy.Enemy(new_enemy[0], adjectives1, adjectives2, new_enemy[3], new_enemy[4], new_enemy[5],
                               new_enemy[6], new_enemy[7], new_enemy[8], new_enemy[9])
-    return ourNewEnemy
+    return ournewenemy
 
 
 def newhero():
@@ -88,38 +87,60 @@ def newhero():
     return ournewhero
 
 
+def levelup():
+    print('LEVEL UP!')
+    ourHero.printheroinfodetail()
+    ourHero.level += 1
+    conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
+    rows = conn.fetchall()
+    new_hero_data = rows[0]
+    ourHero.maxhp += new_hero_data[1]
+    ourHero.hp = ourHero.maxhp
+    ourHero.atk += new_hero_data[2]
+    ourHero.defn += new_hero_data[3]
+    ourHero.nextlevel += new_hero_data[4]
+    ourHero.printheroinfodetail()
+
+
+
 def newweapon():
     conn.execute('SELECT * FROM weapons where level = ' + str(ourHero.level) + ';')
     rows = conn.fetchall()
     new_weapon_data = rows[0]
     ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
-                                 new_weapon_data[4])
+                                 new_weapon_data[4], new_weapon_data[5])
     return ournewweapon
 
 
 def newarmor():
-    conn.execute('SELECT * FROM armor WHERE "level" = ? AND "classtype" = ? ;', (str(ourHero.level), str(ourHero.ourclass), ))
+    conn.execute('SELECT * FROM armor WHERE "level" = ? AND "classtype" = ? ;',
+                 (str(ourHero.level), str(ourHero.ourclass),))
     rows = conn.fetchall()
     new_armor_data = rows[0]
     ournewarmor = Armor.Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3],
-                              new_armor_data[4])
+                              new_armor_data[4], new_armor_data[5])
     return ournewarmor
 
 
 def newshield():
-    conn.execute('SELECT * FROM shields WHERE "level" = ? AND "class" = ? ;', (str(ourHero.level), str(ourHero.ourclass), ))
+    conn.execute('SELECT * FROM shields WHERE "level" = ? AND "class" = ? ;',
+                 (str(ourHero.level), str(ourHero.ourclass),))
     rows = conn.fetchall()
     new_shield_data = rows[0]
     ournewshield = Shield.Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3],
-                                 new_shield_data[4])
+                                 new_shield_data[4], new_shield_data[5])
     return ournewshield
+
+
+def applyequip():
+    ourHero.atk += ourweapon.baseatk
+    # ourHero.defn += ourarmor.defn + ourshield.defn
 
 
 def newitem():
     conn.execute('SELECT * FROM items WHERE "grade" = ? ;', ('minor',))
     rows = conn.fetchall()
     new_item_data = rows[0]
-    print(new_item_data)
     ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3])
     return ournewitem
 
@@ -165,7 +186,7 @@ def savegame():
 
 
 def inventory_management():
-    for i, item in enumerate(ourHero.heroitems):
+    for i, item in enumerate(ourHero.items):
         print('[' + i + '] - ' + item)
     pass
 
@@ -181,13 +202,13 @@ def adventure():
     ourrand = random.randint(0, 100)
     if m == 'a':
         if ourrand <= 80:
-            isbattling = True
+            ourHero.isbattling = True
             # Make new enemy
             ourEnemy = getenemy()
             print('\nYou are confronted by a ' + str(ourEnemy.name))
             # battle until one is dead
             ourEnemy.printenemyinfo()
-            while ourHero.isalive() and ourEnemy.isalive() and isbattling:
+            while ourHero.isalive() and ourEnemy.isalive() and ourHero.isbattling:
                 battle()
         if 80 < ourrand <= 85:
             print('\nYou couldn\'t find anything so you came back to camp')
@@ -205,13 +226,12 @@ def adventure():
 # Create all game databases (only needs to run once to make databases)
 # dbsetup.setup()
 
-print('Welcome to MiniRPG\n\n')
+print('=================='
+      '\nWelcome to MiniRPG\n'
+      '==================')
 
 # our database path
 dbpath = './db/game.db'
-
-# our boolean if battling
-isbattling = False
 
 # import and create our player database
 gamedb = connect(dbpath)
@@ -221,16 +241,19 @@ conn = gamedb.cursor()
 ourHero = newhero()
 
 # Make a basic weapon
-ourHero.items[0] = newweapon()
+ourweapon = newweapon()
 
 # Make a basic armor
-ourHero.items[1] = newarmor()
+ourarmor = newarmor()
 
 # Make a basic shield
-ourHero.items[2] = newshield()
+ourshield = newshield()
 
 # Make a potion
-ourHero.items[3] = newitem()
+ouritem = newitem()
+
+# apply out equipped items stats
+applyequip()
 
 # make a basic enemy object
 ourEnemy = getenemy()

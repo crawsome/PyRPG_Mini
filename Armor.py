@@ -1,7 +1,8 @@
 class Armor:
     # level,classtype,name,type,basedef,durability
-    def __init__(self, armorlevel, armortype, armorname, armorbasedef, armordur):
+    def __init__(self, armorlevel, armorclasstype, armorname, armortype, armorbasedef, armordur):
         self.level = armorlevel
+        self.classtype = armorclasstype
         self.type = armortype
         self.name = armorname
         self.basedefn = armorbasedef

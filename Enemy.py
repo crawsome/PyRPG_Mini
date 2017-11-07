@@ -22,8 +22,7 @@ class Enemy:
             return False
 
     def printenemyinfo(self):
-        print('\tName:\t' + str(self.name))
-        print('\tHP:\t\t' + str(self.hp))
+        print('\t' + str(self.name) + ' HP:\t\t' + str(self.hp))
 
     def allprintenemyinfo(self):
         print('\tLevel:\t' + str(self.level))

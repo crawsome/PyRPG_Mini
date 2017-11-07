@@ -1,9 +1,10 @@
 class Shield:
     # level,class,name,type,basedef,durability
-    def __init__(self, shieldlevel, shieldtype, shieldname, shieldbasedefn, shielddur):
+    def __init__(self, shieldlevel, shieldclass, shieldname, shieldtype, shieldbasedefn, shielddur):
         self.level = shieldlevel
-        self.type = shieldtype
+        self.ourshieldclass = shieldclass
         self.name = shieldname
+        self.type = shieldtype
         self.basedefn = shieldbasedefn
         self.defn = self.basedefn
         self.maxdur = shielddur

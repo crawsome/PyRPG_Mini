@@ -13,6 +13,7 @@ class Hero:
         self.nextlevel = heronextlevel
         self.items = [0, 0, 0, 0]
         self.xp = 0
+        self.isbattling = False
 
     def isalive(self):
         if self.hp > 0:
@@ -20,14 +21,6 @@ class Hero:
         else:
             return False
 
-    def levelup(self):
-        print('LEVEL UP!')
-        self.printheroinfo()
-        self.level += 1
-        self.maxhp = self.maxhp + math.ceil(self.maxhp * .14)
-        self.atk = self.atk + self.atk * .2
-        self.atk = self.atk + self.atk * .2
-        self.nextlevel += math.ceil(self.nextlevel * 1.8)
 
     def printheroinfo(self):
         print('\tCurrent HP:\t' + str(self.hp))
@@ -37,5 +30,6 @@ class Hero:
         print('\tMax HP:\t\t' + str(self.maxhp))
         print('\tCurrent HP:\t' + str(self.hp))
         print('\tAtk:\t\t' + str(self.atk))
+        print('\tDefense:\t' + str(self.defn))
         print('\tXP:\t\t\t' + str(self.xp))
         print('\tNextLvl:\t' + str(self.nextlevel))

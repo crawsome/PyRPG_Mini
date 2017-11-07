@@ -1,8 +1,9 @@
 class Weapon:
     # level,name,type,baseattack,durability,power
-    def __init__(self, weaponlevel, weapontype, weaponbaseatk, weapondur, weaponpower):
+    def __init__(self, weaponlevel, weaponname, weapontype, weaponbaseatk, weapondur, weaponpower):
         self.level = weaponlevel
         self.type = weapontype
+        self.name = weaponname
         self.baseatk = weaponbaseatk
         self.atk = self.baseatk
         self.maxdur = weapondur
