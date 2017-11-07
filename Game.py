@@ -19,12 +19,11 @@ def battle():
     playerturn(nextmove, ourHero, ourEnemy)
     if ourHero.isbattling == False:
         return
-
-    if not ourHero.isalive():
+    elif not ourHero.isalive():
         ourHero.isbattling = False
         print('YOU DIED')
         quit()
-    if not ourEnemy.isalive():
+    elif not ourEnemy.isalive():
         ourHero.isbattling = False
         ourEnemy.reset()
         print('VICTORY')
@@ -201,6 +200,7 @@ def gameloop():
 
 
 def adventure():
+    ourHero.printheroinfodetail()
     print('[a]dventure or [c]amp')
     m = input()
     ourrand = random.randint(0, 100)

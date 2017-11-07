@@ -5,7 +5,6 @@ class Enemy:
         self.name = str(enemyname1) + ' ' + str(enemyname2) + ' ' + str(enemyname3)
         self.atk = enemyatk
         self.xp = enemyxp
-
         self.gold = enemygold
         self.maxhp = enemyhp
         self.hp = self.maxhp
