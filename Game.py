@@ -228,7 +228,6 @@ def loadgame():
         print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
         print('\n')
     index = int(input("Which Character?\n"))
-    print(('./saves/%s', dirlist[0][index]))
     ourpickle = open(('./saves/' + str(dirlist[index])), "rb")
     ourHero = pickle.load(ourpickle)[0]
     # assign this hero object to be the object
