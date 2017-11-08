@@ -1,6 +1,3 @@
-import math
-
-
 class Hero:
     # Level,HP,ATK,DEF,xptonextlevel
     def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel):
@@ -21,9 +18,8 @@ class Hero:
         else:
             return False
 
-
     def printheroinfo(self):
-        print('\tCurrent HP:\t' + str(self.hp))
+        print('Hero HP:\t' + str(self.hp))
 
     def printheroinfodetail(self):
         print('Hero Data: ')

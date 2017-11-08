@@ -1,5 +1,9 @@
+import os
+import pickle
 import random
 from sqlite3 import connect
+
+from nonblock import *
 
 import Armor
 import Enemy
@@ -8,35 +12,42 @@ import Item
 import Shield
 import Weapon
 
+foo = nonblock_read
+foo.__init__()
+
 
 # One round of a battle
 def battle():
-    ourHero.printheroinfodetail()
-    print('\n')
-    ourEnemy.printenemyinfodetail()
-    print('[a]tk, [d]ef, [r]un\n')
+    global ourHero
+    global ourEnemy
+    ourHero.printheroinfo()
+    print('[a]tk, [d]ef, [r]un')
     nextmove = input()
-    playerturn(nextmove, ourHero, ourEnemy)
+
+    if ourHero.isalive():
+        playerturn(nextmove)
+    enemyturn()
     if ourHero.isbattling == False:
         return
-    elif not ourHero.isalive():
+    if not ourHero.isalive():
         ourHero.isbattling = False
         print('YOU DIED')
         quit()
-    elif not ourEnemy.isalive():
+    if not ourEnemy.isalive():
         ourHero.isbattling = False
         ourEnemy.reset()
         print('VICTORY')
         print('You gained ' + str(ourEnemy.xp) + ' EXP')
+        ourHero.printheroinfodetail()
         ourHero.xp += ourEnemy.xp
         if ourHero.xp > ourHero.nextlevel:
             levelup()
-    else:
-        enemyturn()
     pass
 
 
-def playerturn(m,ourHero,ourEnemy):
+def playerturn(m):
+    global ourHero
+    global ourEnemy
     crit = 0
     critchance = random.randrange(0, 31)
     if critchance == 0:
@@ -46,6 +57,7 @@ def playerturn(m,ourHero,ourEnemy):
         if critchance == 0:
             print('CRITICAL HIT!')
         print('Player attacks Enemy for ' + str(effatk))
+        ourEnemy.printenemyinfo()
         ourEnemy.hp = ourEnemy.hp - effatk
     if m == 'd':
         ourHero.defn += ourHero.defn * .2
@@ -91,7 +103,7 @@ def newhero():
 
 
 def levelup():
-    print('LEVEL UP!')
+    print('LEVEL UP!\n ')
     ourHero.printheroinfodetail()
     ourHero.level += 1
     conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(ourHero.level) + ';')
@@ -103,7 +115,6 @@ def levelup():
     ourHero.defn = new_hero_data[3]
     ourHero.nextlevel += new_hero_data[4]
     ourHero.printheroinfodetail()
-
 
 
 def newweapon():
@@ -149,6 +160,7 @@ def newitem():
 
 
 def enemyturn():
+    global ourHero
     effatk = int(round(ourEnemy.atk - .2 * ourHero.defn, 1))
     if effatk < 0:
         effatk = 0
@@ -157,9 +169,10 @@ def enemyturn():
 
 
 def camp():
+    global ourHero
     ourHero.printheroinfo()
     print('you are now at camp')
-    print('[r]est? [i]tem? [e]quip [a]dventure [l]oad [s]ave')
+    print('[r]est [i]tem [e]quip [h]ero [a]dventure [l]oad [s]ave [q]uit')
     m = input()
     if m == 'r':
         ourHero.hp = ourHero.maxhp
@@ -168,10 +181,12 @@ def camp():
         return
     elif m == 'e':
         inventory_management()
+    elif m == 'h':
+        ourHero.printheroinfodetail()
     elif m == 'a':
         adventure()
     elif m == 'l':
-        inventory_management()
+        loadgame()
     elif m == 's':
         savegame()
     elif m == 'q':
@@ -180,17 +195,42 @@ def camp():
 
 # pickle out to hero obj
 def loadgame():
-    pass
+    global ourHero
+    # load hero object from pickle file
+    dirlist = os.listdir('./saves/')
+    for i, item in enumerate(dirlist):
+        print(str(i) + ' - ' + str(item))
+    index = input("Which Character?\n")
+    ourpickle = open('./saves/' + str(dirlist[index]), "rb")
+    ourHero = pickle.load(ourpickle)
+    # assign this hero object to be the object
+    # start the game loop with the loaded hero
 
 
 # pickle in to hero obj and start gameloop
 def savegame():
-    pass
+    # pickle hero object to file
+    # should prompt to overwrite
+    heroname = input('Name your save file')
+    savefolder = "./saves/"
+    filepath = savefolder + heroname + '.hero'
+    if not os.path.isfile(filepath):
+        with open(filepath, 'wb') as f:
+            pickle.dump([ourHero], f, -1)
+    else:
+        answer = input('Overwrite?')
+        if answer.lower() == 'y':
+            with open(filepath, 'wb') as f:
+                pickle.dump([ourHero], f, -1)
+        elif answer.lower() == 'n':
+            newname = input('Enter New Save file name')
+            with open(filepath + str(newname), 'wb') as f:
+                pickle.dump([ourHero], f, -1)
 
 
 def inventory_management():
     for i, item in enumerate(ourHero.items):
-        print('[' + i + '] - ' + item)
+        print(str(i) + ' - ' + item)
     pass
 
 
@@ -200,7 +240,8 @@ def gameloop():
 
 
 def adventure():
-    ourHero.printheroinfodetail()
+    global ourEnemy
+    global ourHero
     print('[a]dventure or [c]amp')
     m = input()
     ourrand = random.randint(0, 100)
@@ -209,18 +250,18 @@ def adventure():
             ourHero.isbattling = True
             # Make new enemy
             ourEnemy = getenemy()
-            print('\nYou are confronted by a ' + str(ourEnemy.name))
+            print('\nA Lvl ' + str(ourEnemy.level) + ' ' + str(ourEnemy.name) + ' blocks your path!')
             # battle until one is dead
-            ourEnemy.printenemyinfodetail()
+            ourEnemy.printenemyinfo()
             while ourHero.isalive() and ourEnemy.isalive() and ourHero.isbattling:
                 battle()
-        if 80 < ourrand <= 85:
+        elif 80 < ourrand <= 85:
             print('\nYou couldn\'t find anything so you came back to camp')
             camp()
-        if 85 < ourrand <= 95:
+        elif 85 < ourrand <= 95:
             print('You found an item!')
             pass
-        if 95 < ourrand <= 100:
+        elif 95 < ourrand <= 100:
             print('You find a traveler,')
             pass
     elif m == 'c':

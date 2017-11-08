@@ -2,6 +2,8 @@ class Enemy:
     def __init__(self, enemylevel, enemyname1, enemyname2, enemyname3, enemyatk, enemyxp, enemygold, enemyhp, enemydefn,
                  enemystatuseffect):
         self.level = enemylevel
+        if enemyname2 == enemyname3:
+            enemyname3 = ''
         self.name = str(enemyname1) + ' ' + str(enemyname2) + ' ' + str(enemyname3)
         self.atk = enemyatk
         self.xp = enemyxp
@@ -21,7 +23,7 @@ class Enemy:
             return False
 
     def printenemyinfo(self):
-        print('\t' + str(self.name) + ' HP:\t\t' + str(self.hp))
+        print(str(self.name) + ' HP:\t' + str(self.hp))
 
     def printenemyinfodetail(self):
         print(str(self.name))
