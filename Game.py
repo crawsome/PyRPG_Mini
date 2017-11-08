@@ -3,6 +3,8 @@ import pickle
 import random
 from sqlite3 import connect
 import time
+import os
+import datetime
 
 from nonblock import *
 
@@ -39,8 +41,6 @@ def battle():
     if ourHero.isalive():
         playerturn(nextmove)
     enemyturn()
-    if ourHero.isbattling == False:
-        return
     if not ourHero.isalive():
         ourHero.isbattling = False
         print('YOU DIED')
@@ -54,7 +54,8 @@ def battle():
         ourHero.printheroinfodetail()
         if ourHero.xp > ourHero.nextlevel:
             levelup()
-    pass
+    if not ourHero.isbattling:
+        return
 
 
 def playerturn(m):
@@ -72,9 +73,12 @@ def playerturn(m):
         if critchance == 0:
             print('CRITICAL HIT!')
         suspense()
+        ourEnemy.hp = ourEnemy.hp - effatk
+        if ourEnemy.hp < 0:
+            ourEnemy.hp = 0
+            ourHero.isbattling = False
         print('Player attacks Enemy for ' + str(effatk))
         ourEnemy.printenemyinfo()
-        ourEnemy.hp = ourEnemy.hp - effatk
     if m == 'd':
         ourHero.defn += ourHero.defn * .2
     if m == 'r':
@@ -93,9 +97,10 @@ def getenemy():
     rows = conn.fetchall()
     new_enemy = random.choice(rows)
     # create random enemy name
-    adjectives1 = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
-    adjectives2 = random.choice((rows[0][3], rows[1][3], rows[2][3], rows[3][3], rows[4][3]))
-    ournewenemy = Enemy.Enemy(new_enemy[0], adjectives1, adjectives2, new_enemy[3], new_enemy[4], new_enemy[5],
+    adjectives1 = random.choice((rows[0][1], rows[1][1], rows[2][1], rows[3][1], rows[4][1]))
+    adjectives2 = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
+    adjectives3 = random.choice((rows[0][3], rows[1][3], rows[2][3], rows[3][3], rows[4][3]))
+    ournewenemy = Enemy.Enemy(new_enemy[0], adjectives1, adjectives2, adjectives3, new_enemy[4], new_enemy[5],
                               new_enemy[6], new_enemy[7], new_enemy[8], new_enemy[9])
     return ournewenemy
 
@@ -168,7 +173,6 @@ def applyequip():
     ourHero.defn = int(ourHero.basedef + ourarmor.defn + ourshield.defn)
 
 
-
 def newitem():
     conn.execute('SELECT * FROM items WHERE "grade" = ? ;', ('minor',))
     rows = conn.fetchall()
@@ -179,12 +183,13 @@ def newitem():
 
 def enemyturn():
     global ourHero
-    effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
-    if effatk < 0:
-        effatk = 0
-    suspense()
-    print('\nEnemy Attacks Player for ' + str(effatk))
-    ourHero.hp = ourHero.hp - effatk
+    if ourHero.isbattling:
+        effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
+        if effatk < 0:
+            effatk = 0
+        suspense()
+        print('\nEnemy Attacks Player for ' + str(effatk))
+        ourHero.hp = ourHero.hp - effatk
 
 
 def camp():
@@ -220,6 +225,8 @@ def loadgame():
     dirlist = os.listdir('./saves/')
     for i, item in enumerate(dirlist):
         print(str(i) + ' - ' + str(item))
+        print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
+        print('\n')
     index = int(input("Which Character?\n"))
     print(('./saves/%s', dirlist[0][index]))
     ourpickle = open(('./saves/' + str(dirlist[index])), "rb")
@@ -310,43 +317,44 @@ def adventure():
         camp()
 
 
-# Create all game databases (only needs to run once to make databases)
-# dbsetup.setup()
+if __name__ == '__main__':
+    # Create all game databases (only needs to run once to make databases)
+    # dbsetup.setup()
 
-print('=================='
-      '\nWelcome to MiniRPG\n'
-      '==================')
+    print('=================='
+          '\nWelcome to MiniRPG\n'
+          '==================')
 
-# our database path
-dbpath = './db/game.db'
+    # our database path
+    dbpath = './db/game.db'
 
-# import and create our player database
-gamedb = connect(dbpath)
-conn = gamedb.cursor()
+    # import and create our player database
+    gamedb = connect(dbpath)
+    conn = gamedb.cursor()
 
-# this is for repopulating the database with modified CSV files
-# TODO: Make so database will not append if run more than once
-# dbsetup.setup()
+    # this is for repopulating the database with modified CSV files
+    # TODO: Make so database will not append if run more than once
+    # dbsetup.setup()
 
-# Make new global hero and enemy which will change over time
-ourHero = newhero()
+    # Make new global hero and enemy which will change over time
+    ourHero = newhero()
 
-# Make a basic weapon
-ourweapon = newweapon()
+    # Make a basic weapon
+    ourweapon = newweapon()
 
-# Make a basic armor
-ourarmor = newarmor()
+    # Make a basic armor
+    ourarmor = newarmor()
 
-# Make a basic shield
-ourshield = newshield()
+    # Make a basic shield
+    ourshield = newshield()
 
-# Make a potion
-ouritem = newitem()
+    # Make a potion
+    ouritem = newitem()
 
-# apply out equipped items stats
-applyequip()
+    # apply out equipped items stats
+    applyequip()
 
-# make a basic enemy object
-ourEnemy = getenemy()
+    # make a basic enemy object
+    ourEnemy = getenemy()
 
-gameloop()
+    gameloop()
