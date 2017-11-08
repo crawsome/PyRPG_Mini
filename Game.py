@@ -17,11 +17,12 @@ import dbsetup
 foo = nonblock_read
 foo.__init__()
 
-suspensemode = 1
+suspensemode = 0
+
 
 def suspense():
     sus = '..'
-    if suspensemode == 1:
+    if suspensemode:
         print(sus[0])
         time.sleep(.3)
         print(sus[1])
@@ -63,8 +64,10 @@ def playerturn(m):
     crit = 0
     critchance = random.randrange(0, 31)
     if critchance == 0:
-        crit = ourHero.atk * .5
-    effatk = int(ourHero.atk + crit - ourEnemy.defn)
+        crit = ourHero.atk * .4
+    effatk = int(ourHero.atk + crit - ourEnemy.defn * .2)
+    if effatk < 0:
+        effatk = 0
     if m == 'a':
         if critchance == 0:
             print('CRITICAL HIT!')
@@ -176,7 +179,7 @@ def newitem():
 
 def enemyturn():
     global ourHero
-    effatk = int(ourEnemy.atk - .2 * ourHero.defn)
+    effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
     if effatk < 0:
         effatk = 0
     suspense()
@@ -295,6 +298,13 @@ def adventure():
             applyequip()
         elif 95 < ourrand <= 100:
             print('You find a traveler,')
+            print('He says:,')
+            with open('./quoteslist.txt', 'rb') as f:
+                quotelist = f.read().splitlines()
+                quote = random.choice(quotelist)
+                quote = quote.decode('utf-8')
+                print(quote)
+            print('You venture back to camp')
             pass
     elif m == 'c':
         camp()

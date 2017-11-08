@@ -4,7 +4,7 @@ class Enemy:
         self.level = enemylevel
         if enemyname2 == enemyname3:
             enemyname3 = ''
-        self.name = str(enemyname1) + ' ' + str(enemyname2) + ' ' + str(enemyname3)
+        self.name = str(enemyname1) + ' ' + str(enemyname2)
         self.atk = enemyatk
         self.xp = enemyxp
         self.gold = enemygold
