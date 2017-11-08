@@ -21,6 +21,7 @@ Check back soon for new features!
 
 # How to use
   run game.py
+  
   choose a class
 
 # If you liked it:
