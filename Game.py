@@ -11,6 +11,7 @@ import Hero
 import Item
 import Shield
 import Weapon
+import dbsetup
 
 foo = nonblock_read
 foo.__init__()
@@ -283,6 +284,10 @@ dbpath = './db/game.db'
 # import and create our player database
 gamedb = connect(dbpath)
 conn = gamedb.cursor()
+
+# this is for repopulating the database with modified CSV files
+# TODO: Make so database will not append if run more than once
+# dbsetup.setup()
 
 # Make new global hero and enemy which will change over time
 ourHero = newhero()
