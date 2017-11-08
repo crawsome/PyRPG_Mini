@@ -52,7 +52,7 @@ def playerturn(m):
     critchance = random.randrange(0, 31)
     if critchance == 0:
         crit = ourHero.atk * .5
-    effatk = ourHero.atk + crit - ourEnemy.defn
+    effatk = int(ourHero.atk + crit - ourEnemy.defn)
     if m == 'a':
         if critchance == 0:
             print('CRITICAL HIT!')
@@ -161,7 +161,7 @@ def newitem():
 
 def enemyturn():
     global ourHero
-    effatk = int(round(ourEnemy.atk - .2 * ourHero.defn, 1))
+    effatk = int(ourEnemy.atk - .2 * ourHero.defn)
     if effatk < 0:
         effatk = 0
     print('\nEnemy Attacks Player for ' + str(effatk))
@@ -176,6 +176,7 @@ def camp():
     m = input()
     if m == 'r':
         ourHero.hp = ourHero.maxhp
+        ourHero.printheroinfo()
         return
     elif m == 'i':
         return
@@ -200,9 +201,10 @@ def loadgame():
     dirlist = os.listdir('./saves/')
     for i, item in enumerate(dirlist):
         print(str(i) + ' - ' + str(item))
-    index = input("Which Character?\n")
-    ourpickle = open('./saves/' + str(dirlist[index]), "rb")
-    ourHero = pickle.load(ourpickle)
+    index = int(input("Which Character?\n"))
+    print(('./saves/%s', dirlist[0][index]))
+    ourpickle = open(('./saves/' + str(dirlist[index])), "rb")
+    ourHero = pickle.load(ourpickle)[0]
     # assign this hero object to be the object
     # start the game loop with the loaded hero
 
@@ -230,7 +232,7 @@ def savegame():
 
 def inventory_management():
     for i, item in enumerate(ourHero.items):
-        print(str(i) + ' - ' + item)
+        print(str(i) + ' - ' + str(item))
     pass
 
 

@@ -1,12 +1,12 @@
 class Hero:
-    # Level,HP,ATK,DEF,xptonextlevel
     def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel):
         self.ourclass = heroclass
         self.level = herolevel
         self.maxhp = herohp
         self.hp = self.maxhp
         self.atk = heroatk
-        self.defn = herodefn
+        self.basedef = herodefn
+        self.defn = self.basedef
         self.nextlevel = heronextlevel
         self.items = [0, 0, 0, 0]
         self.xp = 0
