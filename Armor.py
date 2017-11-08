@@ -24,12 +24,12 @@ class Armor:
         self.dur = self.maxdur
 
     def printarmorinfo(self):
-        print('armor Data: ')
-        print('\tLevel:\t\t' + str(self.level))
-        print('\tType:\t' + str(self.type))
-        print('\tBase Defense:\t\t' + str(self.basedefn))
+        print('Armor: ')
+        print('\tLevel:\t\t\t' + str(self.level))
+        print('\tName:\t\t\t' + str(self.name))
+        print('\tType:\t\t\t' + str(self.type))
+        print('\tBase Defense:\t' + str(self.basedefn))
         print('\tDefense:\t\t' + str(self.defn))
-        print('\tMax Dur:\t\t\t' + str(self.maxdur))
+        print('\tMax Dur:\t\t' + str(self.maxdur))
         print('\tDur:\t\t\t' + str(self.dur))
         print('\tBroken?:\t\t' + str(self.isbroken()))
-        print('\tPower:\t' + str(self.power))

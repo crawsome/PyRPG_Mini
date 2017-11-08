@@ -7,7 +7,7 @@ class Item:
         self.val = itemvalue
 
     def printiteminfo(self):
-        print('Item Data: ')
+        print('Item: ')
         print('\tGrade:\t\t' + str(self.grade))
         print('\tName:\t' + str(self.name))
         print('\tEffect Val:\t\t' + str(self.effect))

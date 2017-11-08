@@ -2,6 +2,7 @@ import os
 import pickle
 import random
 from sqlite3 import connect
+import time
 
 from nonblock import *
 
@@ -16,6 +17,15 @@ import dbsetup
 foo = nonblock_read
 foo.__init__()
 
+suspensemode = 1
+
+def suspense():
+    sus = '..'
+    if suspensemode == 1:
+        print(sus[0])
+        time.sleep(.3)
+        print(sus[1])
+        time.sleep(.3)
 
 # One round of a battle
 def battle():
@@ -39,14 +49,15 @@ def battle():
         ourEnemy.reset()
         print('VICTORY')
         print('You gained ' + str(ourEnemy.xp) + ' EXP')
-        ourHero.printheroinfodetail()
         ourHero.xp += ourEnemy.xp
+        ourHero.printheroinfodetail()
         if ourHero.xp > ourHero.nextlevel:
             levelup()
     pass
 
 
 def playerturn(m):
+
     global ourHero
     global ourEnemy
     crit = 0
@@ -57,6 +68,7 @@ def playerturn(m):
     if m == 'a':
         if critchance == 0:
             print('CRITICAL HIT!')
+        suspense()
         print('Player attacks Enemy for ' + str(effatk))
         ourEnemy.printenemyinfo()
         ourEnemy.hp = ourEnemy.hp - effatk
@@ -65,6 +77,7 @@ def playerturn(m):
     if m == 'r':
         rand = random.randrange(0, 4)
         if rand == 0:
+
             print('you ran away')
             ourHero.isbattling = False
             return
@@ -148,8 +161,9 @@ def newshield():
 
 
 def applyequip():
-    ourHero.atk += ourweapon.baseatk
-    ourHero.defn += ourarmor.defn + ourshield.defn
+    ourHero.atk = int(ourHero.baseatk + ourweapon.baseatk)
+    ourHero.defn = int(ourHero.basedef + ourarmor.defn + ourshield.defn)
+
 
 
 def newitem():
@@ -165,6 +179,7 @@ def enemyturn():
     effatk = int(ourEnemy.atk - .2 * ourHero.defn)
     if effatk < 0:
         effatk = 0
+    suspense()
     print('\nEnemy Attacks Player for ' + str(effatk))
     ourHero.hp = ourHero.hp - effatk
 
@@ -245,6 +260,10 @@ def gameloop():
 def adventure():
     global ourEnemy
     global ourHero
+    global ourweapon
+    global ourshield
+    global ouritem
+    global ourarmor
     print('[a]dventure or [c]amp')
     m = input()
     ourrand = random.randint(0, 100)
@@ -258,12 +277,22 @@ def adventure():
             ourEnemy.printenemyinfo()
             while ourHero.isalive() and ourEnemy.isalive() and ourHero.isbattling:
                 battle()
-        elif 80 < ourrand <= 85:
-            print('\nYou couldn\'t find anything so you came back to camp')
-            camp()
-        elif 85 < ourrand <= 95:
-            print('You found an item!')
-            pass
+        elif 80 < ourrand <= 95:
+            print('You found and equipped a ')
+            itemrand = random.randrange(0, 3)
+            if itemrand == 0:
+                ourarmor = newarmor()
+                ourarmor.printarmorinfo()
+            elif itemrand == 1:
+                ourweapon = newweapon()
+                ourweapon.printweaponinfo()
+            elif itemrand == 2:
+                ourshield = newshield()
+                ourshield.printshieldinfo()
+            elif itemrand == 3:
+                ouritem = newitem()
+                ouritem.printiteminfo()
+            applyequip()
         elif 95 < ourrand <= 100:
             print('You find a traveler,')
             pass

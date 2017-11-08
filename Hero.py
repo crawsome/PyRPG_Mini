@@ -4,7 +4,8 @@ class Hero:
         self.level = herolevel
         self.maxhp = herohp
         self.hp = self.maxhp
-        self.atk = heroatk
+        self.baseatk = heroatk
+        self.atk = self.baseatk
         self.basedef = herodefn
         self.defn = self.basedef
         self.nextlevel = heronextlevel

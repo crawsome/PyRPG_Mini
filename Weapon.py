@@ -24,12 +24,13 @@ class Weapon:
         self.dur = self.maxdur
 
     def printweaponinfo(self):
-        print('Weapon Data: ')
+        print('Weapon:')
         print('\tLevel:\t\t' + str(self.level))
-        print('\tType:\t' + str(self.type))
-        print('\tBase Atk:\t\t' + str(self.baseatk))
+        print('\tName:\t\t' + str(self.name))
+        print('\tType:\t\t' + str(self.type))
+        print('\tBase Atk:\t' + str(self.baseatk))
         print('\tAtk:\t\t' + str(self.atk))
-        print('\tMax Dur:\t\t\t' + str(self.maxdur))
-        print('\tDur:\t\t\t' + str(self.dur))
-        print('\tBroken?:\t\t' + str(self.isbroken()))
-        print('\tPower:\t' + str(self.power))
+        print('\tMax Dur:\t' + str(self.maxdur))
+        print('\tDur:\t\t' + str(self.dur))
+        print('\tBroken?:\t' + str(self.isbroken()))
+        print('\tPower:\t\t' + str(self.power))
