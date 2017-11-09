@@ -195,7 +195,7 @@ def enemyturn():
         ourEnemy.hp = 0
         ourHero.isbattling = False
         return
-    if overunder in range(3, ourHero.dodge) or True:
+    if overunder in range(3, ourHero.dodge):
         print('Enemy swings and misses!')
         return
     if ourHero.isbattling:
@@ -281,6 +281,7 @@ def savegame():
                 pickle.dump([ourHero], f, -1)
 
 
+#TODO: DOESN'T WORK
 def inventory_management():
     for i, item in enumerate(ourHero.items):
         print(str(i) + ' - ' + str(item))
@@ -319,15 +320,19 @@ def adventure():
             if itemrand == 0:
                 ourarmor = newarmor()
                 ourarmor.printarmorinfo()
+                ourHero.items.append(ourarmor)
             elif itemrand == 1:
                 ourweapon = newweapon()
                 ourweapon.printweaponinfo()
+                ourHero.items.append(ourweapon)
             elif itemrand == 2:
                 ourshield = newshield()
                 ourshield.printshieldinfo()
+                ourHero.items.append(ourshield)
             elif itemrand == 3:
                 ouritem = newitem()
                 ouritem.printiteminfo()
+                ourHero.items.append(ouritem)
             applyequip()
         elif 95 < ourrand <= 100:
             print('You find a traveler,')
@@ -349,7 +354,7 @@ if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
     # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
-    dbsetup.setup()
+    # dbsetup.setup()
 
     print('=================='
           '\nWelcome to MiniRPG\n'

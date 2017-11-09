@@ -3,7 +3,7 @@ from sqlite3 import connect
 
 
 def setup():
-    debugging = 1
+    debugging = 0
 
     # make a database connection to the game database
     if debugging:
