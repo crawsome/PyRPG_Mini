@@ -58,8 +58,9 @@ def playerturn(m):
 
     global ourHero
     global ourEnemy
+    ourHero.defn = ourHero.basedef + ourarmor.basedefn + ourshield.basedefn
     crit = 0
-    critchance = random.randrange(0, 31)
+    critchance = random.randrange(0, 20)
     if critchance == 0:
         crit = ourHero.atk * .4
     effatk = int(ourHero.atk + crit - ourEnemy.defn * .2)
@@ -76,7 +77,7 @@ def playerturn(m):
         print('Player attacks Enemy for ' + str(effatk))
         ourEnemy.printenemyinfo()
     if m == 'd':
-        ourHero.defn += ourHero.defn * .2
+        ourHero.defn += ourHero.defn * .5
     if m == 'r':
         rand = random.randrange(0, 4)
         if rand == 0:
@@ -204,6 +205,9 @@ def camp():
         inventory_management()
     elif m == 'h':
         ourHero.printheroinfodetail()
+        ourweapon.printweaponinfo()
+        ourshield.printshieldinfo()
+        ourarmor.printarmorinfo()
     elif m == 'a':
         adventure()
     elif m == 'l':
@@ -217,6 +221,10 @@ def camp():
 # pickle out to hero obj
 def loadgame():
     global ourHero
+    global ourweapon
+    global ourshield
+    global ourarmor
+    global ouritem
     # load hero object from pickle file
     dirlist = os.listdir('./saves/')
     for i, item in enumerate(dirlist):
@@ -225,7 +233,12 @@ def loadgame():
         print('\n')
     index = int(input("Which Character?\n"))
     ourpickle = open(('./saves/' + str(dirlist[index])), "rb")
-    ourHero = pickle.load(ourpickle)[0]
+    ourdata = pickle.load(ourpickle)
+    ourHero = ourdata[0]
+    ourweapon = ourdata[1]
+    ourshield = ourdata[2]
+    ourarmor = ourdata[3]
+    ouritem = ourdata[4]
     # assign this hero object to be the object
     # start the game loop with the loaded hero
 
@@ -239,7 +252,7 @@ def savegame():
     filepath = savefolder + heroname + '.hero'
     if not os.path.isfile(filepath):
         with open(filepath, 'wb') as f:
-            pickle.dump([ourHero], f, -1)
+            pickle.dump([ourHero,ourweapon,ourshield,ourarmor,ouritem], f, -1)
     else:
         answer = input('Overwrite?')
         if answer.lower() == 'y':
