@@ -1,46 +1,46 @@
-level,classtype,name      ,type  ,basedef,durability
-1    ,Warrior  ,weak      ,plate ,12     ,30
-1    ,Mage     ,weak      ,robe  ,4      ,15
-1    ,Hunter   ,weak      ,outfit,8      ,20
-2    ,Warrior  ,Novice    ,plate ,14     ,36
-2    ,Mage     ,Novice    ,robe  ,5      ,18
-2    ,Hunter   ,Novice    ,outfit,10     ,24
-3    ,Warrior  ,Old       ,plate ,17     ,43
-3    ,Mage     ,Old       ,robe  ,6      ,22
-3    ,Hunter   ,Old       ,outfit,12     ,29
-4    ,Warrior  ,Leather   ,plate ,21     ,52
-4    ,Mage     ,Leather   ,robe  ,7      ,26
-4    ,Hunter   ,Leather   ,outfit,14     ,35
-5    ,Warrior  ,melancholy,plate ,25     ,62
-5    ,Mage     ,melancholy,robe  ,8      ,31
-5    ,Hunter   ,melancholy,outfit,17     ,41
-6    ,Warrior  ,banded    ,plate ,30     ,75
-6    ,Mage     ,banded    ,robe  ,10     ,37
-6    ,Hunter   ,banded    ,outfit,20     ,50
-7    ,Warrior  ,large     ,plate ,36     ,90
-7    ,Mage     ,large     ,robe  ,12     ,45
-7    ,Hunter   ,large     ,outfit,24     ,60
-8    ,Warrior  ,Gilded    ,plate ,43     ,107
-8    ,Mage     ,Gilded    ,robe  ,14     ,54
-8    ,Hunter   ,Gilded    ,outfit,29     ,72
-9    ,Warrior  ,enchanted ,plate ,52     ,129
-9    ,Mage     ,enchanted ,robe  ,17     ,64
-9    ,Hunter   ,enchanted ,outfit,34     ,86
-10   ,Warrior  ,reinforced,plate ,62     ,155
-10   ,Mage     ,reinforced,robe  ,21     ,77
-10   ,Hunter   ,reinforced,outfit,41     ,103
-11   ,Warrior  ,moaning   ,plate ,74     ,186
-11   ,Mage     ,moaning   ,robe  ,25     ,93
-11   ,Hunter   ,moaning   ,outfit,50     ,124
-12   ,Warrior  ,blessed   ,plate ,89     ,223
-12   ,Mage     ,blessed   ,robe  ,30     ,111
-12   ,Hunter   ,blessed   ,outfit,59     ,149
-13   ,Warrior  ,talking   ,plate ,107    ,267
-13   ,Mage     ,talking   ,robe  ,36     ,134
-13   ,Hunter   ,talking   ,outfit,71     ,178
-14   ,Warrior  ,glowing   ,plate ,128    ,321
-14   ,Mage     ,glowing   ,robe  ,43     ,160
-14   ,Hunter   ,glowing   ,outfit,86     ,214
-15   ,Warrior  ,epic      ,plate ,154    ,385
-15   ,Mage     ,epic      ,robe  ,51     ,193
-15   ,Hunter   ,epic      ,outfit,103    ,257
+level,classtype,name,type,basedef,durability
+1,Warrior,weak,plate,12,30
+1,Mage,weak,robe,4,15
+1,Hunter,weak,outfit,8,20
+2,Warrior,Novice,plate,14,36
+2,Mage,Novice,robe,5,18
+2,Hunter,Novice,outfit,10,24
+3,Warrior,Old,plate,17,43
+3,Mage,Old,robe,6,22
+3,Hunter,Old,outfit,12,29
+4,Warrior,Leather,plate,21,52
+4,Mage,Leather,robe,7,26
+4,Hunter,Leather,outfit,14,35
+5,Warrior,melancholy,plate,25,62
+5,Mage,melancholy,robe,8,31
+5,Hunter,melancholy,outfit,17,41
+6,Warrior,banded,plate,30,75
+6,Mage,banded,robe,10,37
+6,Hunter,banded,outfit,20,50
+7,Warrior,large,plate,36,90
+7,Mage,large,robe,12,45
+7,Hunter,large,outfit,24,60
+8,Warrior,Gilded,plate,43,107
+8,Mage,Gilded,robe,14,54
+8,Hunter,Gilded,outfit,29,72
+9,Warrior,enchanted,plate,52,129
+9,Mage,enchanted,robe,17,64
+9,Hunter,enchanted,outfit,34,86
+10,Warrior,reinforced,plate,62,155
+10,Mage,reinforced,robe,21,77
+10,Hunter,reinforced,outfit,41,103
+11,Warrior,moaning,plate,74,186
+11,Mage,moaning,robe,25,93
+11,Hunter,moaning,outfit,50,124
+12,Warrior,blessed,plate,89,223
+12,Mage,blessed,robe,30,111
+12,Hunter,blessed,outfit,59,149
+13,Warrior,talking,plate,107,267
+13,Mage,talking,robe,36,134
+13,Hunter,talking,outfit,71,178
+14,Warrior,glowing,plate,128,321
+14,Mage,glowing,robe,43,160
+14,Hunter,glowing,outfit,86,214
+15,Warrior,epic,plate,154,385
+15,Mage,epic,robe,51,193
+15,Hunter,epic,outfit,103,257

@@ -137,16 +137,17 @@ def levelup():
 
 
 def newweapon():
-    conn.execute('SELECT * FROM weapons where level = ' + str(ourHero.level) + ';')
+    conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',
+                 (str(ourHero.level), str(ourHero.ourclass),))
     rows = conn.fetchall()
     new_weapon_data = rows[0]
     ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
-                                 new_weapon_data[4], new_weapon_data[5])
+                                 new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
     return ournewweapon
 
 
 def newarmor():
-    conn.execute('SELECT * FROM armor WHERE "level" = ? AND "classtype" = ? ;',
+    conn.execute('SELECT * FROM armor WHERE "level" = ? AND "class" = ? ;',
                  (str(ourHero.level), str(ourHero.ourclass),))
     rows = conn.fetchall()
     new_armor_data = rows[0]
@@ -327,7 +328,7 @@ def adventure():
 
 if __name__ == '__main__':
     # Create all game databases (only needs to run once to make databases)
-    # dbsetup.setup()
+    dbsetup.setup()
 
     print('=================='
           '\nWelcome to MiniRPG\n'
@@ -341,11 +342,14 @@ if __name__ == '__main__':
     conn = gamedb.cursor()
 
     # this is for repopulating the database with modified CSV files
+    # THIS ONLY NEEDS TO BE DONE ONCE-PER-RECONFIGURATION
     # TODO: Make so database will not append if run more than once
     # dbsetup.setup()
 
     # Make new global hero and enemy which will change over time
     ourHero = newhero()
+
+    print(ourHero.ourclass)
 
     # Make a basic weapon
     ourweapon = newweapon()

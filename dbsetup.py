@@ -3,7 +3,7 @@ from sqlite3 import connect
 
 
 def setup():
-    debugging = 0
+    debugging = 1
 
     # make a database connection to the game database
     if debugging:
@@ -19,7 +19,7 @@ def setup():
     if debugging:
         print('creating table for armor')
     cur.execute(
-        '''CREATE TABLE IF NOT EXISTS armor (level INTEGER, classtype TEXT, name TEXT, type TEXT, basedef INTEGER, durability INTEGER)''')
+        '''CREATE TABLE IF NOT EXISTS armor (level INTEGER, class TEXT, name TEXT, type TEXT, basedef INTEGER, durability INTEGER)''')
 
     # insert our armor table in the database
     if debugging:
@@ -124,7 +124,7 @@ def setup():
     if debugging:
         print('creating table for weapons')
     cur.execute(
-        '''CREATE TABLE IF NOT EXISTS weapons ( level INTEGER ,name TEXT ,type TEXT,baseattack INTEGER ,durability INTEGER ,power TEXT)''')
+        '''CREATE TABLE IF NOT EXISTS weapons ( level INTEGER ,class TEXT ,name TEXT ,type TEXT,baseattack INTEGER ,durability INTEGER ,power TEXT)''')
 
     # insert our weapons table in the database
     if debugging:
@@ -134,7 +134,7 @@ def setup():
         for i in dr:
             if debugging:
                 print('inserting ' + str(i))
-            cur.execute('INSERT INTO weapons VALUES (?,?,?,?,?,?);', i)
+            cur.execute('INSERT INTO weapons VALUES (?,?,?,?,?,?,?);', i)
         if debugging:
             cur.execute('SELECT * FROM weapons')
             rows = cur.fetchall()

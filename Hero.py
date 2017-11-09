@@ -24,6 +24,7 @@ class Hero:
 
     def printheroinfodetail(self):
         print('Hero Data: ')
+        print('\tLevel:\t\t' + str(self.level))
         print('\tMax HP:\t\t' + str(self.maxhp))
         print('\tCurrent HP:\t' + str(self.hp))
         print('\tAtk:\t\t' + str(self.atk))
