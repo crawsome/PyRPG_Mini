@@ -45,8 +45,10 @@ def battle():
         ourHero.isbattling = False
         ourEnemy.reset()
         print('VICTORY')
-        print('You gained ' + str(ourEnemy.xp) + ' EXP')
+        print('You gained ' + str(ourEnemy.xp) + ' Exp')
+        print('You earned ' + str(ourEnemy.gold) + ' Gil')
         ourHero.xp += ourEnemy.xp
+        ourHero.gold += ourEnemy.gold
         ourHero.printheroinfodetail()
         if ourHero.xp >= ourHero.nextlevel:
             levelup()
@@ -116,7 +118,7 @@ def newhero():
 
     new_hero_data = rows[0]
     ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2], new_hero_data[3],
-                           new_hero_data[4])
+                           new_hero_data[4], new_hero_data[5])
     return ournewhero
 
 
@@ -180,6 +182,22 @@ def newitem():
 
 def enemyturn():
     global ourHero
+    global ourEnemy
+    overunder = random.randrange(0,20)
+    if overunder == 0:
+        ourEnemy.atk += ourEnemy.atk * .2
+        print('Enemy got Angrier!')
+    if overunder == 1:
+        ourEnemy.atk -= ourEnemy.atk * .2
+        print('Enemy got Weaker!')
+    if overunder == 2:
+        print('Enemy ran away!')
+        ourEnemy.hp = 0
+        ourHero.isbattling = False
+        return
+    if overunder in range(3, ourHero.dodge) or True:
+        print('Enemy swings and misses!')
+        return
     if ourHero.isbattling:
         effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
         if effatk < 0:
@@ -331,7 +349,7 @@ if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
     # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
-    # dbsetup.setup()
+    dbsetup.setup()
 
     print('=================='
           '\nWelcome to MiniRPG\n'

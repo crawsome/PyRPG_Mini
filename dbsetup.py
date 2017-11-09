@@ -82,7 +82,7 @@ def setup():
     if debugging:
         print('creating table for levelnotes')
     cur.execute(
-        '''CREATE TABLE IF NOT EXISTS levelnotes(Level INT,HP INT,ATK INT,DEF INT,xptonextlevel INT )''')
+        '''CREATE TABLE IF NOT EXISTS levelnotes(Level INT,HP INT,ATK INT,DEF INT,xptonextlevel INT, dodge INT )''')
 
     # insert our levelnotes table in the database
     if debugging:
@@ -92,7 +92,7 @@ def setup():
         for i in dr:
             if debugging:
                 print('inserting ' + str(i))
-            cur.execute('INSERT INTO levelnotes VALUES (?,?,?,?,?);', i)
+            cur.execute('INSERT INTO levelnotes VALUES (?,?,?,?,?,?);', i)
         if debugging:
             cur.execute('SELECT * FROM levelnotes')
             rows = cur.fetchall()

@@ -1,5 +1,5 @@
 class Hero:
-    def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel):
+    def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, herododge):
         self.ourclass = heroclass
         self.level = herolevel
         self.maxhp = herohp
@@ -9,6 +9,8 @@ class Hero:
         self.basedef = herodefn
         self.defn = self.basedef
         self.nextlevel = heronextlevel
+        self.gold = 0
+        self.dodge = herododge
         self.items = [0, 0, 0, 0]
         self.xp = 0
         self.isbattling = False
@@ -27,7 +29,9 @@ class Hero:
         print('\tLevel:\t\t' + str(self.level))
         print('\tMax HP:\t\t' + str(self.maxhp))
         print('\tCurrent HP:\t' + str(self.hp))
+        print('\tGold:\t\t' + str(self.gold))
         print('\tAtk:\t\t' + str(self.atk))
         print('\tDefense:\t' + str(self.defn))
+        print('\tDodge:\t\t' + str(self.dodge))
         print('\tXP:\t\t\t' + str(self.xp))
         print('\tNextLvl:\t' + str(self.nextlevel))
