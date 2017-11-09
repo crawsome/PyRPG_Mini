@@ -6,8 +6,6 @@ import time
 import os
 import datetime
 
-from nonblock import *
-
 import Armor
 import Enemy
 import Hero
@@ -16,8 +14,6 @@ import Shield
 import Weapon
 import dbsetup
 
-foo = nonblock_read
-foo.__init__()
 
 suspensemode = 0
 
