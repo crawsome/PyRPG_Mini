@@ -52,7 +52,7 @@ def battle():
         print('You gained ' + str(ourEnemy.xp) + ' EXP')
         ourHero.xp += ourEnemy.xp
         ourHero.printheroinfodetail()
-        if ourHero.xp > ourHero.nextlevel:
+        if ourHero.xp >= ourHero.nextlevel:
             levelup()
     if not ourHero.isbattling:
         return
