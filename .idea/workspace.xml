@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc00709d-b121-444c-873b-666e1764018e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/db/game.db" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Game.py" afterPath="$PROJECT_DIR$/Game.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Hero.py" afterPath="$PROJECT_DIR$/Hero.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Weapon.py" afterPath="$PROJECT_DIR$/Weapon.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/armor.csv" afterPath="$PROJECT_DIR$/csv/armor.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/enemies.csv" afterPath="$PROJECT_DIR$/csv/enemies.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/items.csv" afterPath="$PROJECT_DIR$/csv/items.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/levelnotes.csv" afterPath="$PROJECT_DIR$/csv/levelnotes.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/shields.csv" afterPath="$PROJECT_DIR$/csv/shields.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/weapons.csv" afterPath="$PROJECT_DIR$/csv/weapons.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dbsetup.py" afterPath="$PROJECT_DIR$/dbsetup.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/game.db" afterPath="$PROJECT_DIR$/db/game.db" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,8 +28,8 @@
       <file leaf-file-name="Game.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="346" column="6" lean-forward="false" selection-start-line="346" selection-start-column="6" selection-end-line="346" selection-end-column="6" />
+            <state relative-caret-position="229">
+              <caret line="183" column="46" lean-forward="true" selection-start-line="183" selection-start-column="46" selection-end-line="183" selection-end-column="46" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -118,16 +109,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Weapon.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Weapon.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="35" lean-forward="true" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -139,8 +120,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ourenemy =</find>
-      <find>level</find>
       <find>printen</find>
       <find>printher</find>
       <find>enemytu</find>
@@ -169,6 +148,8 @@
       <find>ourhero.ourclass</find>
       <find />
       <find>weapon</find>
+      <find>dbsetup</find>
+      <find>suspense</find>
     </findStrings>
     <replaceStrings>
       <replace>enemy</replace>
@@ -205,6 +186,7 @@
         <option value="$PROJECT_DIR$/csv/items.csv" />
         <option value="$PROJECT_DIR$/csv/levelnotes.csv" />
         <option value="$PROJECT_DIR$/csv/shields.csv" />
+        <option value="$PROJECT_DIR$/db/game.db" />
         <option value="$PROJECT_DIR$/Game.py" />
       </list>
     </option>
@@ -237,11 +219,6 @@
             <path>
               <item name="PyRPG_Mini" type="b2602c69:ProjectViewProjectNode" />
               <item name="PyRPG_Mini" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyRPG_Mini" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyRPG_Mini" type="462c0819:PsiDirectoryNode" />
-              <item name="csv" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PyRPG_Mini" type="b2602c69:ProjectViewProjectNode" />
@@ -384,7 +361,8 @@
     <MESSAGE value="removed unnecessary print statement" />
     <MESSAGE value="removed experimental nonblocking&#10;added saves folder&#10;working out some bugs" />
     <MESSAGE value="save now saves gear as well." />
-    <option name="LAST_COMMIT_MESSAGE" value="save now saves gear as well." />
+    <MESSAGE value="major data overhaul, weapons weren't applying to right classes, now they do." />
+    <option name="LAST_COMMIT_MESSAGE" value="major data overhaul, weapons weren't applying to right classes, now they do." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -655,14 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/game.db">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Weapon.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -737,10 +707,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/db/game.db">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4660">
+          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="346" column="6" lean-forward="false" selection-start-line="346" selection-start-column="6" selection-end-line="346" selection-end-column="6" />
+        <state relative-caret-position="229">
+          <caret line="183" column="46" lean-forward="true" selection-start-line="183" selection-start-column="46" selection-end-line="183" selection-end-column="46" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

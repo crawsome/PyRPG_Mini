@@ -15,7 +15,7 @@ import Weapon
 import dbsetup
 
 
-suspensemode = 0
+suspensemode = 1
 
 
 def suspense():
@@ -69,7 +69,6 @@ def playerturn(m):
     if m == 'a':
         if critchance == 0:
             print('CRITICAL HIT!')
-        suspense()
         ourEnemy.hp = ourEnemy.hp - effatk
         if ourEnemy.hp < 0:
             ourEnemy.hp = 0
@@ -185,7 +184,6 @@ def enemyturn():
         effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
         if effatk < 0:
             effatk = 0
-        suspense()
         print('\nEnemy Attacks Player for ' + str(effatk))
         ourHero.hp = ourHero.hp - effatk
 
@@ -286,6 +284,7 @@ def adventure():
     print('[a]dventure or [c]amp')
     m = input()
     ourrand = random.randint(0, 100)
+    suspense()
     if m == 'a':
         if ourrand <= 80:
             ourHero.isbattling = True
@@ -314,21 +313,25 @@ def adventure():
             applyequip()
         elif 95 < ourrand <= 100:
             print('You find a traveler,')
-            print('He says:,')
+            print('He says:')
+            suspense()
             with open('./quoteslist.txt', 'rb') as f:
                 quotelist = f.read().splitlines()
                 quote = random.choice(quotelist)
                 quote = quote.decode('utf-8')
                 print(quote)
-            print('You venture back to camp')
+            suspense()
+            print('\nYou venture back to camp')
             pass
     elif m == 'c':
         camp()
 
 
 if __name__ == '__main__':
+    # this is for repopulating the database with modified CSV files
+    # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
-    dbsetup.setup()
+    # dbsetup.setup()
 
     print('=================='
           '\nWelcome to MiniRPG\n'
@@ -341,10 +344,8 @@ if __name__ == '__main__':
     gamedb = connect(dbpath)
     conn = gamedb.cursor()
 
-    # this is for repopulating the database with modified CSV files
-    # THIS ONLY NEEDS TO BE DONE ONCE-PER-RECONFIGURATION
-    # TODO: Make so database will not append if run more than once
-    # dbsetup.setup()
+
+
 
     # Make new global hero and enemy which will change over time
     ourHero = newhero()
