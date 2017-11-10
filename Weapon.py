@@ -11,11 +11,9 @@ class Weapon:
         self.dur = self.maxdur
         self.power = weaponpower
 
-    def broken(self):
-        self.baseatk = self.baseatk * .3
-
     def isbroken(self):
         if self.dur <= 0:
+            self.atk = self.baseatk * .3
             return True
         else:
             return False

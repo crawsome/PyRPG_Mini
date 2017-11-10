@@ -1,10 +1,9 @@
+import datetime
 import os
 import pickle
 import random
-from sqlite3 import connect
 import time
-import os
-import datetime
+from sqlite3 import connect
 
 import Armor
 import Enemy
@@ -14,10 +13,12 @@ import Shield
 import Weapon
 import dbsetup
 
-
 suspensemode = 1
 
+# TODO: Rewrite in full OOP, and separate / simplify get rid of spaghetti in Game.py
 
+
+# adds a little suspense to offset the monotony of text input
 def suspense():
     sus = '..'
     if suspensemode:
@@ -25,6 +26,7 @@ def suspense():
         time.sleep(.3)
         print(sus[1])
         time.sleep(.3)
+
 
 # One round of a battle
 def battle():
@@ -57,7 +59,6 @@ def battle():
 
 
 def playerturn(m):
-
     global ourHero
     global ourEnemy
     ourHero.defn = ourHero.basedef + ourarmor.basedefn + ourshield.basedefn
@@ -72,10 +73,11 @@ def playerturn(m):
         if critchance == 0:
             print('CRITICAL HIT!')
         ourEnemy.hp = ourEnemy.hp - effatk
+        ourweapon.dur -= int(effatk * .1)
         if ourEnemy.hp < 0:
             ourEnemy.hp = 0
             ourHero.isbattling = False
-        print('Player attacks Enemy for ' + str(effatk))
+        print(str(ourHero.name) + ' ⚔ Enemy for ' + str(effatk))
         ourEnemy.printenemyinfo()
     if m == 'd':
         ourHero.defn += ourHero.defn * .5
@@ -94,6 +96,7 @@ def getenemy():
     conn.execute('SELECT * FROM enemies WHERE level = ' + str(ourHero.level) + ';')
     rows = conn.fetchall()
     new_enemy = random.choice(rows)
+
     # create random enemy name
     adjectives1 = random.choice((rows[0][1], rows[1][1], rows[2][1], rows[3][1], rows[4][1]))
     adjectives2 = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
@@ -103,22 +106,41 @@ def getenemy():
     return ournewenemy
 
 
+# TODO: make levelup and newhero the same function
+# TODO: fix leveluparg to work on every level
 def newhero():
     conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
     rows = conn.fetchall()
+    hpaug = 0
+    dodgeaug = 0
 
     print('[w]arrior, [m]age, [h]unter')
     ourclass = input()
     if ourclass == 'w':
         ourclass = 'Warrior'
+        hpaug = 15
+        dodgeaug = 2
+        defaug = 6
+        levelupaug = 1
     elif ourclass == 'm':
         ourclass = 'Mage'
+        hpaug = 5
+        dodgeaug = 4
+        defaug = 2
+        levelupaug = .7
     elif ourclass == 'h':
         ourclass = 'Hunter'
+        hpaug = 10
+        dodgeaug = 8
+        defaug = 4
+        levelupaug = .9
+    else:
+        print('Please enter a valid selection')
 
     new_hero_data = rows[0]
-    ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2], new_hero_data[3],
-                           new_hero_data[4], new_hero_data[5])
+    ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1] + hpaug, new_hero_data[2], new_hero_data[3] + defaug,
+                           int(new_hero_data[4] * levelupaug), new_hero_data[5] + dodgeaug)
+
     return ournewhero
 
 
@@ -179,30 +201,33 @@ def newitem():
     ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3])
     return ournewitem
 
-
 def enemyturn():
     global ourHero
     global ourEnemy
-    overunder = random.randrange(0,20)
+    global ourarmor
+    global ourshield
+    overunder = random.randrange(0, 20)
     if overunder == 0:
         ourEnemy.atk += ourEnemy.atk * .2
-        print('Enemy got Angrier!')
+        print(str(ourEnemy.name) + ' got Angrier!')
     if overunder == 1:
         ourEnemy.atk -= ourEnemy.atk * .2
-        print('Enemy got Weaker!')
+        print(str(ourEnemy.name) + ' got Weaker!')
     if overunder == 2:
-        print('Enemy ran away!')
+        print(str(ourEnemy.name) + ' ran away!')
         ourEnemy.hp = 0
         ourHero.isbattling = False
         return
     if overunder in range(3, ourHero.dodge):
-        print('Enemy swings and misses!')
+        print(str(ourEnemy.name) + ' swings and misses!')
         return
     if ourHero.isbattling:
         effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
         if effatk < 0:
             effatk = 0
-        print('\nEnemy Attacks Player for ' + str(effatk))
+        print('\n' + str(ourEnemy.name) + ' ⚔ ' + str(ourHero.name) + ' for ' + str(effatk))
+        ourarmor.dur -= int(effatk *.2)
+        ourshield.dur -= int(effatk *.2)
         ourHero.hp = ourHero.hp - effatk
 
 
@@ -262,26 +287,34 @@ def loadgame():
 
 # pickle in to hero obj and start gameloop
 def savegame():
+    global ourHero
+    global ourweapon
+    global ourshield
+    global ourarmor
+    global ouritem
     # pickle hero object to file
     # should prompt to overwrite
     heroname = input('Name your save file')
     savefolder = "./saves/"
     filepath = savefolder + heroname + '.hero'
+    gamedata = [ourHero, ourweapon, ourshield, ourarmor, ouritem]
     if not os.path.isfile(filepath):
         with open(filepath, 'wb') as f:
-            pickle.dump([ourHero,ourweapon,ourshield,ourarmor,ouritem], f, -1)
+            pickle.dump(gamedata, f, -1)
     else:
         answer = input('Overwrite?')
         if answer.lower() == 'y':
+            os.remove(filepath)
+            print(os.listdir('./saves/'))
             with open(filepath, 'wb') as f:
-                pickle.dump([ourHero], f, -1)
+                pickle.dump(gamedata, f, -1)
         elif answer.lower() == 'n':
             newname = input('Enter New Save file name')
             with open(filepath + str(newname), 'wb') as f:
-                pickle.dump([ourHero], f, -1)
+                pickle.dump(gamedata, f, -1)
 
 
-#TODO: DOESN'T WORK
+# TODO: DOESN'T WORK
 def inventory_management():
     for i, item in enumerate(ourHero.items):
         print(str(i) + ' - ' + str(item))
@@ -354,7 +387,7 @@ if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
     # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
-    # dbsetup.setup()
+    dbsetup.setup()
 
     print('=================='
           '\nWelcome to MiniRPG\n'
@@ -366,9 +399,6 @@ if __name__ == '__main__':
     # import and create our player database
     gamedb = connect(dbpath)
     conn = gamedb.cursor()
-
-
-
 
     # Make new global hero and enemy which will change over time
     ourHero = newhero()
@@ -392,5 +422,7 @@ if __name__ == '__main__':
 
     # make a basic enemy object
     ourEnemy = getenemy()
+
+    ourHero.name = input('Please enter your name:\n')
 
     gameloop()

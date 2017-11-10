@@ -7,6 +7,8 @@ A text RPG written in Python 3 with many technical RPG features you'd want.
 * A customizable set of CSVs for modifying it yourself and creating your own enemies, weapons, shields, armor, and level stats.
 * A database population module which implements new changes, makes a new database.
 * A miserable old traveler who gives unsolicited life advice
+* Gold
+* Dodge chance
 * Status effects (Coming soon)
 * Many Items with added status effects(Coming soon)
 * Blacksmith (Coming soon)

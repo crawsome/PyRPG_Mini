@@ -1,5 +1,6 @@
 class Hero:
     def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, herododge):
+        self.name = ''
         self.ourclass = heroclass
         self.level = herolevel
         self.maxhp = herohp
@@ -14,6 +15,10 @@ class Hero:
         self.items = [0, 0, 0, 0]
         self.xp = 0
         self.isbattling = False
+        self.hpaug = 0
+        self.dodgeaug = 0
+        self.defaug = 0
+        self.levelupaug = 0
 
     def isalive(self):
         if self.hp > 0:
@@ -22,10 +27,12 @@ class Hero:
             return False
 
     def printheroinfo(self):
-        print('Hero HP:\t' + str(self.hp))
+        print('Hero HP:\t' + str(self.hp) + '\n')
 
     def printheroinfodetail(self):
         print('Hero Data: ')
+        print('\tClass:\t\t' + str(self.ourclass))
+        print('\tName:\t\t' + str(self.name))
         print('\tLevel:\t\t' + str(self.level))
         print('\tMax HP:\t\t' + str(self.maxhp))
         print('\tCurrent HP:\t' + str(self.hp))

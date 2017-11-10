@@ -10,11 +10,9 @@ class Armor:
         self.maxdur = armordur
         self.dur = self.maxdur
 
-    def broken(self):
-        self.basedefn = self.basedefn * .3
-
     def isbroken(self):
         if self.dur <= 0:
+            self.defn = self.basedefn * .3
             return True
         else:
             return False
