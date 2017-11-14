@@ -28,22 +28,23 @@ def suspense():
 def battle():
     global ourHero
     global ourEnemy
-    print('|--------[ENEMY]-------|')
+    print('|--------[ENEMY]--------|')
     ourEnemy.printenemyinfo()
     suspense()
-    print('|--------[HERO]--------|')
+    print('|--------[HERO]---------|')
     ourHero.printheroinfo()
     suspense()
-    print('|-------[BATTLE]-------|')
-    print('|   [a]tk    [d]ef     | \n|   [r]un    [i]tem    |\n| [h]eal coinflip 100g |')
-    print('|----------------------|\n')
+    print('|-------[BATTLE]--------|')
+    print('|   [a]tk    [d]ef      | \n|   [r]un    [i]tem     |\n| [h]eal coinflip 100g  |')
+    print('|-----------------------|\n')
     nextmove = input('Action?\n')
     # U sed for auto attack
     # nextmove = 'a'
     suspense()
     if ourHero.isalive():
         playerturn(nextmove)
-    enemyturn()
+    if ourEnemy.isalive():
+        enemyturn()
     if not ourHero.isalive():
         ourHero.isbattling = False
         print('YOU DIED')
@@ -53,7 +54,7 @@ def battle():
     if not ourEnemy.isalive():
         ourHero.isbattling = False
         ourEnemy.reset()
-        print('-------[VICTORY]--------')
+        print('|-------[VICTORY]-------|')
         print('You gained ' + str(ourEnemy.xp) + ' Exp')
         print('You earned ' + str(ourEnemy.gold) + ' Gold')
         if suspensemode:
@@ -79,7 +80,7 @@ def playerturn(m):
     if effatk < 0:
         effatk = 0
     if m == 'a' or m == '':
-        print('------[HERO ATTACK]------')
+        print('|-----[HERO ATTACK]-----|')
         suspense()
         if critchance == 0:
             print('CRITICAL HIT!')
@@ -90,11 +91,11 @@ def playerturn(m):
             ourHero.isbattling = False
         print(str(ourHero.name) + ' attacks Enemy for ' + str(effatk) + ' damage!')
         ourEnemy.printenemyinfo()
-    if m == 'd':
-        print('------[DEFENSE]------')
+    elif m == 'd':
+        print('|-------[DEFENSE]-------|')
         ourHero.defn += ourHero.defn * .5
-    if m == 'r':
-        print('--------[RUN]--------')
+    elif m == 'r':
+        print('|-----[RUN ATTEMPT]-----|')
         rand = random.randrange(0, 4)
         if rand == 0:
             print('you ran away')
@@ -102,11 +103,11 @@ def playerturn(m):
             return
         else:
             print('you can\'t run!')
-    if m == 'i':
+    elif m == 'i':
         pass
-    if m == 'h':
-        print('-------[HEAL]--------')
-        print('Death appears to flip a coin with you.\n')
+    elif m == 'h':
+        print('|--------[HEAL]---------|')
+        print('Death appears to flip a coin with you.')
         if ourHero.gold >= 100:
             ourHero.gold -= 100
             newrand = random.randrange(0, 1)
@@ -148,16 +149,16 @@ def enemyturn():
                 input('Press Enter to Continue\n')
             return
         if overunder in range(3, ourHero.dodge):
-            print('\n-----[ENEMY ATTACK]-----')
+            print('\n|----[ENEMY ATTACK]-----|')
             suspense()
             print(str(ourEnemy.name) + ' swings and misses!')
-            print('\n--------[END TURN]--------\n')
+            print('\n|----[END TURN]---------|\n')
             if suspensemode:
                 input('Press Enter to Continue\n')
             return
             suspense()
         if ourHero.isbattling:
-            print('\n-----[ENEMY ATTACK]-----')
+            print('\n|----[ENEMY ATTACK]-----|')
             suspense()
             effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
             if effatk < 0:
@@ -166,7 +167,8 @@ def enemyturn():
             ourarmor.dur -= int(effatk * .2)
             ourshield.dur -= int(effatk * .2)
             ourHero.hp = ourHero.hp - effatk
-            print('\n--------[END TURN]--------\n')
+            print('\n|----[END TURN]---------|\n')
+
             if suspensemode:
                 input('Press Enter to Continue\n')
             suspense()
@@ -192,7 +194,8 @@ def getenemy():
 def newhero():
     conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
     rows = conn.fetchall()
-    print('[w]arrior, [m]age, [h]unter')
+    print('|-----[CHOOSE CLASS]----|\n')
+    print('[w]arrior [m]age [h]unter\n')
     ourclass = input()
     if ourclass == 'w':
         ourclass = 'Warrior'
@@ -281,18 +284,18 @@ def camp():
     print('|-----------------------|')
     m = input()
     if m == 'r':
-        print('|-------[RESTING]--------|')
+        print('|-------[RESTING]-------|')
         ourHero.hp = ourHero.maxhp
         ourHero.printheroinfo()
         return
     elif m == 'i':
-        print('|--------[ITEMS]---------|')
+        print('|-------[ITEMS]---------|')
         return
     elif m == 'e':
-        print('|------[INVENTORY]-------|')
+        print('|-----[INVENTORY]-------|')
         inventory_management()
     elif m == 'h':
-        print('|-----[HERO DETAIL]-------|')
+        print('|-----[HERO DETAIL]-----|')
         ourHero.printheroinfodetail()
         ourweapon.printweaponinfo()
         ourshield.printshieldinfo()
@@ -301,14 +304,15 @@ def camp():
         print('|-----[ADVENTURE]-------|')
         adventure()
     elif m == 'l':
-        print('|-----[LOADGAME]-------|')
+        print('|------[LOADGAME]-------|')
         loadgame()
     elif m == 's':
-        print('|-----[SAVEGAME]-------|')
+        print('|------[SAVEGAME]-------|')
         savegame()
     elif m == 'q':
+        print('|--------[QUIT]---------|')
         decision = input('Are you sure?')
-        if input == 'y':
+        if decision == 'y':
             quit()
 
 
@@ -395,18 +399,18 @@ def adventure():
     ourrand = random.randint(0, 100)
     suspense()
     if m == 'a' or m == '':
-        if ourrand <= 80:
+        if ourrand <= 75:
             ourHero.isbattling = True
             # Make new enemy
             ourEnemy = getenemy()
-            print('--------[BATTLE]--------\n')
+            print('|[BATTLE]---------------|\n')
             # battle until one is dead
             turnnum = 1
             while ourHero.isalive() and ourEnemy.isalive() and ourHero.isbattling:
-                print('--------[TURN ' + str(turnnum) + ']--------\n')
+                print('|----[TURN ' + str(turnnum) + ']-----------|\n')
                 battle()
                 turnnum += 1
-        elif 80 < ourrand <= 95:
+        elif 75 < ourrand <= 95:
             print('You found and equipped a ')
             itemrand = random.randrange(0, 3)
             if itemrand == 0:
@@ -448,9 +452,9 @@ if __name__ == '__main__':
     # Create all game databases (only needs to run once to make databases)
     # dbsetup.setup()
 
-    print('=================='
-          '\nWelcome to MiniRPG\n'
-          '==================')
+    print('=========================\n'
+          '|        MiniRPG        |\n'
+          '=========================')
 
     # our database path
     dbpath = './db/game.db'
@@ -461,8 +465,6 @@ if __name__ == '__main__':
 
     # Make new global hero and enemy which will change over time
     ourHero = newhero()
-
-    print(ourHero.ourclass)
 
     # Make a basic weapon
     ourweapon = newweapon()
@@ -482,7 +484,7 @@ if __name__ == '__main__':
     # make a basic enemy object
     ourEnemy = getenemy()
 
-    ourHero.name = input('Please enter your name:\n')
+    ourHero.name = input('Please enter your name, ' + str(ourHero.ourclass) + '\n')
 
     ourHero.heroperks()
 

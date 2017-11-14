@@ -1,46 +1,46 @@
-level,class  ,name      ,type   ,basedef,durability
-1    ,Warrior,weak      ,shield ,6      ,30
-1    ,Mage   ,weak      ,ward   ,2      ,32
-1    ,Hunter ,weak      ,buckler,4      ,35
-2    ,Warrior,Novice    ,shield ,7      ,38
-2    ,Mage   ,Novice    ,ward   ,2      ,41
-2    ,Hunter ,Novice    ,buckler,5      ,43
-3    ,Warrior,Old       ,shield ,9      ,46
-3    ,Mage   ,Old       ,ward   ,3      ,49
-3    ,Hunter ,Old       ,buckler,6      ,51
-4    ,Warrior,Leather   ,shield ,10     ,54
-4    ,Mage   ,Leather   ,ward   ,3      ,57
-4    ,Hunter ,Leather   ,buckler,7      ,59
-5    ,Warrior,melancholy,shield ,12     ,62
-5    ,Mage   ,melancholy,ward   ,4      ,65
-5    ,Hunter ,melancholy,buckler,8      ,68
-6    ,Warrior,banded    ,shield ,15     ,70
-6    ,Mage   ,banded    ,ward   ,5      ,73
-6    ,Hunter ,banded    ,buckler,10     ,76
-7    ,Warrior,large     ,shield ,18     ,78
-7    ,Mage   ,large     ,ward   ,6      ,81
-7    ,Hunter ,large     ,buckler,12     ,84
-8    ,Warrior,Gilded    ,shield ,21     ,86
-8    ,Mage   ,Gilded    ,ward   ,7      ,89
-8    ,Hunter ,Gilded    ,buckler,14     ,92
-9    ,Warrior,enchanted ,shield ,26     ,95
-9    ,Mage   ,enchanted ,ward   ,9      ,97
-9    ,Hunter ,enchanted ,buckler,17     ,100
-10   ,Warrior,reinforced,shield ,31     ,103
-10   ,Mage   ,reinforced,ward   ,10     ,105
-10   ,Hunter ,reinforced,buckler,21     ,108
-11   ,Warrior,moaning   ,shield ,37     ,111
-11   ,Mage   ,moaning   ,ward   ,12     ,113
-11   ,Hunter ,moaning   ,buckler,25     ,116
-12   ,Warrior,blessed   ,shield ,45     ,119
-12   ,Mage   ,blessed   ,ward   ,15     ,122
-12   ,Hunter ,blessed   ,buckler,30     ,124
-13   ,Warrior,talking   ,shield ,53     ,127
-13   ,Mage   ,talking   ,ward   ,18     ,130
-13   ,Hunter ,talking   ,buckler,36     ,132
-14   ,Warrior,glowing   ,shield ,64     ,135
-14   ,Mage   ,glowing   ,ward   ,21     ,138
-14   ,Hunter ,glowing   ,buckler,43     ,140
-15   ,Warrior,epic      ,shield ,77     ,143
-15   ,Mage   ,epic      ,ward   ,26     ,146
-15   ,Hunter ,epic      ,buckler,51     ,149
+level,class,name,type,basedef,durability
+1,Warrior,weak,shield,6,30
+1,Mage,weak,ward,2,32
+1,Hunter,weak,buckler,4,35
+2,Warrior,Novice,shield,7,38
+2,Mage,Novice,ward,2,41
+2,Hunter,Novice,buckler,5,43
+3,Warrior,Old,shield,9,46
+3,Mage,Old,ward,3,49
+3,Hunter,Old,buckler,6,51
+4,Warrior,Leather,shield,10,54
+4,Mage,Leather,ward,3,57
+4,Hunter,Leather,buckler,7,59
+5,Warrior,melancholy,shield,12,62
+5,Mage,melancholy,ward,4,65
+5,Hunter,melancholy,buckler,8,68
+6,Warrior,banded,shield,15,70
+6,Mage,banded,ward,5,73
+6,Hunter,banded,buckler,10,76
+7,Warrior,large,shield,18,78
+7,Mage,large,ward,6,81
+7,Hunter,large,buckler,12,84
+8,Warrior,Gilded,shield,21,86
+8,Mage,Gilded,ward,7,89
+8,Hunter,Gilded,buckler,14,92
+9,Warrior,enchanted,shield,26,95
+9,Mage,enchanted,ward,9,97
+9,Hunter,enchanted,buckler,17,100
+10,Warrior,reinforced,shield,31,103
+10,Mage,reinforced,ward,10,105
+10,Hunter,reinforced,buckler,21,108
+11,Warrior,moaning,shield,37,111
+11,Mage,moaning,ward,12,113
+11,Hunter,moaning,buckler,25,116
+12,Warrior,blessed,shield,45,119
+12,Mage,blessed,ward,15,122
+12,Hunter,blessed,buckler,30,124
+13,Warrior,talking,shield,53,127
+13,Mage,talking,ward,18,130
+13,Hunter,talking,buckler,36,132
+14,Warrior,glowing,shield,64,135
+14,Mage,glowing,ward,21,138
+14,Hunter,glowing,buckler,43,140
+15,Warrior,epic,shield,77,143
+15,Mage,epic,ward,26,146
+15,Hunter,epic,buckler,51,149
