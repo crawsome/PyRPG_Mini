@@ -14,7 +14,7 @@ import Shield
 import Weapon
 import dbsetup
 
-suspensemode = 1
+suspensemode = 0
 
 
 # TODO: Rewrite in full OOP, and separate / simplify get rid of spaghetti in Game.py
@@ -24,7 +24,7 @@ suspensemode = 1
 def suspense():
     s = '.'
     if suspensemode:
-        time.sleep(.2)
+        time.sleep(.1)
 
 
 
@@ -40,7 +40,8 @@ def battle():
     print('|-------[ACTION]-------|')
     print('|   [a]tk    [d]ef     | \n|   [r]un    [i]tem    |\n| [h]eal coinflip 100g |')
     print('|----------------------|\n')
-    nextmove = input('Action?\n')
+    #nextmove = input('Action?\n')
+    nextmove = 'a'
     suspense()
     if ourHero.isalive():
         playerturn(nextmove)
@@ -48,6 +49,8 @@ def battle():
     if not ourHero.isalive():
         ourHero.isbattling = False
         print('YOU DIED')
+        print('Cause of death:\nlvl ' + str(ourEnemy.level) + str(ourEnemy.name))
+        ourHero.printheroinfodetail()
         quit()
     if not ourEnemy.isalive():
         ourHero.isbattling = False
@@ -55,8 +58,9 @@ def battle():
         print('-------[VICTORY]--------')
         print('You gained ' + str(ourEnemy.xp) + ' Exp')
         print('You earned ' + str(ourEnemy.gold) + ' Gold')
-        suspense()
-        input('Press Enter to Continue\n')
+        if suspensemode:
+            input('Press Enter to Continue\n')
+            suspense()
         ourHero.xp += ourEnemy.xp
         ourHero.gold += ourEnemy.gold
         if ourHero.xp >= ourHero.nextlevel:
@@ -116,7 +120,8 @@ def playerturn(m):
 
         else:
             print('\nHEAL FAILED\nYou don\'t have enough money!\n')
-    input('Press Enter to Continue\n')
+    if suspensemode:
+        input('Press Enter to Continue\n')
 
 def enemyturn():
     global ourHero
@@ -129,23 +134,27 @@ def enemyturn():
         if overunder == 0:
             ourEnemy.atk += ourEnemy.atk * .2
             print(str(ourEnemy.name) + ' got Angrier!')
-            input('Press Enter to Continue\n')
+            if suspensemode:
+                input('Press Enter to Continue\n')
         elif overunder == 1:
             ourEnemy.atk -= ourEnemy.atk * .2
             print(str(ourEnemy.name) + ' got Weaker!')
-            input('Press Enter to Continue\n')
+            if suspensemode:
+                input('Press Enter to Continue\n')
         elif overunder == 2:
             print(str(ourEnemy.name) + ' ran away!')
             ourEnemy.hp = 0
             ourHero.isbattling = False
-            input('Press Enter to Continue\n')
+            if suspensemode:
+                input('Press Enter to Continue\n')
             return
         if overunder in range(3, ourHero.dodge):
             print('\n-----[ENEMY ATTACK]-----')
             suspense()
             print(str(ourEnemy.name) + ' swings and misses!')
             print('\n------[END TURN]------\n')
-            input('Press Enter to Continue\n')
+            if suspensemode:
+                input('Press Enter to Continue\n')
             return
             suspense()
         if ourHero.isbattling:
@@ -159,7 +168,8 @@ def enemyturn():
             ourshield.dur -= int(effatk * .2)
             ourHero.hp = ourHero.hp - effatk
             print('\n------[END TURN]------\n')
-            input('Press Enter to Continue\n')
+            if suspensemode:
+                input('Press Enter to Continue\n')
             suspense()
             suspense()
 

@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc00709d-b121-444c-873b-666e1764018e" name="Default" comment="added gold and dodge chance. Dodge chance &gt;=3 will give chance of dodge">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/saves/testsave.hero" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/game.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/PyRPG_Mini.iml" afterPath="$PROJECT_DIR$/.idea/PyRPG_Mini.iml" />
+    <list default="true" id="cc00709d-b121-444c-873b-666e1764018e" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/db/game.db" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Armor.py" afterPath="$PROJECT_DIR$/Armor.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Game.py" afterPath="$PROJECT_DIR$/Game.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Hero.py" afterPath="$PROJECT_DIR$/Hero.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shield.py" afterPath="$PROJECT_DIR$/Shield.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Weapon.py" afterPath="$PROJECT_DIR$/Weapon.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/levelnotes.csv" afterPath="$PROJECT_DIR$/csv/levelnotes.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/shields.csv" afterPath="$PROJECT_DIR$/csv/shields.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/weapons.csv" afterPath="$PROJECT_DIR$/csv/weapons.csv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,45 +17,65 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/PyRPG_Mini$Game.coverage" NAME="Game Coverage Results" MODIFIED="1510634172415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="Hero.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/Hero.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="213">
+                    <caret line="28" column="17" lean-forward="true" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="Game.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/Game.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="1848">
+                    <caret line="470" column="33" lean-forward="false" selection-start-line="470" selection-start-column="33" selection-end-line="470" selection-end-column="33" />
+                    <folding>
+                      <element signature="e#0#15#0" expanded="true" />
+                      <marker date="1510633522775" expanded="true" signature="5333:5369" ph="SELECT * FRO... enemies" />
+                      <marker date="1510633522775" expanded="true" signature="6128:6168" ph="SELECT * FRO... levelnotes" />
+                      <marker date="1510633522775" expanded="true" signature="6925:6964" ph="SELECT * FRO... levelnotes" />
+                      <marker date="1510633522775" expanded="true" signature="7433:7488" ph="SELECT * FRO... weapons" />
+                      <marker date="1510633522775" expanded="true" signature="7879:7932" ph="SELECT * FRO... armor" />
+                      <marker date="1510633522775" expanded="true" signature="8290:8345" ph="SELECT * FRO... shields" />
+                      <marker date="1510633522775" expanded="true" signature="8867:8904" ph="SELECT * FRO... items" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="Enemy.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/Enemy.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="182">
+                    <caret line="18" column="17" lean-forward="false" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="Hero.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Hero.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="29" column="47" lean-forward="false" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Enemy.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Enemy.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" column="35" lean-forward="false" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Game.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Game.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
-              <caret line="279" column="26" lean-forward="true" selection-start-line="279" selection-start-column="26" selection-end-line="279" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="weapons.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/csv/weapons.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="8" column="12" lean-forward="false" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+            <state relative-caret-position="207">
+              <caret line="54" column="8" lean-forward="false" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -69,36 +84,69 @@
       <file leaf-file-name="armor.csv" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/csv/armor.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="7" column="25" lean-forward="true" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+            <state relative-caret-position="155">
+              <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="168">
-                <caret line="8" column="60" lean-forward="false" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="60" />
-                <folding />
-              </first_editor>
-              <second_editor>
-                <js_state />
-              </second_editor>
+      <file leaf-file-name="Enemy.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Enemy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="713">
+              <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dbsetup.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dbsetup.py">
+      <file leaf-file-name="items.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/csv/items.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="550">
+              <caret line="29" column="29" lean-forward="true" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="enemies.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/csv/enemies.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="17" column="27" lean-forward="true" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="levelnotes.csv" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/csv/levelnotes.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="15" column="23" lean-forward="true" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="weapons.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/csv/weapons.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="248">
+              <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shields.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/csv/shields.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="142">
+              <caret line="29" column="30" lean-forward="true" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -106,8 +154,8 @@
       <file leaf-file-name="Weapon.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Weapon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state relative-caret-position="589">
+              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -116,18 +164,8 @@
       <file leaf-file-name="Shield.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Shield.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
+            <state relative-caret-position="341">
               <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Armor.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Armor.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="17" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -144,36 +182,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>def</find>
-      <find>apply</find>
-      <find>found a</find>
-      <find>[d]e</find>
-      <find>you gain</find>
-      <find>enum</find>
-      <find>geten</find>
-      <find>'h'</find>
-      <find>save</find>
-      <find>class</find>
-      <find>ourhero.ourclass</find>
-      <find>weapon</find>
-      <find>dbsetup</find>
-      <find>suspense</find>
-      <find>he says</find>
-      <find>victor</find>
-      <find />
-      <find>&quot;</find>
-      <find>victory</find>
-      <find>armor</find>
-      <find>newarmor</find>
-      <find>swings</find>
-      <find>items</find>
-      <find>levelnotes</find>
       <find>db</find>
       <find>player</find>
       <find>dodge</find>
       <find>Hero H</find>
       <find>attacks</find>
       <find>enemy</find>
+      <find>heroper</find>
+      <find>levelau</find>
+      <find>levelup</find>
+      <find>victory</find>
+      <find>input</find>
+      <find>printenem</find>
+      <find>printher</find>
+      <find>ATTAC</find>
+      <find>turn</find>
+      <find>next ac</find>
+      <find>swings and mi</find>
+      <find>[battle</find>
+      <find>enemy atta</find>
+      <find>[enem</find>
+      <find>press enter</find>
+      <find>[a]dve</find>
+      <find>ran away</find>
+      <find>hero stat</find>
+      <find>tion</find>
+      <find>gameloop</find>
+      <find>press en</find>
+      <find>you</find>
+      <find />
+      <find>,</find>
     </findStrings>
     <replaceStrings>
       <replace>enemy</replace>
@@ -186,6 +224,7 @@
       <replace>def</replace>
       <replace>new</replace>
       <replace>'</replace>
+      <replace>,</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -197,30 +236,36 @@
       <list>
         <option value="$PROJECT_DIR$/keypress.py" />
         <option value="$PROJECT_DIR$/Item.py" />
-        <option value="$PROJECT_DIR$/Enemy.py" />
         <option value="$PROJECT_DIR$/quoteslist.txt" />
         <option value="$PROJECT_DIR$/csv/weapons.csv" />
-        <option value="$PROJECT_DIR$/csv/armor.csv" />
-        <option value="$PROJECT_DIR$/csv/enemies.csv" />
-        <option value="$PROJECT_DIR$/csv/items.csv" />
         <option value="$PROJECT_DIR$/csv/shields.csv" />
         <option value="$PROJECT_DIR$/db/game.db" />
-        <option value="$PROJECT_DIR$/csv/levelnotes.csv" />
         <option value="$PROJECT_DIR$/dbsetup.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Armor.py" />
         <option value="$PROJECT_DIR$/Shield.py" />
         <option value="$PROJECT_DIR$/Weapon.py" />
         <option value="$PROJECT_DIR$/Hero.py" />
+        <option value="$PROJECT_DIR$/Enemy.py" />
         <option value="$PROJECT_DIR$/Game.py" />
+        <option value="$PROJECT_DIR$/csv/enemies.csv" />
+        <option value="$PROJECT_DIR$/csv/armor.csv" />
+        <option value="$PROJECT_DIR$/csv/items.csv" />
+        <option value="$PROJECT_DIR$/csv/levelnotes.csv" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1" />
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="824" />
+    <option name="x" value="582" />
+    <option name="y" value="-5" />
+    <option name="width" value="1690" />
+    <option name="height" value="1060" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -247,18 +292,30 @@
             <path>
               <item name="PyRPG_Mini" type="b2602c69:ProjectViewProjectNode" />
               <item name="PyRPG_Mini" type="462c0819:PsiDirectoryNode" />
+              <item name="csv" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyRPG_Mini" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyRPG_Mini" type="462c0819:PsiDirectoryNode" />
+              <item name="db" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyRPG_Mini" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyRPG_Mini" type="462c0819:PsiDirectoryNode" />
               <item name="saves" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -294,6 +351,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PyRPG_Mini" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Game.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -311,6 +369,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PyRPG_Mini" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Hero.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -328,6 +387,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PyRPG_Mini" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dbsetup.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -352,25 +412,64 @@
   <component name="SvnConfiguration">
     <configuration />
   </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cc00709d-b121-444c-873b-666e1764018e" name="Default" comment="" />
+      <created>1510519865140</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1510519865140</updated>
+    </task>
+    <task id="LOCAL-00001" summary="added dodge, added class perks, changed battle text a little. &#10;This is the last update for a while... My wrists hurt.">
+      <created>1510631652772</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1510631652772</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added dodge, added class perks, changed battle text a little. &#10;This is the last update for a while... My wrists hurt.">
+      <created>1510632512047</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1510632512047</updated>
+    </task>
+    <task id="LOCAL-00003" summary="new enemy names, slightly shorter. Less silly or nonsensical">
+      <created>1510633643800</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1510633643800</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1928" height="1044" extended-state="6" />
+    <frame x="-5" y="-5" width="2570" height="1388" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14323749" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32948583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41028333" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32594937" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42800632" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21325879" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32968536" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -389,11 +488,13 @@
     <MESSAGE value="major data overhaul, weapons weren't applying to right classes, now they do." />
     <MESSAGE value="Recreated heavy database into lighter one." />
     <MESSAGE value="added gold and dodge chance. Dodge chance &gt;=3 will give chance of dodge" />
-    <option name="LAST_COMMIT_MESSAGE" value="added gold and dodge chance. Dodge chance &gt;=3 will give chance of dodge" />
+    <MESSAGE value="added dodge, added class perks, changed battle text a little. &#10;This is the last update for a while... My wrists hurt." />
+    <MESSAGE value="new enemy names, slightly shorter. Less silly or nonsensical" />
+    <option name="LAST_COMMIT_MESSAGE" value="new enemy names, slightly shorter. Less silly or nonsensical" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -402,7 +503,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
           <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -461,6 +561,13 @@
           <caret line="153" column="14" lean-forward="false" selection-start-line="153" selection-start-column="14" selection-end-line="153" selection-end-column="14" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <marker date="1510633522775" expanded="true" signature="5333:5369" ph="SELECT * FRO... enemies" />
+            <marker date="1510633522775" expanded="true" signature="6128:6168" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="6925:6964" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="7433:7488" ph="SELECT * FRO... weapons" />
+            <marker date="1510633522775" expanded="true" signature="7879:7932" ph="SELECT * FRO... armor" />
+            <marker date="1510633522775" expanded="true" signature="8290:8345" ph="SELECT * FRO... shields" />
+            <marker date="1510633522775" expanded="true" signature="8867:8904" ph="SELECT * FRO... items" />
           </folding>
         </state>
       </provider>
@@ -477,7 +584,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -495,6 +601,13 @@
           <caret line="49" column="7" lean-forward="false" selection-start-line="49" selection-start-column="7" selection-end-line="49" selection-end-column="7" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <marker date="1510633522775" expanded="true" signature="5333:5369" ph="SELECT * FRO... enemies" />
+            <marker date="1510633522775" expanded="true" signature="6128:6168" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="6925:6964" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="7433:7488" ph="SELECT * FRO... weapons" />
+            <marker date="1510633522775" expanded="true" signature="7879:7932" ph="SELECT * FRO... armor" />
+            <marker date="1510633522775" expanded="true" signature="8290:8345" ph="SELECT * FRO... shields" />
+            <marker date="1510633522775" expanded="true" signature="8867:8904" ph="SELECT * FRO... items" />
           </folding>
         </state>
       </provider>
@@ -511,7 +624,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -529,6 +641,13 @@
           <caret line="66" column="43" lean-forward="true" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <marker date="1510633522775" expanded="true" signature="5333:5369" ph="SELECT * FRO... enemies" />
+            <marker date="1510633522775" expanded="true" signature="6128:6168" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="6925:6964" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="7433:7488" ph="SELECT * FRO... weapons" />
+            <marker date="1510633522775" expanded="true" signature="7879:7932" ph="SELECT * FRO... armor" />
+            <marker date="1510633522775" expanded="true" signature="8290:8345" ph="SELECT * FRO... shields" />
+            <marker date="1510633522775" expanded="true" signature="8867:8904" ph="SELECT * FRO... items" />
           </folding>
         </state>
       </provider>
@@ -566,7 +685,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -591,6 +709,13 @@
           <caret line="49" column="7" lean-forward="false" selection-start-line="49" selection-start-column="7" selection-end-line="49" selection-end-column="7" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <marker date="1510633522775" expanded="true" signature="5333:5369" ph="SELECT * FRO... enemies" />
+            <marker date="1510633522775" expanded="true" signature="6128:6168" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="6925:6964" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="7433:7488" ph="SELECT * FRO... weapons" />
+            <marker date="1510633522775" expanded="true" signature="7879:7932" ph="SELECT * FRO... armor" />
+            <marker date="1510633522775" expanded="true" signature="8290:8345" ph="SELECT * FRO... shields" />
+            <marker date="1510633522775" expanded="true" signature="8867:8904" ph="SELECT * FRO... items" />
           </folding>
         </state>
       </provider>
@@ -614,49 +739,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/csv/shields.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="29" column="30" lean-forward="true" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csv/items.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-97">
-          <caret line="8" column="30" lean-forward="true" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/game.db" />
-    <entry file="file://$PROJECT_DIR$/csv/enemies.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1596">
-          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csv/levelnotes.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Item.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="9" column="19" lean-forward="false" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Enemy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="35" lean-forward="false" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -664,42 +750,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="168">
             <caret line="8" column="60" lean-forward="false" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="60" />
-            <folding />
           </first_editor>
           <second_editor>
             <js_state />
           </second_editor>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csv/armor.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="25" lean-forward="true" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-          <folding />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Armor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
+        <state relative-caret-position="372">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="17" selection-end-column="24" />
           <folding />
         </state>
@@ -707,7 +780,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Shield.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="341">
           <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
@@ -715,35 +788,97 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Weapon.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state relative-caret-position="589">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/csv/weapons.csv">
+    <entry file="file://$PROJECT_DIR$/db/game.db">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="12" lean-forward="false" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/shields.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="29" column="30" lean-forward="true" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Enemy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="713">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Hero.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="29" column="47" lean-forward="false" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
+        <state relative-caret-position="207">
+          <caret line="54" column="8" lean-forward="false" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/armor.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/items.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="29" column="29" lean-forward="true" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="279" column="26" lean-forward="true" selection-start-line="279" selection-start-column="26" selection-end-line="279" selection-end-column="26" />
+        <state relative-caret-position="1848">
+          <caret line="470" column="33" lean-forward="false" selection-start-line="470" selection-start-column="33" selection-end-line="470" selection-end-column="33" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+            <marker date="1510633522775" expanded="true" signature="5333:5369" ph="SELECT * FRO... enemies" />
+            <marker date="1510633522775" expanded="true" signature="6128:6168" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="6925:6964" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510633522775" expanded="true" signature="7433:7488" ph="SELECT * FRO... weapons" />
+            <marker date="1510633522775" expanded="true" signature="7879:7932" ph="SELECT * FRO... armor" />
+            <marker date="1510633522775" expanded="true" signature="8290:8345" ph="SELECT * FRO... shields" />
+            <marker date="1510633522775" expanded="true" signature="8867:8904" ph="SELECT * FRO... items" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/weapons.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/enemies.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="17" column="27" lean-forward="true" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/levelnotes.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="15" column="23" lean-forward="true" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
