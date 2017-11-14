@@ -1,5 +1,6 @@
 import datetime
 import os
+import os
 import pickle
 import random
 import time
@@ -23,7 +24,7 @@ suspensemode = 1
 def suspense():
     s = '.'
     if suspensemode:
-        time.sleep(.3)
+        time.sleep(.2)
 
 
 
@@ -75,7 +76,7 @@ def playerturn(m):
     effatk = int(ourHero.atk + crit - ourEnemy.defn * .2)
     if effatk < 0:
         effatk = 0
-    if m == 'a':
+    if m == 'a' or m == '':
         print('------[HERO ATTACK]------')
         suspense()
         if critchance == 0:
@@ -124,42 +125,43 @@ def enemyturn():
     global ourshield
     overunder = random.randrange(0, 20)
     suspense()
-    if overunder == 0:
-        ourEnemy.atk += ourEnemy.atk * .2
-        print(str(ourEnemy.name) + ' got Angrier!')
-        input('Press Enter to Continue\n')
-    elif overunder == 1:
-        ourEnemy.atk -= ourEnemy.atk * .2
-        print(str(ourEnemy.name) + ' got Weaker!')
-        input('Press Enter to Continue\n')
-    elif overunder == 2:
-        print(str(ourEnemy.name) + ' ran away!')
-        ourEnemy.hp = 0
-        ourHero.isbattling = False
-        input('Press Enter to Continue\n')
-        return
-    if overunder in range(3, ourHero.dodge):
-        print('\n-----[ENEMY ATTACK]-----')
-        suspense()
-        print(str(ourEnemy.name) + ' swings and misses!')
-        print('\n------[END TURN]------\n')
-        input('Press Enter to Continue\n')
-        return
-        suspense()
-    if ourHero.isbattling:
-        print('\n-----[ENEMY ATTACK]-----')
-        suspense()
-        effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
-        if effatk < 0:
-            effatk = 0
-        print('\n' + str(ourEnemy.name) + ' attacks ' + str(ourHero.name) + ' for ' + str(effatk) + ' damage!')
-        ourarmor.dur -= int(effatk * .2)
-        ourshield.dur -= int(effatk * .2)
-        ourHero.hp = ourHero.hp - effatk
-        print('\n------[END TURN]------\n')
-        input('Press Enter to Continue\n')
-        suspense()
-        suspense()
+    if ourEnemy.isalive:
+        if overunder == 0:
+            ourEnemy.atk += ourEnemy.atk * .2
+            print(str(ourEnemy.name) + ' got Angrier!')
+            input('Press Enter to Continue\n')
+        elif overunder == 1:
+            ourEnemy.atk -= ourEnemy.atk * .2
+            print(str(ourEnemy.name) + ' got Weaker!')
+            input('Press Enter to Continue\n')
+        elif overunder == 2:
+            print(str(ourEnemy.name) + ' ran away!')
+            ourEnemy.hp = 0
+            ourHero.isbattling = False
+            input('Press Enter to Continue\n')
+            return
+        if overunder in range(3, ourHero.dodge):
+            print('\n-----[ENEMY ATTACK]-----')
+            suspense()
+            print(str(ourEnemy.name) + ' swings and misses!')
+            print('\n------[END TURN]------\n')
+            input('Press Enter to Continue\n')
+            return
+            suspense()
+        if ourHero.isbattling:
+            print('\n-----[ENEMY ATTACK]-----')
+            suspense()
+            effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
+            if effatk < 0:
+                effatk = 0
+            print('\n' + str(ourEnemy.name) + ' attacks ' + str(ourHero.name) + ' for ' + str(effatk) + ' damage!')
+            ourarmor.dur -= int(effatk * .2)
+            ourshield.dur -= int(effatk * .2)
+            ourHero.hp = ourHero.hp - effatk
+            print('\n------[END TURN]------\n')
+            input('Press Enter to Continue\n')
+            suspense()
+            suspense()
 
 
 
@@ -368,7 +370,7 @@ def adventure():
     m = input()
     ourrand = random.randint(0, 100)
     suspense()
-    if m == 'a':
+    if m == 'a' or m == '':
         if ourrand <= 80:
             ourHero.isbattling = True
             # Make new enemy
