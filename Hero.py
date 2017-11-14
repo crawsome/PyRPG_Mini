@@ -50,7 +50,7 @@ class Hero:
         self.nextlevel = int(self.nextlevel * self.levelupaug)
 
     def printheroinfo(self):
-        print('[HERO STATUS]\n' + self.name + '\nHP:\t' + str(self.hp) + '\n')
+        print('\n' + self.name + '\nHP:\t' + str(self.hp) + '\n')
 
     def printheroinfodetail(self):
         print('Hero Data: ')

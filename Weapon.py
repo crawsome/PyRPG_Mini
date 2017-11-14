@@ -13,7 +13,7 @@ class Weapon:
 
     def isbroken(self):
         if self.dur <= 0:
-            self.atk = self.baseatk * .3
+            self.defn = int(self.baseatk * .3)
             return True
         else:
             return False

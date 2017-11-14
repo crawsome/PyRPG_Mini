@@ -12,7 +12,7 @@ class Armor:
 
     def isbroken(self):
         if self.dur <= 0:
-            self.defn = self.basedefn * .3
+            self.defn = int(self.basedefn * .3)
             return True
         else:
             return False

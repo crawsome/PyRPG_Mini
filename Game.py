@@ -1,11 +1,9 @@
 import datetime
 import os
-import os
 import pickle
 import random
 import time
 from sqlite3 import connect
-
 import Armor
 import Enemy
 import Hero
@@ -13,7 +11,6 @@ import Item
 import Shield
 import Weapon
 import dbsetup
-
 suspensemode = 0
 
 
@@ -27,21 +24,22 @@ def suspense():
         time.sleep(.1)
 
 
-
 # One round of a battle
 def battle():
     global ourHero
     global ourEnemy
-    print('[ENEMY]')
+    print('|--------[ENEMY]-------|')
     ourEnemy.printenemyinfo()
     suspense()
+    print('|--------[HERO]--------|')
     ourHero.printheroinfo()
     suspense()
-    print('|-------[ACTION]-------|')
+    print('|-------[BATTLE]-------|')
     print('|   [a]tk    [d]ef     | \n|   [r]un    [i]tem    |\n| [h]eal coinflip 100g |')
     print('|----------------------|\n')
-    #nextmove = input('Action?\n')
-    nextmove = 'a'
+    nextmove = input('Action?\n')
+    # U sed for auto attack
+    # nextmove = 'a'
     suspense()
     if ourHero.isalive():
         playerturn(nextmove)
@@ -49,7 +47,7 @@ def battle():
     if not ourHero.isalive():
         ourHero.isbattling = False
         print('YOU DIED')
-        print('Cause of death:\nlvl ' + str(ourEnemy.level) + str(ourEnemy.name))
+        print('Cause of death:\nlvl ' + str(ourEnemy.level) + ' ' + str(ourEnemy.name))
         ourHero.printheroinfodetail()
         quit()
     if not ourEnemy.isalive():
@@ -108,20 +106,21 @@ def playerturn(m):
         pass
     if m == 'h':
         print('-------[HEAL]--------')
-        print('\nDeath appears to flip a coin with you.\n')
-        if ourHero.gold >=100:
+        print('Death appears to flip a coin with you.\n')
+        if ourHero.gold >= 100:
             ourHero.gold -= 100
             newrand = random.randrange(0, 1)
             if newrand == 0:
                 ourHero.hp = ourHero.maxhp
-                print('\nHEAL SUCCESS\n' + ourHero.hp + '\n')
+                print('HEAL SUCCESS\n' + str(ourHero.hp) + '\n')
             else:
-                print('\nHEAL FAILED\nYou lost the roll!\n')
+                print('HEAL FAILED\nYou lost the roll!\n')
 
         else:
             print('\nHEAL FAILED\nYou don\'t have enough money!\n')
     if suspensemode:
         input('Press Enter to Continue\n')
+
 
 def enemyturn():
     global ourHero
@@ -152,7 +151,7 @@ def enemyturn():
             print('\n-----[ENEMY ATTACK]-----')
             suspense()
             print(str(ourEnemy.name) + ' swings and misses!')
-            print('\n------[END TURN]------\n')
+            print('\n--------[END TURN]--------\n')
             if suspensemode:
                 input('Press Enter to Continue\n')
             return
@@ -167,12 +166,11 @@ def enemyturn():
             ourarmor.dur -= int(effatk * .2)
             ourshield.dur -= int(effatk * .2)
             ourHero.hp = ourHero.hp - effatk
-            print('\n------[END TURN]------\n')
+            print('\n--------[END TURN]--------\n')
             if suspensemode:
                 input('Press Enter to Continue\n')
             suspense()
             suspense()
-
 
 
 def getenemy():
@@ -214,7 +212,7 @@ def newhero():
 def levelup():
     global ourHero
     print('LEVEL UP!\n ')
-    if ourHero.level >=15:
+    if ourHero.level >= 15:
         print('MAX LEVEL! YOU WIN!\n THANKS FOR PLAYING')
     ourHero.printheroinfodetail()
     ourHero.level += 1
@@ -228,7 +226,6 @@ def levelup():
     ourHero.nextlevel += int(new_hero_data[4] * ourHero.levelupaug)
     ourHero.dodge = new_hero_data[5] + ourHero.dodgeaug
     ourHero.printheroinfodetail()
-
 
 
 def newweapon():
@@ -277,30 +274,42 @@ def newitem():
 def camp():
     global ourHero
     ourHero.printheroinfo()
-    print('you are now at camp')
-    print('[r]est [i]tem [e]quip [h]ero [a]dventure [l]oad [s]ave [q]uit')
+    print('|--------[CAMP]---------|')
+    print('| [r]est [i]tem [e]quip |')
+    print('| [h]ero [a]dventure    |')
+    print('| [l]oad [s]ave [q]uit  |')
+    print('|-----------------------|')
     m = input()
     if m == 'r':
+        print('|-------[RESTING]--------|')
         ourHero.hp = ourHero.maxhp
         ourHero.printheroinfo()
         return
     elif m == 'i':
+        print('|--------[ITEMS]---------|')
         return
     elif m == 'e':
+        print('|------[INVENTORY]-------|')
         inventory_management()
     elif m == 'h':
+        print('|-----[HERO DETAIL]-------|')
         ourHero.printheroinfodetail()
         ourweapon.printweaponinfo()
         ourshield.printshieldinfo()
         ourarmor.printarmorinfo()
     elif m == 'a':
+        print('|-----[ADVENTURE]-------|')
         adventure()
     elif m == 'l':
+        print('|-----[LOADGAME]-------|')
         loadgame()
     elif m == 's':
+        print('|-----[SAVEGAME]-------|')
         savegame()
     elif m == 'q':
-        quit()
+        decision = input('Are you sure?')
+        if input == 'y':
+            quit()
 
 
 # pickle out to hero obj
@@ -316,7 +325,10 @@ def loadgame():
         print(str(i) + ' - ' + str(item))
         print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
         print('\n')
-    index = int(input("Which Character?\n"))
+    index = input("Which Character?\nOr [c]ancel")
+    if index == 'c':
+        return
+    index = int(index)
     ourpickle = open(('./saves/' + str(dirlist[index])), "rb")
     ourdata = pickle.load(ourpickle)
     ourHero = ourdata[0]
@@ -337,7 +349,9 @@ def savegame():
     global ouritem
     # pickle hero object to file
     # should prompt to overwrite
-    heroname = input('Name your save file')
+    heroname = input('Name your save file\nOr [c]ancel')
+    if heroname == 'c':
+        return
     savefolder = "./saves/"
     filepath = savefolder + heroname + '.hero'
     gamedata = [ourHero, ourweapon, ourshield, ourarmor, ouritem]
@@ -389,9 +403,9 @@ def adventure():
             # battle until one is dead
             turnnum = 1
             while ourHero.isalive() and ourEnemy.isalive() and ourHero.isbattling:
-                print('--------[TURN ' + str(turnnum) + ']--------')
+                print('--------[TURN ' + str(turnnum) + ']--------\n')
                 battle()
-                turnnum +=1
+                turnnum += 1
         elif 80 < ourrand <= 95:
             print('You found and equipped a ')
             itemrand = random.randrange(0, 3)
@@ -432,7 +446,7 @@ if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
     # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
-    dbsetup.setup()
+    # dbsetup.setup()
 
     print('=================='
           '\nWelcome to MiniRPG\n'
