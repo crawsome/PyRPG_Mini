@@ -23,7 +23,7 @@ class Enemy:
             return False
 
     def printenemyinfo(self):
-        print(str(self.name) + ' HP:\t' + str(self.hp))
+        print(str(self.name) + ' \nHP:\t' + str(self.hp) + '\n')
 
     def printenemyinfodetail(self):
         print(str(self.name))

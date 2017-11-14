@@ -15,27 +15,32 @@ import dbsetup
 
 suspensemode = 1
 
+
 # TODO: Rewrite in full OOP, and separate / simplify get rid of spaghetti in Game.py
 
 
 # adds a little suspense to offset the monotony of text input
 def suspense():
-    sus = '..'
+    s = '.'
     if suspensemode:
-        print(sus[0])
         time.sleep(.3)
-        print(sus[1])
-        time.sleep(.3)
+
 
 
 # One round of a battle
 def battle():
     global ourHero
     global ourEnemy
+    print('[ENEMY]')
+    ourEnemy.printenemyinfo()
+    suspense()
     ourHero.printheroinfo()
-    print('[a]tk, [d]ef, [r]un')
-    nextmove = input()
-
+    suspense()
+    print('|-------[ACTION]-------|')
+    print('|   [a]tk    [d]ef     | \n|   [r]un    [i]tem    |\n| [h]eal coinflip 100g |')
+    print('|----------------------|\n')
+    nextmove = input('Action?\n')
+    suspense()
     if ourHero.isalive():
         playerturn(nextmove)
     enemyturn()
@@ -46,12 +51,13 @@ def battle():
     if not ourEnemy.isalive():
         ourHero.isbattling = False
         ourEnemy.reset()
-        print('VICTORY')
+        print('-------[VICTORY]--------')
         print('You gained ' + str(ourEnemy.xp) + ' Exp')
-        print('You earned ' + str(ourEnemy.gold) + ' Gil')
+        print('You earned ' + str(ourEnemy.gold) + ' Gold')
+        suspense()
+        input('Press Enter to Continue\n')
         ourHero.xp += ourEnemy.xp
         ourHero.gold += ourEnemy.gold
-        ourHero.printheroinfodetail()
         if ourHero.xp >= ourHero.nextlevel:
             levelup()
     if not ourHero.isbattling:
@@ -70,6 +76,8 @@ def playerturn(m):
     if effatk < 0:
         effatk = 0
     if m == 'a':
+        print('------[HERO ATTACK]------')
+        suspense()
         if critchance == 0:
             print('CRITICAL HIT!')
         ourEnemy.hp = ourEnemy.hp - effatk
@@ -77,19 +85,82 @@ def playerturn(m):
         if ourEnemy.hp < 0:
             ourEnemy.hp = 0
             ourHero.isbattling = False
-        print(str(ourHero.name) + ' ⚔ Enemy for ' + str(effatk))
+        print(str(ourHero.name) + ' attacks Enemy for ' + str(effatk) + ' damage!')
         ourEnemy.printenemyinfo()
     if m == 'd':
+        print('------[DEFENSE]------')
         ourHero.defn += ourHero.defn * .5
     if m == 'r':
+        print('--------[RUN]--------')
         rand = random.randrange(0, 4)
         if rand == 0:
-
             print('you ran away')
             ourHero.isbattling = False
             return
         else:
             print('you can\'t run!')
+    if m == 'i':
+        pass
+    if m == 'h':
+        print('-------[HEAL]--------')
+        print('\nDeath appears to flip a coin with you.\n')
+        if ourHero.gold >=100:
+            ourHero.gold -= 100
+            newrand = random.randrange(0, 1)
+            if newrand == 0:
+                ourHero.hp = ourHero.maxhp
+                print('\nHEAL SUCCESS\n' + ourHero.hp + '\n')
+            else:
+                print('\nHEAL FAILED\nYou lost the roll!\n')
+
+        else:
+            print('\nHEAL FAILED\nYou don\'t have enough money!\n')
+    input('Press Enter to Continue\n')
+
+def enemyturn():
+    global ourHero
+    global ourEnemy
+    global ourarmor
+    global ourshield
+    overunder = random.randrange(0, 20)
+    suspense()
+    if overunder == 0:
+        ourEnemy.atk += ourEnemy.atk * .2
+        print(str(ourEnemy.name) + ' got Angrier!')
+        input('Press Enter to Continue\n')
+    elif overunder == 1:
+        ourEnemy.atk -= ourEnemy.atk * .2
+        print(str(ourEnemy.name) + ' got Weaker!')
+        input('Press Enter to Continue\n')
+    elif overunder == 2:
+        print(str(ourEnemy.name) + ' ran away!')
+        ourEnemy.hp = 0
+        ourHero.isbattling = False
+        input('Press Enter to Continue\n')
+        return
+    if overunder in range(3, ourHero.dodge):
+        print('\n-----[ENEMY ATTACK]-----')
+        suspense()
+        print(str(ourEnemy.name) + ' swings and misses!')
+        print('\n------[END TURN]------\n')
+        input('Press Enter to Continue\n')
+        return
+        suspense()
+    if ourHero.isbattling:
+        print('\n-----[ENEMY ATTACK]-----')
+        suspense()
+        effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
+        if effatk < 0:
+            effatk = 0
+        print('\n' + str(ourEnemy.name) + ' attacks ' + str(ourHero.name) + ' for ' + str(effatk) + ' damage!')
+        ourarmor.dur -= int(effatk * .2)
+        ourshield.dur -= int(effatk * .2)
+        ourHero.hp = ourHero.hp - effatk
+        print('\n------[END TURN]------\n')
+        input('Press Enter to Continue\n')
+        suspense()
+        suspense()
+
 
 
 def getenemy():
@@ -111,52 +182,41 @@ def getenemy():
 def newhero():
     conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
     rows = conn.fetchall()
-    hpaug = 0
-    dodgeaug = 0
-
     print('[w]arrior, [m]age, [h]unter')
     ourclass = input()
     if ourclass == 'w':
         ourclass = 'Warrior'
-        hpaug = 15
-        dodgeaug = 2
-        defaug = 6
-        levelupaug = 1
     elif ourclass == 'm':
         ourclass = 'Mage'
-        hpaug = 5
-        dodgeaug = 4
-        defaug = 2
-        levelupaug = .7
     elif ourclass == 'h':
         ourclass = 'Hunter'
-        hpaug = 10
-        dodgeaug = 8
-        defaug = 4
-        levelupaug = .9
     else:
         print('Please enter a valid selection')
-
     new_hero_data = rows[0]
-    ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1] + hpaug, new_hero_data[2], new_hero_data[3] + defaug,
-                           int(new_hero_data[4] * levelupaug), new_hero_data[5] + dodgeaug)
+    ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2],
+                           new_hero_data[3], new_hero_data[4], new_hero_data[5])
 
     return ournewhero
 
 
 def levelup():
+    global ourHero
     print('LEVEL UP!\n ')
+    if ourHero.level >=15:
+        print('MAX LEVEL! YOU WIN!\n THANKS FOR PLAYING')
     ourHero.printheroinfodetail()
     ourHero.level += 1
     conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(ourHero.level) + ';')
     rows = conn.fetchall()
     new_hero_data = rows[0]
-    ourHero.maxhp = new_hero_data[1]
-    ourHero.hp = ourHero.maxhp
-    ourHero.atk += new_hero_data[2]
-    ourHero.defn = new_hero_data[3]
-    ourHero.nextlevel += new_hero_data[4]
+    ourHero.maxhp = new_hero_data[1] + ourHero.hpaug
+    ourHero.hp = ourHero.maxhp + ourHero.hpaug
+    ourHero.atk = new_hero_data[2]
+    ourHero.defn = new_hero_data[3] + ourHero.defaug
+    ourHero.nextlevel += int(new_hero_data[4] * ourHero.levelupaug)
+    ourHero.dodge = new_hero_data[5] + ourHero.dodgeaug
     ourHero.printheroinfodetail()
+
 
 
 def newweapon():
@@ -200,35 +260,6 @@ def newitem():
     new_item_data = rows[0]
     ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3])
     return ournewitem
-
-def enemyturn():
-    global ourHero
-    global ourEnemy
-    global ourarmor
-    global ourshield
-    overunder = random.randrange(0, 20)
-    if overunder == 0:
-        ourEnemy.atk += ourEnemy.atk * .2
-        print(str(ourEnemy.name) + ' got Angrier!')
-    if overunder == 1:
-        ourEnemy.atk -= ourEnemy.atk * .2
-        print(str(ourEnemy.name) + ' got Weaker!')
-    if overunder == 2:
-        print(str(ourEnemy.name) + ' ran away!')
-        ourEnemy.hp = 0
-        ourHero.isbattling = False
-        return
-    if overunder in range(3, ourHero.dodge):
-        print(str(ourEnemy.name) + ' swings and misses!')
-        return
-    if ourHero.isbattling:
-        effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
-        if effatk < 0:
-            effatk = 0
-        print('\n' + str(ourEnemy.name) + ' ⚔ ' + str(ourHero.name) + ' for ' + str(effatk))
-        ourarmor.dur -= int(effatk *.2)
-        ourshield.dur -= int(effatk *.2)
-        ourHero.hp = ourHero.hp - effatk
 
 
 def camp():
@@ -342,11 +373,13 @@ def adventure():
             ourHero.isbattling = True
             # Make new enemy
             ourEnemy = getenemy()
-            print('\nA Lvl ' + str(ourEnemy.level) + ' ' + str(ourEnemy.name) + ' blocks your path!')
+            print('--------[BATTLE]--------\n')
             # battle until one is dead
-            ourEnemy.printenemyinfo()
+            turnnum = 1
             while ourHero.isalive() and ourEnemy.isalive() and ourHero.isbattling:
+                print('--------[TURN ' + str(turnnum) + ']--------')
                 battle()
+                turnnum +=1
         elif 80 < ourrand <= 95:
             print('You found and equipped a ')
             itemrand = random.randrange(0, 3)
@@ -424,5 +457,7 @@ if __name__ == '__main__':
     ourEnemy = getenemy()
 
     ourHero.name = input('Please enter your name:\n')
+
+    ourHero.heroperks()
 
     gameloop()

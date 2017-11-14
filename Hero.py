@@ -26,8 +26,31 @@ class Hero:
         else:
             return False
 
+    def heroperks(self):
+        if self.ourclass == 'Warrior':
+            self.hpaug = 15
+            self.dodgeaug = 2
+            self.defaug = 6
+            self.levelupaug = 1
+        elif self.ourclass == 'Mage':
+            self.hpaug = 5
+            self.dodgeaug = 4
+            self.defaug = 2
+            self.levelupaug = .7
+        elif self.ourclass == 'Hunter':
+            self.hpaug = 10
+            self.dodgeaug = 8
+            self.defaug = 4
+            self.levelupaug = .9
+        self.maxhp += self.hpaug
+        self.hp += self.hpaug
+        self.dodge += self.dodgeaug
+        self.basedef += self.defaug
+        self.defn += self.defaug
+        self.nextlevel = int(self.nextlevel * self.levelupaug)
+
     def printheroinfo(self):
-        print('Hero HP:\t' + str(self.hp) + '\n')
+        print('[HERO STATUS]\n' + self.name + '\nHP:\t' + str(self.hp) + '\n')
 
     def printheroinfodetail(self):
         print('Hero Data: ')
@@ -42,3 +65,4 @@ class Hero:
         print('\tDodge:\t\t' + str(self.dodge))
         print('\tXP:\t\t\t' + str(self.xp))
         print('\tNextLvl:\t' + str(self.nextlevel))
+
