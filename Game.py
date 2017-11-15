@@ -4,13 +4,14 @@ import pickle
 import random
 import time
 from sqlite3 import connect
+
 import Armor
 import Enemy
 import Hero
 import Item
 import Shield
 import Weapon
-import dbsetup
+
 suspensemode = 0
 
 
@@ -76,7 +77,7 @@ def playerturn(m):
     critchance = random.randrange(0, 20)
     if critchance == 0:
         crit = ourHero.atk * .4
-    effatk = int(ourHero.atk + crit - ourEnemy.defn * .2)
+    effatk = int(ourHero.atk + crit - ourEnemy.defn * .4)
     if effatk < 0:
         effatk = 0
     if m == 'a' or m == '':
@@ -160,7 +161,7 @@ def enemyturn():
         if ourHero.isbattling:
             print('\n|----[ENEMY ATTACK]-----|')
             suspense()
-            effatk = int(ourEnemy.atk - (.2 * ourHero.defn))
+            effatk = int(ourEnemy.atk - (.5 * ourHero.defn))
             if effatk < 0:
                 effatk = 0
             print('\n' + str(ourEnemy.name) + ' attacks ' + str(ourHero.name) + ' for ' + str(effatk) + ' damage!')
@@ -274,12 +275,29 @@ def newitem():
     return ournewitem
 
 
+def blacksmith():
+    global ourweapon
+    global ourarmor
+    global ourshield
+    pass
+
+
+# show one item, one
+def store():
+    global ourweapon
+    global ourarmor
+    global ourshield
+    global ouritem
+    pass
+
+
 def camp():
     global ourHero
     ourHero.printheroinfo()
     print('|--------[CAMP]---------|')
     print('| [r]est [i]tem [e]quip |')
-    print('| [h]ero [a]dventure    |')
+    print('| [h]ero    [a]dventure |')
+    print('| [p]eddler [b]lacksmith|')
     print('| [l]oad [s]ave [q]uit  |')
     print('|-----------------------|')
     m = input()
@@ -289,10 +307,10 @@ def camp():
         ourHero.printheroinfo()
         return
     elif m == 'i':
-        print('|-------[ITEMS]---------|')
+        print('|--------[ITEMS]--------|')
         return
     elif m == 'e':
-        print('|-----[INVENTORY]-------|')
+        print('|------[INVENTORY]------|')
         inventory_management()
     elif m == 'h':
         print('|-----[HERO DETAIL]-----|')
@@ -301,7 +319,7 @@ def camp():
         ourshield.printshieldinfo()
         ourarmor.printarmorinfo()
     elif m == 'a':
-        print('|-----[ADVENTURE]-------|')
+        print('|------[ADVENTURE]------|')
         adventure()
     elif m == 'l':
         print('|------[LOADGAME]-------|')
@@ -309,6 +327,52 @@ def camp():
     elif m == 's':
         print('|------[SAVEGAME]-------|')
         savegame()
+    elif m == 'b':
+        print('|-----[BLACKSMITH]------|')
+        print(' An old Blacksmith rests at your camp.\nHe shows his wares and services:')
+        nextdecision = input('  [f]ix gear\n  [b]uy gear\n')
+        if nextdecision == 'f':
+            # offer equipment repair for any of the 3 slots, for 1g/durability point
+            print('The Blacksmith can offer\nrepair services for 1g/repair point')
+            print('Here is your gear durability:\n')
+            print('Slot|\tName\t\t|\tDur\t\t|\tBroken?')
+            print(str(1) + '\t|\t' + str(ourshield.name) + '\t\t|\t\t' + str(ourshield.dur) + '/' + str(ourshield.maxdur) + '\t|\t' + str(ourshield.isbroken()))
+            print(str(2) + '\t|\t' + str(ourweapon.name) + '\t\t|\t\t' + str(ourweapon.dur) + '/' + str(ourweapon.maxdur) + '\t|\t' + str(ourweapon.isbroken()))
+            print(str(3) + '\t|\t' + str(ourarmor.name) + '\t\t|\t\t' + str(ourarmor.dur) + '/' + str(ourarmor.maxdur) + '\t|\t' + str(ourarmor.isbroken()))
+            decision = input('Which piece of gear do you want to repair?')
+            if decision == '1':
+                repaircost = ourshield.maxdur - ourshield.dur
+                print('Repair Your shield? Cost:' + str(repaircost) + ' gold')
+                decision = input('[y]es [n]o')
+                if decision == 'y' and ourHero.gold >= repaircost:
+                    ourHero.gold -= repaircost
+                    ourshield.dur = ourshield.maxdur
+                    print('Repair Success.')
+            elif decision == '2':
+                repaircost = ourweapon.maxdur - ourweapon.dur
+                print('Repair Your weapon? Cost:' + str(repaircost) + ' gold')
+                decision = input('[y]es [n]o')
+                if decision == 'y' and ourHero.gold >= repaircost:
+                    ourHero.gold -= repaircost
+                    ourweapon.dur = ourweapon.maxdur
+                    print('Repair Success.')
+            elif decision == '3':
+                repaircost = ourarmor.maxdur - ourarmor.dur
+                print('Repair Your armor? Cost:' + str(repaircost) + ' gold')
+                decision = input('[y]es [n]o')
+                if decision == 'y' and ourHero.gold >= repaircost:
+                    ourHero.gold -= repaircost
+                    ourarmor.dur = ourarmor.maxdur
+                    print('Repair Success.')
+        if nextdecision == 'b':
+            # offer random choice of weapon, armor, or shield at 1.5x value price
+            pass
+        else:
+            print('You walk back to camp')
+    elif m == 'p':
+        print('|--[PEDDLER\'S WARES]---|')
+        print('An old Peddler rests at your camp.\nHe shows his wares:')
+        nextdecision = input()
     elif m == 'q':
         print('|--------[QUIT]---------|')
         decision = input('Are you sure?')
@@ -444,6 +508,35 @@ def adventure():
             pass
     elif m == 'c':
         camp()
+
+    def healingpotion(effect):
+        global ourHero
+        global ouritem
+        self.hp += effect
+        if self.hp > self.maxhp:
+            self.hp = self.maxhp
+        self.items.remove('')
+        pass
+
+    def explosivemanavial(self, effect):
+        global ourHero
+        global ouritem
+        pass
+
+    def healthregenpotion(self, effect):
+        global ourHero
+        global ouritem
+        pass
+
+    def hastepotion(self, effect):
+        global ourHero
+        global ouritem
+        pass
+
+    def weaponrepairtincture(self, effect):
+        global ourHero
+        global ouritem
+        pass
 
 
 if __name__ == '__main__':

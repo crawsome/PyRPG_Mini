@@ -55,7 +55,7 @@ class Hero:
         self.atk += self.atkaug
 
     def printheroinfo(self):
-        print(self.name + '\nHP:\t' + str(self.hp) + '\n')
+        print(self.name + '\nHP:\t' + str(self.hp) + '    lvl: ' + str(self.level) + '\n')
 
     def printheroinfodetail(self):
         print('Hero Data: ')
@@ -70,4 +70,3 @@ class Hero:
         print('\tDodge:\t\t' + str(self.dodge))
         print('\tXP:\t\t\t' + str(self.xp))
         print('\tNextLvl:\t' + str(self.nextlevel))
-
