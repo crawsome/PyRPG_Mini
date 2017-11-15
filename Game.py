@@ -4,19 +4,18 @@ import pickle
 import random
 import time
 from sqlite3 import connect
-
 import Armor
 import Enemy
 import Hero
 import Item
 import Shield
 import Weapon
+import dbsetup
 
 suspensemode = 0
 
 
 # TODO: Rewrite in full OOP, and separate / simplify get rid of spaghetti in Game.py
-
 
 # adds a little suspense to offset the monotony of text input
 def suspense():
@@ -55,9 +54,14 @@ def battle():
     if not ourEnemy.isalive():
         ourHero.isbattling = False
         ourEnemy.reset()
+        hpback = int(ourHero.hp/10)
         print('|-------[VICTORY]-------|')
         print('You gained ' + str(ourEnemy.xp) + ' Exp')
         print('You earned ' + str(ourEnemy.gold) + ' Gold')
+        print('You ate his sandwich and gained ' + str(hpback) + ' HP back')
+        ourHero.hp += hpback
+        if ourHero.hp > ourHero.maxhp:
+            ourHero.hp = ourHero.maxhp
         if suspensemode:
             input('Press Enter to Continue\n')
             suspense()
@@ -216,10 +220,12 @@ def newhero():
 def levelup():
     global ourHero
     print('LEVEL UP!\n ')
-    if ourHero.level >= 15:
-        print('MAX LEVEL! YOU WIN!\n THANKS FOR PLAYING')
     ourHero.printheroinfodetail()
     ourHero.level += 1
+    if ourHero.level > 15:
+        print('MAX LEVEL! YOU WIN!\n THANKS FOR PLAYING')
+        ourHero.printheroinfodetail()
+        quit()
     conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(ourHero.level) + ';')
     rows = conn.fetchall()
     new_hero_data = rows[0]
@@ -458,6 +464,7 @@ def adventure():
     global ourshield
     global ouritem
     global ourarmor
+    print('|------[ADVENTURE]------|\n')
     print('[a]dventure or [c]amp')
     m = input()
     ourrand = random.randint(0, 100)
@@ -512,10 +519,10 @@ def adventure():
     def healingpotion(effect):
         global ourHero
         global ouritem
-        self.hp += effect
-        if self.hp > self.maxhp:
-            self.hp = self.maxhp
-        self.items.remove('')
+        ourHero.hp += effect
+        if ourHero.hp > ourHero.maxhp:
+            ourHero.hp = ourHero.maxhp
+            ourHero.items.remove('')
         pass
 
     def explosivemanavial(self, effect):
@@ -543,7 +550,10 @@ if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
     # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
-    # dbsetup.setup()
+    print('Reload database?')
+    foo = input('[y]es [n]o')
+    if foo == 'y':
+        dbsetup.setup()
 
     print('=========================\n'
           '|        MiniRPG        |\n'
