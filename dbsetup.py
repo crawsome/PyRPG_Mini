@@ -61,7 +61,7 @@ def setup():
     if debugging:
         print('creating table for items')
     cur.execute(
-        '''CREATE TABLE IF NOT EXISTS items(grade INT,name TEXT,effect INT,value INT)''')
+        '''CREATE TABLE IF NOT EXISTS items(level INT, grade INT,name TEXT,effect INT,value INT)''')
 
     # insert our items table in the database
     if debugging:
@@ -71,7 +71,7 @@ def setup():
         for i in dr:
             if debugging:
                 print('inserting ' + str(i))
-            cur.execute('INSERT INTO items VALUES (?,?,?,?);', i)
+            cur.execute('INSERT INTO items VALUES (?,?,?,?,?);', i)
         if debugging:
             cur.execute('SELECT * FROM items')
             rows = cur.fetchall()

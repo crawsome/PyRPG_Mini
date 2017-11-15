@@ -1,10 +1,10 @@
 level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 1,Timid,Corny,Duck,6,2,1,11,3,run
-1,Timid,Clammy,Robot,7,3,1,13,5,run
-1,Timid,Salty,Mystic,8,4,2,16,6,run
-1,Timid,Coffee,Codger,9,6,3,19,7,run
-1,Timid,Naked,Swindler,10,7,3,21,8,run
-2,Docile,YUUUGE,Politician,11,4,4,24,10,poison
+1,Timid,Clammy,Robot,7,3,1,11,5,run
+1,Timid,Salty,Mystic,8,4,2,13,6,run
+1,Timid,Coffee,Codger,9,6,3,13,7,run
+1,Timid,Naked,Swindler,10,7,3,17,8,run
+2,Docile,YUUUGE,Politician,11,4,4,19,10,poison
 2,Docile,Cocksure,Talking Head,12,6,5,27,11,bleeding
 2,Docile,Crying,Simpleton,10,7,5,29,12,none
 2,Docile,Oily,Sports Fan,12,8,6,32,13,none
@@ -71,6 +71,6 @@ level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
 14,Vile-Aggressive,Coffee,Codger,73,82,45,191,89,none
 15,Vile-Superior,Naked,Swindler,74,83,45,194,90,poison
 15,Vile-Superior,YUUUGE,Politician,75,84,46,196,91,bleeding
-15,Vile-Superior,Cocksure,Talking Head,76,86,47,199,92,none
-15,Vile-Superior,Crying,Simpleton,77,87,47,202,94,none
-15,Vile-Superior,Oily,TRUMP,78,88,48,204,95,none
+15,Vile-Superior,Cocksure,Talking Head,76,86,47,387,92,none
+15,Vile-Superior,Crying,Simpleton,77,87,47,397,94,none
+15,Vile-Superior,Oily,TRUMP,78,88,48,428,95,none

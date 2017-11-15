@@ -12,13 +12,16 @@ class Hero:
         self.nextlevel = heronextlevel
         self.gold = 0
         self.dodge = herododge
-        self.items = [0, 0, 0, 0]
+        self.items = []
+        self.gear = []
+        self.activeitem = 0
         self.xp = 0
         self.isbattling = False
         self.hpaug = 0
         self.dodgeaug = 0
         self.defaug = 0
         self.levelupaug = 0
+        self.battlecount = 0
 
     def isalive(self):
         if self.hp > 0:
@@ -27,19 +30,19 @@ class Hero:
             return False
 
     def heroperks(self):
-        if self.ourclass == 'Warrior':
+        if self.ourclass == 'warrior':
             self.hpaug = 15
             self.dodgeaug = 2
             self.defaug = 12
             self.atkaug = 2
             self.levelupaug = 1
-        elif self.ourclass == 'Mage':
+        elif self.ourclass == 'mage':
             self.hpaug = 5
             self.dodgeaug = 5
             self.defaug = 6
             self.atkaug = 12
             self.levelupaug = .7
-        elif self.ourclass == 'Hunter':
+        elif self.ourclass == 'hunter':
             self.hpaug = 10
             self.dodgeaug = 8
             self.defaug = 8
