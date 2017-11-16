@@ -1,11 +1,9 @@
+# makes a story progression with 20 or so variable checkpoints
+# each checkpoint requires decisions and talking?
+# A narrative would have to be made
 
 
-#makes a story progression with 20 or so variable checkpoints
-#each checkpoint requires decisions and talking?
-#A narrative would have to be made
-
-
-class story:
+class Story:
     def __init__(self):
         self.hauntedhousecomplete = 0
         self.swampcomplete = 0
@@ -14,6 +12,7 @@ class story:
         self.dreamcomplete = 0
         self.revolutioncomplete = 0
         self.storycomplete = 0
+
 
 # Different scenarios, to spice the game up a little bit.
 # 2 diff choices on entrance, 4 inside, 2 on each.

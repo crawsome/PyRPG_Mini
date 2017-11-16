@@ -3,15 +3,16 @@ from sqlite3 import connect
 
 
 class dbsetup():
-
     def __init__(self):
-        #database setup
+
+        # database setup
         self.dbpath = './db/game.db'
+
         # import and create our player database
         self.gamedb = connect(self.dbpath)
         self.conn = self.gamedb.cursor()
 
-    def setup(self):
+    def setupdb(self):
         debugging = 0
 
         # make a database connection to the game database

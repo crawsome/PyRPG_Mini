@@ -1,12 +1,13 @@
+import random
 import Armor
 import Item
 import Shield
 import Weapon
 import dbsetup
-import random
+import Game
 
 
-class Hero():
+class Hero:
     def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, herododge):
         # name
         self.name = ''
@@ -87,32 +88,30 @@ class Hero():
         self.baseatk += self.atkaug
         self.atk += self.atkaug
 
-    def printheroinfo(self):
-        print(self.name + '\nHP:\t' + str(self.hp) + '    lvl: ' + str(self.level) + '\n')
-
     def printheroinfodetail(self):
-        print('Hero Data: ')
-        print('\tClass:\t\t' + str(self.ourclass))
-        print('\tName:\t\t' + str(self.name))
-        print('\tLevel:\t\t' + str(self.level))
-        print('\tMax HP:\t\t' + str(self.maxhp))
-        print('\tCurrent HP:\t' + str(self.hp))
-        print('\tGold:\t\t' + str(self.gold))
-        print('\tAtk:\t\t' + str(self.atk))
-        print('\tDefense:\t' + str(self.defn))
-        print('\tDodge:\t\t' + str(self.dodge))
-        print('\tXP:\t\t\t' + str(self.xp))
-        print('\tNextLvl:\t' + str(self.nextlevel))
+        Game.marqueeprint('Hero Data:')
+        Game.leftprint('\tClass:\t\t' + str(self.ourclass))
+        Game.leftprint('\tName:\t\t' + str(self.name))
+        Game.leftprint('\tLevel:\t\t' + str(self.level))
+        Game.leftprint('\tMax HP:\t\t' + str(self.maxhp))
+        Game.leftprint('\tCurrent HP:\t' + str(self.hp))
+        Game.leftprint('\tGold:\t\t' + str(self.gold))
+        Game.leftprint('\tAtk:\t\t' + str(self.atk))
+        Game.leftprint('\tDefense:\t' + str(self.defn))
+        Game.leftprint('\tDodge:\t\t' + str(self.dodge))
+        Game.leftprint('\tXP:\t\t\t' + str(self.xp))
+        Game.leftprint('\tNextLvl:\t' + str(self.nextlevel))
+        Game.leftprint('\tbattles fought\t' + str(self.battlecount))
 
     def levelup(self):
         newdb = dbsetup.dbsetup()
-        print('LEVEL UP!\n ')
+        Game.marqueeprint('LEVEL UP!')
         self.printheroinfodetail()
         self.level += 1
         if self.level > 15:
-            print('MAX LEVEL! YOU WIN!\n THANKS FOR PLAYING')
+            Game.marqueeprint('MAX LEVEL! YOU WIN!')
+            Game.marqueeprint('THANKS FOR PLAYING')
             self.printheroinfodetail()
-            print(str(self.battlecount) + ' battles fought')
             quit()
         newdb.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
         rows = newdb.conn.fetchall()

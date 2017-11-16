@@ -1,3 +1,5 @@
+from Game import centerprint, marqueeprint, leftprint
+
 class Enemy:
     def __init__(self, enemylevel, enemyname1, enemyname2, enemyname3, enemyatk, enemyxp, enemygold, enemyhp, enemydefn,
                  enemystatuseffect):
@@ -22,8 +24,7 @@ class Enemy:
         else:
             return False
 
-    def printenemyinfo(self):
-        print(str(self.name) + ' \nHP:\t' + str(self.hp) + '    lvl: ' + str(self.level) + '\n')
+
 
     def printenemyinfodetail(self):
         print(str(self.name))
