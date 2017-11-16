@@ -3,6 +3,7 @@ import Item
 import Shield
 import Weapon
 import dbsetup
+import random
 
 
 class Hero():
@@ -19,7 +20,8 @@ class Hero():
         self.basedef = herodefn
         self.defn = self.basedef
         self.nextlevel = heronextlevel
-        self.dodge = herododge
+        self.basedodge = herododge
+        self.dodge = self.basedodge
         # game-created vars
         self.gold = 0
         self.items = []
@@ -33,6 +35,8 @@ class Hero():
         self.atkaug = 0
         self.levelupaug = 0
         self.battlecount = 0
+        self.regentimer = 0
+        self.hastetimer = 0
 
         # equip objects
         ourweapon = Weapon.Weapon(0, 0, 0, 0, 0, 0, 0)
@@ -155,7 +159,7 @@ class Hero():
         newdb = dbsetup.dbsetup()
         newdb.conn.execute('SELECT * FROM items WHERE "level" = ? ;', (self.level,))
         rows = newdb.conn.fetchall()
-        new_item_data = rows[0]
+        new_item_data = random.choice(rows)
         ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3], new_item_data[4])
         return ournewitem
 

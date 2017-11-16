@@ -56,7 +56,7 @@ def battle():
         print('You earned ' + str(ourenemy.gold) + ' Gold')
         # 20% chance to get some health back.
         if random.randrange(0, 4) == 0:
-            print('You ate his sandwich and gained ' + str(hpback) + ' HP back')
+            print('\nYou found his lunch\n and gained ' + str(hpback) + ' HP back')
             ourhero.hp += hpback
             if ourhero.hp > ourhero.maxhp:
                 ourhero.hp = ourhero.maxhp
@@ -124,6 +124,24 @@ def playerturn(m):
             print('\nHEAL FAILED\nYou don\'t have enough money!\n')
     if suspensemode:
         input('Press Enter to Continue\n')
+
+    #accounts for health regen potion
+    if ourhero.regentimer > 0:
+        regen = int(ourhero.hp * .2)
+        print('You regen ' + str(regen) + 'HP')
+        ourhero.hp += regen
+        ourhero.regentimer -= 1
+        if ourhero.hp > ourhero.maxhp:
+            ourhero.hp = ourhero.maxhp
+
+    #accounts for haste potion for 5 turn dodge increases
+    ourhero.dodge = ourhero.basedodge
+    if ourhero.hastetimer > 0:
+        ourhero.dodge = ourhero.basedodge + 2
+        print('Your dodge chance is elevated')
+        ourhero.hastetimer -= 1
+    else:
+        ourhero.dodge = ourhero.basedodge
 
 
 def enemyturn():
@@ -375,9 +393,8 @@ def savegame():
 
 # TODO: DOESN'T WORK
 def item_management():
-    global ouritem
     global ourhero
-    print('|-[CHOOSE ACTIVE ITEM]-|')
+    print('|-[CHOOSE ITEM]-|')
     for i, item in enumerate(ourhero.items):
         print(str(i) + ' \tName: ' + str(item.name) + '\tEffect: ' + str(item.effect))
     itemindex = input('Please enter decision')
@@ -385,9 +402,20 @@ def item_management():
                          '17', '18', '19', '20']:
         print('Please enter a valid choice')
         return
-    ouritem = ourhero.items[int(itemindex)]
-    ourhero.activeitem = ouritem
-    print(ouritem.name)
+    ourhero.ouritem = ourhero.items[int(itemindex)]
+    ourhero.activeitem = ourhero.ouritem
+    del(ourhero.items[int(itemindex)])
+    print('Using ' + str(ourhero.ouritem.name))
+    if ourhero.ouritem.name == 'Healing Potion':
+        healingpotion()
+    if ourhero.ouritem.name == 'Explosive Mana Vial':
+        explosivemanavial()
+    if ourhero.ouritem.name == 'Health Regen Potion':
+        healthregenpotion()
+    if ourhero.ouritem.name == 'Haste Potion':
+        hastepotion()
+    if ourhero.ouritem.name == 'Weapon Repair Tincture':
+        weaponrepairtincture()
     pass
 
 
@@ -397,7 +425,7 @@ def gear_management():
     global ourweapon
     global ourarmor
     print(str(1) + ourshield.name + '\n' + str(2) + ourweapon.name + '\n' + str(3) + ourarmor.name + '\n')
-    print(ouritem.name)
+
     pass
 
 
@@ -458,85 +486,50 @@ def adventure():
     elif m == 'c':
         camp()
 
-    def healingpotion(effect):
-        global ourhero
-        global ouritem
-        ourhero.hp += effect
-        if ourhero.hp > ourhero.maxhp:
-            ourhero.hp = ourhero.maxhp
-            ourhero.items.remove('')
-        pass
+def healingpotion():
+    global ourhero
+    healed = ourhero.activeitem.effect
+    ourhero.hp += healed
+    print('You heal for ' + str(healed) + ' HP')
+    if ourhero.hp > ourhero.maxhp:
+        ourhero.hp = ourhero.maxhp
+        ourhero.activeitem = 0
+    return
 
-    def explosivemanavial(self, effect):
-        global ourhero
-        global ouritem
-        global ourenemy
-        ourenemy.hp -= effect
-        print('The Mana Vial EXPLODES!\nDealing ' + str(effect) + 'damage to ' + str(ourenemy.name))
-        pass
+def explosivemanavial():
+    global ourhero
+    global ourenemy
+    dmg = ourhero.activeitem.effect
+    ourenemy.hp -= ourhero.activeitem.effect
+    print('\nThe Mana Vial EXPLODES!\nDealing ' + str(dmg) + ' damage to\n' + str(ourenemy.name))
+    ourhero.activeitem = 0
+    return
 
-    # adds health per turn
-    def healthregenpotion(self, effect):
-        global ourhero
-        global ouritem
-        pass
-
-    # increases dodge permanently
-    def hastepotion(effect):
-        global ourhero
-        global ouritem
-        pass
-
-    # adds dur points to weapon
-    def weaponrepairtincture(effect):
-        global ourhero
-        global ouritem
-        pass
-
-
-# Different scenarios, to spice the game up a little bit.
-# 2 diff choices on entrance, 4 inside, 2 on each.
-def hauntedhouse():
-    vhpick = input('You arrive at a spooky house.\n'
-                   'There\'s a green van out front.\n'
-                   'Inspect the [v]an or go to the  \n'
-                   '[h]ouse and knock on the door?\n')
-
-    if vhpick == 'v':
-        pass
-    elif vhpick == 'h':
-        pass
-
-
-def swamp():
+# adds health per turn
+def healthregenpotion():
+    global ourhero
+    print('5 turns health regen')
+    ourhero.regentimer = 5
+    ourhero.activeitem = 0
     pass
 
-
-def plains():
+# two attacks
+def hastepotion():
+    global ourhero
+    print('5 turns dodge buff')
+    ourhero.hastetimer = 5
+    ourhero.activeitem = 0
     pass
 
-
-def mountain():
-    pass
-
-
-def faux():
-    pass
-
-
-def dream():
-    pass
-
-
-def revolution():
-    pass
-
-
-def future():
-    pass
-
-
-def story():
+# heals 60% of dur points to weapon
+def weaponrepairtincture():
+    global ourhero
+    rep = ourhero.ourweapon.maxdur * .6
+    print('You repaired your weapon for\n' + str(rep) + ' durability points')
+    ourhero.ourweapon.dur += rep
+    if ourhero.ourweapon.dur > ourhero.ourweapon.maxdur:
+        ourhero.ourweapon.dur = ourhero.ourweapon.maxdur
+    ourhero.activeitem = 0
     pass
 
 
@@ -575,7 +568,7 @@ if __name__ == '__main__':
     # Make a potion
     ourhero.ouritem = ourhero.newitem()
 
-    # apply out equipped items stats
+    # apply our equipped items stats
     ourhero.applyequip()
 
     # make a basic enemy object
