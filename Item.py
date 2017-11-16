@@ -1,3 +1,6 @@
+import Game
+
+
 class Item:
     # grade,name,effect,value
     def __init__(self, itemlevel, itemgrade, itemname, itemeffect, itemvalue):
@@ -8,9 +11,9 @@ class Item:
         self.val = itemvalue
 
     def printiteminfo(self):
-        print('Item: ')
-        print('\tLevel:\t\t' + str(self.level))
-        print('\tGrade:\t\t' + str(self.grade))
-        print('\tName:\t' + str(self.name))
-        print('\tEffect Val:\t\t' + str(self.effect))
-        print('\tGold Val:\t\t' + str(self.val))
+        Game.marqueeprint('Item: ')
+        print(Game.lr_justify('Level:' , str(self.level),50))
+        print(Game.lr_justify('Grade:' , str(self.grade),50))
+        print(Game.lr_justify('Name:' , str(self.name),50))
+        print(Game.lr_justify('Effect Val:' , str(self.effect),50))
+        print(Game.lr_justify('Gold Val:' , str(self.val),50))

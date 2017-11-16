@@ -1,3 +1,6 @@
+import Game
+
+
 class Weapon:
     # level,class,name,type,baseattack,durability,power
     def __init__(self, weaponlevel, weaponclass, weaponname, weapontype, weaponbaseatk, weapondur, weaponpower):
@@ -23,14 +26,14 @@ class Weapon:
         self.dur = self.maxdur
 
     def printweaponinfo(self):
-        print('Weapon:')
-        print('\tLevel:\t\t' + str(self.level))
-        print('\tClass:\t\t' + str(self.ourclass))
-        print('\tName:\t\t' + str(self.name))
-        print('\tType:\t\t' + str(self.type))
-        print('\tBase Atk:\t' + str(self.baseatk))
-        print('\tAtk:\t\t' + str(self.atk))
-        print('\tMax Dur:\t' + str(self.maxdur))
-        print('\tDur:\t\t' + str(self.dur))
-        print('\tBroken?:\t' + str(self.isbroken()))
-        print('\tPower:\t\t' + str(self.power))
+        Game.marqueeprint('Weapon:')
+        print(Game.lr_justify('Level:', str(self.level), 50))
+        print(Game.lr_justify('Class:', str(self.ourclass), 50))
+        print(Game.lr_justify('Name:', str(self.name), 50))
+        print(Game.lr_justify('Type:', str(self.type), 50))
+        print(Game.lr_justify('Base Atk:', str(self.baseatk), 50))
+        print(Game.lr_justify('Atk:', str(self.atk), 50))
+        print(Game.lr_justify('Max Dur:', str(self.maxdur), 50))
+        print(Game.lr_justify('Dur:', str(self.dur), 50))
+        print(Game.lr_justify('Broken?:', str(self.isbroken()), 50))
+        print(Game.lr_justify('Power:', str(self.power), 50))

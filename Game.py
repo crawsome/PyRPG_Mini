@@ -110,7 +110,8 @@ def playerturn(m):
             newrand = random.randrange(0, 1)
             if newrand == 0:
                 ourhero.hp = ourhero.maxhp + ourhero.hpaug
-                marqueeprint('HEAL SUCCESS\n' + str(ourhero.hp) + '\n')
+                marqueeprint('HEAL SUCCESS' + str(ourhero.hp))
+                centerprint(str(ourhero.hp) + ' healed')
             else:
                 marqueeprint('HEAL FAILED\nYou lost the roll!\n')
         else:
@@ -209,13 +210,14 @@ def blacksmith():
     global ourhero
     centerprint('An old Blacksmith rests at your camp')
     centerprint('He shows his wares and services:')
-    nextdecision = input('[f]ix gear [b]uy gear\n')
+    centerprint('[f]ix gear [b]uy gear')
+    nextdecision = input()
     if nextdecision == 'f':
         # offer equipment repair for any of the 3 slots, for 1g/durability point
         centerprint('The Blacksmith can offer repair ')
         centerprint('services for 1g/repair point')
         centerprint('Here is your gear durability:')
-        centerprint('Slot|\tName\t\t|\tDur\t\t|\tBroken?')
+        print('Slot|\tName\t\t|\tDur\t\t|\tBroken?')
         print(
             str(1) + '\t|' + str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type) + '\t\t' + str(
                 ourhero.ourshield.dur) + '/' + str(
@@ -232,7 +234,8 @@ def blacksmith():
             repaircost = ourhero.ourshield.maxdur - ourhero.ourshield.dur
             centerprint('Repair Your shield?')
             centerprint('Cost: ' + str(repaircost) + ' gold')
-            decision2 = input('[y]es [n]o\n')
+            centerprint('[y]es [n]o')
+            decision2 = input()
             if decision2 == 'y' and ourhero.gold >= repaircost:
                 ourhero.gold -= repaircost
                 ourhero.ourshield.dur = ourhero.ourshield.maxdur
@@ -241,7 +244,8 @@ def blacksmith():
             repaircost = ourhero.ourweapon.maxdur - ourhero.ourweapon.dur
             centerprint('Repair Your weapon?')
             centerprint('Cost: ' + str(repaircost) + ' gold')
-            decision2 = input('[y]es [n]o\n')
+            centerprint('[y]es [n]o')
+            decision2 = input()
             if decision2 == 'y' and ourhero.gold >= repaircost:
                 ourhero.gold -= repaircost
                 ourhero.ourweapon.dur = ourhero.ourweapon.maxdur
@@ -250,7 +254,8 @@ def blacksmith():
             repaircost = ourhero.ourarmor.maxdur - ourhero.ourarmor.dur
             centerprint('Repair Your armor?)')
             centerprint('Cost: ' + str(repaircost) + ' gold')
-            decision2 = input('[y]es [n]o\n')
+            centerprint('[y]es [n]o')
+            decision2 = input()
             if decision2 == 'y' and ourhero.gold >= repaircost:
                 ourhero.gold -= repaircost
                 ourhero.ourarmor.dur = ourhero.ourarmor.maxdur
@@ -258,7 +263,6 @@ def blacksmith():
     if nextdecision == 'b':
         pass
         # offer random choice of weapon, armor, or shield at 1.5x value price
-
 
 
 # show one item, one
