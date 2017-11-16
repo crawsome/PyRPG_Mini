@@ -242,7 +242,6 @@ def levelup():
     ourhero.dodge = new_hero_data[5] + ourhero.dodgeaug
     ourhero.printheroinfodetail()
 
-
 def newweapon():
     conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',
                  (str(ourhero.level), str(ourhero.ourclass),))
@@ -571,6 +570,43 @@ def adventure():
         global ouritem
         pass
 
+# Different scenarios, to spice the game up a little bit.
+# 2 diff choices on entrance, 4 inside, 2 on each.
+def hauntedhouse():
+    vhpick = input('You arrive at a spooky house.\n'
+                      'There\'s a green van out front.\n'
+                      'Inspect the [v]an or go to the  \n'
+                      '[h]ouse and knock on the door?\n')
+
+    if vhpick == 'v':
+        pass
+    elif vhpick == 'h':
+        pass
+
+
+def swamp():
+    pass
+
+def plains():
+    pass
+
+def mountain():
+    pass
+
+def faux():
+    pass
+
+def dream():
+    pass
+
+def revolution():
+    pass
+
+def future():
+    pass
+
+def story():
+    pass
 
 if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
