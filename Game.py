@@ -4,17 +4,11 @@ import pickle
 import random
 import time
 from sqlite3 import connect
-import Armor
 import Enemy
 import Hero
-import Item
-import Shield
-import Weapon
 import dbsetup
 
 suspensemode = 0
-
-
 
 # TODO: Rewrite in full OOP, and separate / simplify get rid of spaghetti in Game.py
 
@@ -28,10 +22,10 @@ def suspense():
 # One round of a battle
 def battle():
     global ourhero
-    global ourEnemy
+    global ourenemy
     ourhero.battlecount += 1
     print('|--------[ENEMY]--------|')
-    ourEnemy.printenemyinfo()
+    ourenemy.printenemyinfo()
     suspense()
     print('|--------[HERO]---------|')
     ourhero.printheroinfo()
@@ -45,21 +39,21 @@ def battle():
     suspense()
     if ourhero.isalive():
         playerturn(nextmove)
-    if ourEnemy.isalive():
+    if ourenemy.isalive():
         enemyturn()
     if not ourhero.isalive():
         ourhero.isbattling = False
         print('YOU DIED')
-        print('Cause of death:\nlvl ' + str(ourEnemy.level) + ' ' + str(ourEnemy.name))
+        print('Cause of death:\nlvl ' + str(ourenemy.level) + ' ' + str(ourenemy.name))
         ourhero.printheroinfodetail()
         quit()
-    if not ourEnemy.isalive():
+    if not ourenemy.isalive():
         ourhero.isbattling = False
-        ourEnemy.reset()
+        ourenemy.reset()
         hpback = int(ourhero.maxhp * .4)
         print('|-------[VICTORY]-------|')
-        print('You gained ' + str(ourEnemy.xp) + ' Exp')
-        print('You earned ' + str(ourEnemy.gold) + ' Gold')
+        print('You gained ' + str(ourenemy.xp) + ' Exp')
+        print('You earned ' + str(ourenemy.gold) + ' Gold')
         # 20% chance to get some health back.
         if random.randrange(0, 4) == 0:
             print('You ate his sandwich and gained ' + str(hpback) + ' HP back')
@@ -69,23 +63,23 @@ def battle():
         if suspensemode:
             input('Press Enter to Continue\n')
             suspense()
-        ourhero.xp += ourEnemy.xp
-        ourhero.gold += ourEnemy.gold
+        ourhero.xp += ourenemy.xp
+        ourhero.gold += ourenemy.gold
         if ourhero.xp >= ourhero.nextlevel:
-            levelup()
+            ourhero.levelup()
     if not ourhero.isbattling:
         return
 
 
 def playerturn(m):
     global ourhero
-    global ourEnemy
-    ourhero.defn = ourhero.basedef + ourarmor.basedefn + ourshield.basedefn
+    global ourenemy
+    ourhero.defn = ourhero.basedef + ourhero.ourarmor.basedefn + ourhero.ourshield.basedefn
     crit = 0
     critchance = random.randrange(0, 20)
     if critchance == 0:
         crit = ourhero.atk * .4
-    effatk = int(ourhero.atk + crit - ourEnemy.defn * .35)
+    effatk = int(ourhero.atk + crit - ourenemy.defn * .35)
     if effatk < 0:
         effatk = 0
     if m == 'a' or m == '':
@@ -93,13 +87,13 @@ def playerturn(m):
         suspense()
         if critchance == 0:
             print('CRITICAL HIT!')
-        ourEnemy.hp = ourEnemy.hp - effatk
-        ourweapon.dur -= int(effatk * .01)
-        if ourEnemy.hp < 0:
-            ourEnemy.hp = 0
+        ourenemy.hp = ourenemy.hp - effatk
+        ourhero.ourweapon.dur -= int(effatk * .01)
+        if ourenemy.hp < 0:
+            ourenemy.hp = 0
             ourhero.isbattling = False
         print(str(ourhero.name) + ' attacks Enemy for ' + str(effatk) + ' damage!')
-        ourEnemy.printenemyinfo()
+        ourenemy.printenemyinfo()
     elif m == 'd':
         print('|-------[DEFENSE]-------|')
         ourhero.defn += ourhero.defn * .5
@@ -134,25 +128,23 @@ def playerturn(m):
 
 def enemyturn():
     global ourhero
-    global ourEnemy
-    global ourarmor
-    global ourshield
+    global ourenemy
     overunder = random.randrange(0, 20)
     suspense()
-    if ourEnemy.isalive:
+    if ourenemy.isalive:
         if overunder == 0:
-            ourEnemy.atk += ourEnemy.atk * .2
-            print(str(ourEnemy.name) + ' got Angrier!')
+            ourenemy.atk += ourenemy.atk * .2
+            print(str(ourenemy.name) + ' got Angrier!')
             if suspensemode:
                 input('Press Enter to Continue\n')
         elif overunder == 1:
-            ourEnemy.atk -= ourEnemy.atk * .2
-            print(str(ourEnemy.name) + ' got Weaker!')
+            ourenemy.atk -= ourenemy.atk * .2
+            print(str(ourenemy.name) + ' got Weaker!')
             if suspensemode:
                 input('Press Enter to Continue\n')
         elif overunder == 2:
-            print(str(ourEnemy.name) + ' ran away!')
-            ourEnemy.hp = 0
+            print(str(ourenemy.name) + ' ran away!')
+            ourenemy.hp = 0
             ourhero.isbattling = False
             if suspensemode:
                 input('Press Enter to Continue\n')
@@ -160,7 +152,7 @@ def enemyturn():
         if overunder in range(3, ourhero.dodge):
             print('\n|----[ENEMY ATTACK]-----|')
             suspense()
-            print(str(ourEnemy.name) + ' swings and misses!')
+            print(str(ourenemy.name) + ' swings and misses!')
             print('\n|----[END TURN]---------|\n')
             if suspensemode:
                 input('Press Enter to Continue\n')
@@ -169,12 +161,12 @@ def enemyturn():
         if ourhero.isbattling:
             print('\n|----[ENEMY ATTACK]-----|')
             suspense()
-            effatk = int(ourEnemy.atk - (.5 * ourhero.defn))
+            effatk = int(ourenemy.atk - (.5 * ourhero.defn))
             if effatk < 0:
                 effatk = 0
-            print('\n' + str(ourEnemy.name) + ' attacks ' + str(ourhero.name) + ' for ' + str(effatk) + ' damage!')
-            ourarmor.dur -= int(effatk * .2)
-            ourshield.dur -= int(effatk * .2)
+            print('\n' + str(ourenemy.name) + ' attacks ' + str(ourhero.name) + ' for ' + str(effatk) + ' damage!')
+            ourhero.ourarmor.dur -= int(effatk * .2)
+            ourhero.ourshield.dur -= int(effatk * .2)
             ourhero.hp = ourhero.hp - effatk
             print('\n|----[END TURN]---------|\n')
 
@@ -198,8 +190,8 @@ def getenemy():
     return ournewenemy
 
 
-# TODO: make levelup and newhero the same function
-# TODO: fix leveluparg to work on every level
+# TODO: make ourhero.levelup and newhero the same function
+# TODO: fix ourhero.leveluparg to work on every level
 def newhero():
     conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
     rows = conn.fetchall()
@@ -217,78 +209,54 @@ def newhero():
     new_hero_data = rows[0]
     ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2],
                            new_hero_data[3], new_hero_data[4], new_hero_data[5])
-
     return ournewhero
 
 
-def levelup():
-    global ourhero
-    print('LEVEL UP!\n ')
-    ourhero.printheroinfodetail()
-    ourhero.level += 1
-    if ourhero.level > 15:
-        print('MAX LEVEL! YOU WIN!\n THANKS FOR PLAYING')
-        ourhero.printheroinfodetail()
-        print(str(ourhero.battlecount) + ' battles fought')
-        quit()
-    conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(ourhero.level) + ';')
-    rows = conn.fetchall()
-    new_hero_data = rows[0]
-    ourhero.maxhp = new_hero_data[1] + ourhero.hpaug
-    ourhero.hp = ourhero.maxhp + ourhero.hpaug
-    ourhero.atk = new_hero_data[2]
-    ourhero.defn = new_hero_data[3] + ourhero.defaug
-    ourhero.nextlevel += int(new_hero_data[4] * ourhero.levelupaug)
-    ourhero.dodge = new_hero_data[5] + ourhero.dodgeaug
-    ourhero.printheroinfodetail()
-
-def newweapon():
-    conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',
-                 (str(ourhero.level), str(ourhero.ourclass),))
-    rows = conn.fetchall()
-    new_weapon_data = rows[0]
-    ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
-                                 new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
-    return ournewweapon
-
-
-def newarmor():
-    conn.execute('SELECT * FROM armor WHERE "level" = ? AND "class" = ? ;',
-                 (str(ourhero.level), str(ourhero.ourclass),))
-    rows = conn.fetchall()
-    new_armor_data = rows[0]
-    ournewarmor = Armor.Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3],
-                              new_armor_data[4], new_armor_data[5])
-    return ournewarmor
-
-
-def newshield():
-    conn.execute('SELECT * FROM shields WHERE "level" = ? AND "class" = ? ;',
-                 (str(ourhero.level), str(ourhero.ourclass),))
-    rows = conn.fetchall()
-    new_shield_data = rows[0]
-    ournewshield = Shield.Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3],
-                                 new_shield_data[4], new_shield_data[5])
-    return ournewshield
-
-
-def applyequip():
-    ourhero.atk = int(ourhero.baseatk + ourweapon.baseatk)
-    ourhero.defn = int(ourhero.basedef + ourarmor.defn + ourshield.defn)
-
-
-def newitem():
-    conn.execute('SELECT * FROM items WHERE "level" = ? ;', (ourhero.level,))
-    rows = conn.fetchall()
-    new_item_data = rows[0]
-    ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3], new_item_data[4])
-    return ournewitem
-
-
 def blacksmith():
-    global ourweapon
-    global ourarmor
-    global ourshield
+    global ourhero
+    print(' An old Blacksmith rests at your camp.\nHe shows his wares and services:')
+    nextdecision = input('  [f]ix gear\n  [b]uy gear\n')
+    if nextdecision == 'f':
+        # offer equipment repair for any of the 3 slots, for 1g/durability point
+        print('The Blacksmith can offer\nrepair services for 1g/repair point')
+        print('Here is your gear durability:\n')
+        print('Slot|\tName\t\t|\tDur\t\t|\tBroken?')
+        print(
+            str(1) + '\t|' + str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type) + '\t\t' + str(ourhero.ourshield.dur) + '/' + str(
+                ourhero.ourshield.maxdur) + '\t' + str(ourhero.ourshield.isbroken()))
+        print(
+            str(2) + '\t|' + str(ourhero.ourweapon.name) + ' ' + str(ourhero.ourweapon.type) + '\t\t' + str(ourhero.ourweapon.dur) + '/' + str(
+                ourhero.ourweapon.maxdur) + '\t' + str(ourhero.ourweapon.isbroken()))
+        print(str(3) + '\t|' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type) + '\t\t' + str(ourhero.ourarmor.dur) + '/' + str(
+            ourhero.ourarmor.maxdur) + '\t' + str(ourhero.ourarmor.isbroken()))
+        decision = input('Which piece of gear do you want to repair?\n[a] for all\n')
+        if decision == '1' or decision == 'a':
+            repaircost = ourhero.ourshield.maxdur - ourhero.ourshield.dur
+            print('Repair Your shield?\nCost: ' + str(repaircost) + ' gold')
+            decision2 = input('[y]es [n]o\n')
+            if decision2 == 'y' and ourhero.gold >= repaircost:
+                ourhero.gold -= repaircost
+                ourhero.ourshield.dur = ourhero.ourshield.maxdur
+                print('Repair Success.')
+        if decision == '2' or decision == 'a':
+            repaircost = ourhero.ourweapon.maxdur - ourhero.ourweapon.dur
+            print('Repair Your weapon?\nCost: ' + str(repaircost) + ' gold')
+            decision2 = input('[y]es [n]o\n')
+            if decision2 == 'y' and ourhero.gold >= repaircost:
+                ourhero.gold -= repaircost
+                ourhero.ourweapon.dur = ourhero.ourweapon.maxdur
+                print('Repair Success.')
+        if decision == '3' or decision == 'a':
+            repaircost = ourhero.ourarmor.maxdur - ourhero.ourarmor.dur
+            print('Repair Your armor?\nCost: ' + str(repaircost) + ' gold')
+            decision2 = input('[y]es [n]o\n')
+            if decision2 == 'y' and ourhero.gold >= repaircost:
+                ourhero.gold -= repaircost
+                ourhero.ourarmor.dur = ourhero.ourarmor.maxdur
+                print('Repair Success.')
+    if nextdecision == 'b':
+        # offer random choice of weapon, armor, or shield at 1.5x value price
+        pass
     pass
 
 
@@ -326,9 +294,9 @@ def camp():
     elif m == 'h':
         print('|-----[HERO DETAIL]-----|')
         ourhero.printheroinfodetail()
-        ourweapon.printweaponinfo()
-        ourshield.printshieldinfo()
-        ourarmor.printarmorinfo()
+        ourhero.ourweapon.printweaponinfo()
+        ourhero.ourshield.printshieldinfo()
+        ourhero.ourarmor.printarmorinfo()
     elif m == 'a':
         print('|------[ADVENTURE]------|')
         adventure()
@@ -340,65 +308,26 @@ def camp():
         savegame()
     elif m == 'b':
         print('|-----[BLACKSMITH]------|')
-        print(' An old Blacksmith rests at your camp.\nHe shows his wares and services:')
-        nextdecision = input('  [f]ix gear\n  [b]uy gear\n')
-        if nextdecision == 'f':
-            # offer equipment repair for any of the 3 slots, for 1g/durability point
-            print('The Blacksmith can offer\nrepair services for 1g/repair point')
-            print('Here is your gear durability:\n')
-            print('Slot|\tName\t\t|\tDur\t\t|\tBroken?')
-            print(str(1) + '\t|' + str(ourshield.name) +' '+ str(ourshield.type) + '\t\t' + str(ourshield.dur) + '/' + str(ourshield.maxdur) + '\t' + str(ourshield.isbroken()))
-            print(str(2) + '\t|' + str(ourweapon.name) +' '+ str(ourweapon.type) + '\t\t' + str(ourweapon.dur) + '/' + str(ourweapon.maxdur) + '\t' + str(ourweapon.isbroken()))
-            print(str(3) + '\t|' + str(ourarmor.name) + ' '+ str(ourarmor.type) + '\t\t' + str(ourarmor.dur) + '/' + str(ourarmor.maxdur) + '\t' + str(ourarmor.isbroken()))
-            decision = input('Which piece of gear do you want to repair?\n[a] for all\n')
-            if decision == '1' or decision == 'a':
-                repaircost = ourshield.maxdur - ourshield.dur
-                print('Repair Your shield?\nCost: ' + str(repaircost) + ' gold')
-                decision2 = input('[y]es [n]o\n')
-                if decision2 == 'y' and ourhero.gold >= repaircost:
-                    ourhero.gold -= repaircost
-                    ourshield.dur = ourshield.maxdur
-                    print('Repair Success.')
-            if decision == '2' or decision == 'a':
-                repaircost = ourweapon.maxdur - ourweapon.dur
-                print('Repair Your weapon?\nCost: ' + str(repaircost) + ' gold')
-                decision2 = input('[y]es [n]o\n')
-                if decision2 == 'y' and ourhero.gold >= repaircost:
-                    ourhero.gold -= repaircost
-                    ourweapon.dur = ourweapon.maxdur
-                    print('Repair Success.')
-            if decision == '3' or decision == 'a':
-                repaircost = ourarmor.maxdur - ourarmor.dur
-                print('Repair Your armor?\nCost: ' + str(repaircost) + ' gold')
-                decision2 = input('[y]es [n]o\n')
-                if decision2 == 'y' and ourhero.gold >= repaircost:
-                    ourhero.gold -= repaircost
-                    ourarmor.dur = ourarmor.maxdur
-                    print('Repair Success.')
-
-        if nextdecision == 'b':
-            # offer random choice of weapon, armor, or shield at 1.5x value price
-            pass
-        else:
-            print('You walk back to camp')
+        blacksmith()
     elif m == 'p':
         print('|--[PEDDLER\'S WARES]---|')
         print('An old Peddler rests at your camp.\nHe shows his wares:')
         nextdecision = input()
+        if nextdecision == 'b':
+            # offer random choice of weapon, armor, or shield at 1.5x value price
+            pass
     elif m == 'q':
         print('|--------[QUIT]---------|')
         decision = input('Are you sure?')
         if decision == 'y':
             quit()
+    else:
+        print('You walk back to camp')
 
 
 # pickle out to hero obj
 def loadgame():
     global ourhero
-    global ourweapon
-    global ourshield
-    global ourarmor
-    global ouritem
     # load hero object from pickle file
     dirlist = os.listdir('./saves/')
     for i, item in enumerate(dirlist):
@@ -411,11 +340,8 @@ def loadgame():
     index = int(index)
     ourpickle = open(('./saves/' + str(dirlist[index])), "rb")
     ourdata = pickle.load(ourpickle)
-    ourhero = ourdata[0]
-    ourweapon = ourdata[1]
-    ourshield = ourdata[2]
-    ourarmor = ourdata[3]
-    ouritem = ourdata[4]
+    ourhero = ourdata
+
     # assign this hero object to be the object
     # start the game loop with the loaded hero
 
@@ -423,10 +349,6 @@ def loadgame():
 # pickle in to hero obj and start gameloop
 def savegame():
     global ourhero
-    global ourweapon
-    global ourshield
-    global ourarmor
-    global ouritem
     # pickle hero object to file
     # should prompt to overwrite
     heroname = input('Name your save file\nOr [c]ancel')
@@ -434,7 +356,7 @@ def savegame():
         return
     savefolder = "./saves/"
     filepath = savefolder + heroname + '.hero'
-    gamedata = [ourhero, ourweapon, ourshield, ourarmor, ouritem]
+    gamedata = ourhero
     if not os.path.isfile(filepath):
         with open(filepath, 'wb') as f:
             pickle.dump(gamedata, f, -1)
@@ -458,10 +380,16 @@ def item_management():
     print('|-[CHOOSE ACTIVE ITEM]-|')
     for i, item in enumerate(ourhero.items):
         print(str(i) + ' \tName: ' + str(item.name) + '\tEffect: ' + str(item.effect))
-    ouritem = ourhero.items[int(input('Please enter decision'))]
+    itemindex = input('Please enter decision')
+    if itemindex not in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
+                         '17', '18', '19', '20']:
+        print('Please enter a valid choice')
+        return
+    ouritem = ourhero.items[int(itemindex)]
     ourhero.activeitem = ouritem
     print(ouritem.name)
     pass
+
 
 # TODO: DOESN'T WORK
 def gear_management():
@@ -473,19 +401,14 @@ def gear_management():
     pass
 
 
-
 def gameloop():
     while True:
         adventure()
 
 
 def adventure():
-    global ourEnemy
+    global ourenemy
     global ourhero
-    global ourweapon
-    global ourshield
-    global ouritem
-    global ourarmor
     print('|------[ADVENTURE]------|\n')
     print('[a]dventure or [c]amp')
     m = input()
@@ -495,11 +418,11 @@ def adventure():
         if ourrand <= 75:
             ourhero.isbattling = True
             # Make new enemy
-            ourEnemy = getenemy()
+            ourenemy = getenemy()
             print('|[BATTLE]---------------|\n')
             # battle until one is dead
             turnnum = 1
-            while ourhero.isalive() and ourEnemy.isalive() and ourhero.isbattling:
+            while ourhero.isalive() and ourenemy.isalive() and ourhero.isbattling:
                 print('|----[TURN ' + str(turnnum) + ']-----------|\n')
                 battle()
                 turnnum += 1
@@ -507,19 +430,19 @@ def adventure():
             print('You found and equipped')
             itemrand = random.randrange(0, 5)
             if itemrand == 0:
-                ourarmor = newarmor()
-                ourarmor.printarmorinfo()
+                ourhero.ourarmor = ourhero.newarmor()
+                ourhero.ourarmor.printarmorinfo()
             elif itemrand == 1:
-                ourweapon = newweapon()
-                ourweapon.printweaponinfo()
+                ourhero.ourweapon = ourhero.newweapon()
+                ourhero.ourweapon.printweaponinfo()
             elif itemrand == 2:
-                ourshield = newshield()
-                ourshield.printshieldinfo()
+                ourhero.ourshield = ourhero.newshield()
+                ourhero.ourshield.printshieldinfo()
             elif 3 <= itemrand <= 5:
-                ouritem = newitem()
-                ouritem.printiteminfo()
-                ourhero.items.append(ouritem)
-            applyequip()
+                ourhero.ouritem = ourhero.newitem()
+                ourhero.ouritem.printiteminfo()
+                ourhero.items.append(ourhero.ouritem)
+            ourhero.applyequip()
         elif 95 < ourrand <= 100:
             print('You find a traveler,')
             print('He says:')
@@ -547,9 +470,9 @@ def adventure():
     def explosivemanavial(self, effect):
         global ourhero
         global ouritem
-        global ourEnemy
-        ourEnemy.hp -= effect
-        print('The Mana Vial EXPLODES!\nDealing ' + str(effect) + 'damage to ' + str(ourEnemy.name))
+        global ourenemy
+        ourenemy.hp -= effect
+        print('The Mana Vial EXPLODES!\nDealing ' + str(effect) + 'damage to ' + str(ourenemy.name))
         pass
 
     # adds health per turn
@@ -558,7 +481,7 @@ def adventure():
         global ouritem
         pass
 
-    #increases dodge permanently
+    # increases dodge permanently
     def hastepotion(effect):
         global ourhero
         global ouritem
@@ -570,13 +493,14 @@ def adventure():
         global ouritem
         pass
 
+
 # Different scenarios, to spice the game up a little bit.
 # 2 diff choices on entrance, 4 inside, 2 on each.
 def hauntedhouse():
     vhpick = input('You arrive at a spooky house.\n'
-                      'There\'s a green van out front.\n'
-                      'Inspect the [v]an or go to the  \n'
-                      '[h]ouse and knock on the door?\n')
+                   'There\'s a green van out front.\n'
+                   'Inspect the [v]an or go to the  \n'
+                   '[h]ouse and knock on the door?\n')
 
     if vhpick == 'v':
         pass
@@ -587,26 +511,34 @@ def hauntedhouse():
 def swamp():
     pass
 
+
 def plains():
     pass
+
 
 def mountain():
     pass
 
+
 def faux():
     pass
+
 
 def dream():
     pass
 
+
 def revolution():
     pass
+
 
 def future():
     pass
 
+
 def story():
     pass
+
 
 if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
@@ -632,22 +564,22 @@ if __name__ == '__main__':
     ourhero = newhero()
 
     # Make a basic weapon
-    ourweapon = newweapon()
+    ourhero.ourweapon = ourhero.newweapon()
 
     # Make a basic armor
-    ourarmor = newarmor()
+    ourhero.ourarmor = ourhero.newarmor()
 
     # Make a basic shield
-    ourshield = newshield()
+    ourhero.ourshield = ourhero.newshield()
 
     # Make a potion
-    ouritem = newitem()
+    ourhero.ouritem = ourhero.newitem()
 
     # apply out equipped items stats
-    applyequip()
+    ourhero.applyequip()
 
     # make a basic enemy object
-    ourEnemy = getenemy()
+    ourenemy = getenemy()
 
     ourhero.name = input('Your name, ' + str(ourhero.ourclass) + '?\n')
 
