@@ -79,42 +79,40 @@ def playerturn(m):
         effatk = 0
     if m == 'a' or m == '':
         marqueeprint('[HERO ATTACK]')
-
         if critchance == 0:
-            print('CRITICAL HIT!')
+            centerprint('CRITICAL HIT!')
         ourenemy.hp = ourenemy.hp - effatk
         ourhero.ourweapon.dur -= int(effatk * .01)
         if ourenemy.hp < 0:
             ourenemy.hp = 0
             ourhero.isbattling = False
-        print(str(ourhero.name) + ' attacks Enemy for ' + str(effatk) + ' damage!')
-        # ourenemy.printenemyinfo()
+        centerprint(str(ourhero.name) + ' attacks ' + str(ourenemy.name))
+        centerprint('for ' + str(effatk) + ' damage!')
     elif m == 'd':
-        print('[DEFENSE]')
+        marqueeprint('[DEFENSE]')
         ourhero.defn += ourhero.defn * .5
     elif m == 'r':
-        print('[RUN ATTEMPT]')
+        marqueeprint('[RUN ATTEMPT]')
         rand = random.randrange(0, 4)
         if rand == 0:
-            print('you ran away')
+            centerprint('you ran away')
             ourhero.isbattling = False
             return
         else:
-            print('you can\'t run!')
+            centerprint('you can\'t run!')
     elif m == 'i':
         item_management()
     elif m == 'h':
-        print('[HEAL]')
-        print('Death appears to flip a coin with you.')
+        marqueeprint('[HEAL]')
+        centerprint('Death appears to flip a coin with you.')
         if ourhero.gold >= 100:
             ourhero.gold -= 100
             newrand = random.randrange(0, 1)
             if newrand == 0:
-                ourhero.hp = ourhero.maxhp
-                print('HEAL SUCCESS\n' + str(ourhero.hp) + '\n')
+                ourhero.hp = ourhero.maxhp + ourhero.hpaug
+                marqueeprint('HEAL SUCCESS\n' + str(ourhero.hp) + '\n')
             else:
-                print('HEAL FAILED\nYou lost the roll!\n')
-
+                marqueeprint('HEAL FAILED\nYou lost the roll!\n')
         else:
             marqueeprint('HEAL FAILED')
             centerprint('You don\'t have enough money!')
@@ -142,7 +140,6 @@ def enemyturn():
     global ourhero
     global ourenemy
     overunder = random.randrange(0, 20)
-
     if ourenemy.isalive:
         if overunder == 0:
             ourenemy.atk += ourenemy.atk * .2
@@ -177,7 +174,6 @@ def getenemy():
     conn.execute('SELECT * FROM enemies WHERE level = ' + str(ourhero.level) + ';')
     rows = conn.fetchall()
     new_enemy = random.choice(rows)
-
     # create random enemy name
     adjectives1 = random.choice((rows[0][1], rows[1][1], rows[2][1], rows[3][1], rows[4][1]))
     adjectives2 = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
@@ -276,11 +272,8 @@ def store():
 def camp():
     global ourhero
     marqueeprint('[CAMP]')
-    centerprint('| [r]est [i]tem [e]quip |')
-    centerprint('| [h]ero    [a]dventure |')
-    centerprint('| [p]eddler [b]lacksmith|')
-    centerprint('| [l]oad [s]ave [q]uit  |')
-    centerprint('|')
+    centerprint('[a]dventure [r]est [i]tem [e]quip [h]ero')
+    centerprint('[p]eddler [b]lacksmith [l]oad [s]ave [q]uit')
     m = input()
     if m == 'r':
         marqueeprint('[RESTING]')
@@ -452,13 +445,11 @@ def adventure():
         elif 95 < ourrand <= 100:
             centerprint('You find a traveler,')
             centerprint('He says:')
-
             with open('./quoteslist.txt', 'rb') as f:
                 quotelist = f.read().splitlines()
                 quote = random.choice(quotelist)
                 quote = quote.decode('utf-8')
                 centerprint(quote)
-
             centerprint('\nYou venture back to camp')
     elif m == 'c':
         camp()
@@ -526,19 +517,19 @@ def suspense():
 
 
 def marqueeprint(text):
-    print('{:=^80}'.format(text))
+    print('{:=^50}'.format(text))
 
 
 def leftprint(text):
-    print('{:<80}'.format(text))
+    print('{:<50}'.format(text))
 
 
 def rightprint(text):
-    print('{:>80}'.format(text))
+    print('{:>50}'.format(text))
 
 
 def centerprint(text):
-    print('{:^80}'.format(text))
+    print('{:^50}'.format(text))
 
 
 def printtest():
@@ -551,10 +542,10 @@ def printtest():
 def printaversaries():
     global ourhero
     global ourenemy
-    print(lr_justify('[HERO]', '[ENEMY]', 40))
-    print(lr_justify(ourhero.name, ourenemy.name, 40))
-    print(lr_justify(str('lvl: ' + str(ourhero.level)), str('lvl: ' + str(ourenemy.level)), 40))
-    print(lr_justify(str('HP: ' + str(ourhero.hp)), str('HP: ' + str(ourenemy.hp)), 40))
+    print(lr_justify('[HERO]', '[ENEMY]', 50))
+    print(lr_justify(ourhero.name, ourenemy.name, 50))
+    print(lr_justify(str('lvl: ' + str(ourhero.level)), str('lvl: ' + str(ourenemy.level)), 50))
+    print(lr_justify(str('HP: ' + str(ourhero.hp)), str('HP: ' + str(ourenemy.hp)), 50))
 
 
 def lr_justify(left, right, width):
@@ -574,7 +565,6 @@ if __name__ == '__main__':
         if dbreload == 'y':
             oursetup = dbsetup.dbsetup()
             oursetup.setupdb()
-
     marqueeprint('')
     centerprint('MiniRPG')
     centerprint('Colin Burke 2017')

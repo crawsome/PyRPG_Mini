@@ -1,10 +1,11 @@
 import random
+
 import Armor
+import Game
 import Item
 import Shield
 import Weapon
 import dbsetup
-import Game
 
 
 class Hero:
@@ -89,24 +90,23 @@ class Hero:
         self.atk += self.atkaug
 
     def printheroinfodetail(self):
-        Game.marqueeprint('Hero Data:')
-        Game.leftprint('\tClass:\t\t' + str(self.ourclass))
-        Game.leftprint('\tName:\t\t' + str(self.name))
-        Game.leftprint('\tLevel:\t\t' + str(self.level))
-        Game.leftprint('\tMax HP:\t\t' + str(self.maxhp))
-        Game.leftprint('\tCurrent HP:\t' + str(self.hp))
-        Game.leftprint('\tGold:\t\t' + str(self.gold))
-        Game.leftprint('\tAtk:\t\t' + str(self.atk))
-        Game.leftprint('\tDefense:\t' + str(self.defn))
-        Game.leftprint('\tDodge:\t\t' + str(self.dodge))
-        Game.leftprint('\tXP:\t\t\t' + str(self.xp))
-        Game.leftprint('\tNextLvl:\t' + str(self.nextlevel))
-        Game.leftprint('\tbattles fought\t' + str(self.battlecount))
+        Game.marqueeprint('[HERO DATA]')
+        print(Game.lr_justify('Class:', str(self.ourclass),50))
+        print(Game.lr_justify('Name:', str(self.name),50))
+        print(Game.lr_justify('Level:', str(self.level),50))
+        print(Game.lr_justify('Max HP:', str(self.maxhp),50))
+        print(Game.lr_justify('Current HP:', str(self.hp),50))
+        print(Game.lr_justify('Gold:', str(self.gold),50))
+        print(Game.lr_justify('Atk:', str(self.atk),50))
+        print(Game.lr_justify('Defense:', str(self.defn),50))
+        print(Game.lr_justify('Dodge:', str(self.dodge),50))
+        print(Game.lr_justify('XP:', str(self.xp),50))
+        print(Game.lr_justify('NextLvl:', str(self.nextlevel),50))
+        print(Game.lr_justify('battles fought', str(self.battlecount),50))
 
     def levelup(self):
         newdb = dbsetup.dbsetup()
         Game.marqueeprint('LEVEL UP!')
-        self.printheroinfodetail()
         self.level += 1
         if self.level > 15:
             Game.marqueeprint('MAX LEVEL! YOU WIN!')
@@ -117,9 +117,11 @@ class Hero:
         rows = newdb.conn.fetchall()
         new_hero_data = rows[0]
         self.maxhp = new_hero_data[1] + self.hpaug
-        self.hp = self.maxhp + self.hpaug
-        self.atk = new_hero_data[2]
-        self.defn = new_hero_data[3] + self.defaug
+        self.hp = self.maxhp
+        self.baseatk = new_hero_data[2] + self.atkaug
+        self.atk = self.baseatk
+        self.basedef = new_hero_data[3] + self.defaug
+        self.defn = self.basedef
         self.nextlevel += int(new_hero_data[4] * self.levelupaug)
         self.dodge = new_hero_data[5] + self.dodgeaug
         self.printheroinfodetail()
