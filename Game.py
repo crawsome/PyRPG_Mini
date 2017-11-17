@@ -463,7 +463,7 @@ def adventure():
     ourrand = random.randint(0, 100)
 
     if m == 'a' or m == '':
-        if ourrand <= 75 and False:
+        if ourrand <= 75:
             ourhero.isbattling = True
             # Make new enemy
             ourenemy = getenemy()
@@ -474,7 +474,7 @@ def adventure():
                 marqueeprint('[TURN ' + str(turnnum) + ']')
                 battle()
                 turnnum += 1
-        elif 75 < ourrand <= 95 and False:
+        elif 75 < ourrand <= 95:
             marqueeprint('[FOUND ITEM!]')
             itemrand = random.randrange(0, 6)
             if itemrand == 0:
