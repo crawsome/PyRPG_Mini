@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cc00709d-b121-444c-873b-666e1764018e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/saves/COLIN.hero" afterPath="$PROJECT_DIR$/saves/COLIN.hero" />
+    <list default="true" id="cc00709d-b121-444c-873b-666e1764018e" name="Default" comment="Some minor formatting of how gear prints">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Armor.py" afterPath="$PROJECT_DIR$/Armor.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Game.py" afterPath="$PROJECT_DIR$/Game.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Item.py" afterPath="$PROJECT_DIR$/Item.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shield.py" afterPath="$PROJECT_DIR$/Shield.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Weapon.py" afterPath="$PROJECT_DIR$/Weapon.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Story.py" afterPath="$PROJECT_DIR$/Story.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/levelnotes.csv" afterPath="$PROJECT_DIR$/csv/levelnotes.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv/weapons.csv" afterPath="$PROJECT_DIR$/csv/weapons.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/game.db" afterPath="$PROJECT_DIR$/db/game.db" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,7 +18,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/PyRPG_Mini$Enemy.coverage" NAME="Enemy Coverage Results" MODIFIED="1510725443295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PyRPG_Mini$Game.coverage" NAME="Game Coverage Results" MODIFIED="1510876254001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PyRPG_Mini$Game.coverage" NAME="Game Coverage Results" MODIFIED="1510878141242" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -40,11 +39,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Story.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Story.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="899">
+              <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Armor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Armor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="20" />
+            <state relative-caret-position="775">
+              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -53,22 +62,22 @@
       <file leaf-file-name="Weapon.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Weapon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="1209">
+              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Game.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="111" column="31" lean-forward="true" selection-start-line="111" selection-start-column="31" selection-end-line="111" selection-end-column="31" />
+            <state relative-caret-position="394">
+              <caret line="120" column="28" lean-forward="true" selection-start-line="120" selection-start-column="28" selection-end-line="120" selection-end-column="28" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1510876221366" expanded="true" signature="5609:5645" ph="SELECT * FRO... enemies" />
-                <marker date="1510876221366" expanded="true" signature="6419:6459" ph="SELECT * FRO... levelnotes" />
+                <marker date="1510878186342" expanded="true" signature="5656:5692" ph="SELECT * FRO... enemies" />
+                <marker date="1510878186342" expanded="true" signature="6466:6506" ph="SELECT * FRO... levelnotes" />
               </folding>
             </state>
           </provider>
@@ -87,18 +96,18 @@
       <file leaf-file-name="Shield.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Shield.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="26" column="30" lean-forward="true" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
+            <state relative-caret-position="151">
+              <caret line="27" column="27" lean-forward="false" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="weapons.csv" pinned="false" current-in-tab="true">
+      <file leaf-file-name="weapons.csv" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/csv/weapons.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="52" column="34" lean-forward="true" selection-start-line="52" selection-start-column="34" selection-end-line="52" selection-end-column="34" />
+            <state relative-caret-position="1674">
+              <caret line="54" column="30" lean-forward="false" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -124,16 +133,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="shields.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/csv/shields.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -145,9 +144,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>[adven</find>
-      <find>autoatt</find>
-      <find>[battle</find>
       <find>battles</find>
       <find>|   [</find>
       <find>[HERO]</find>
@@ -168,13 +164,16 @@
       <find>exp</find>
       <find>40</find>
       <find>ourhero.print</find>
-      <find>[f]ix gear [b]uy gear</find>
       <find>Slot</find>
       <find>))</find>
-      <find>print(</find>
-      <find>HEAL SUCCESS</find>
       <find>atk</find>
+      <find>print(</find>
       <find>print</find>
+      <find>[f]ix gear [b]uy gear</find>
+      <find>HEAL SUCCESS</find>
+      <find>defn *</find>
+      <find>back to cam</find>
+      <find>You venture back to camp</find>
     </findStrings>
     <replaceStrings>
       <replace>enemy</replace>
@@ -196,9 +195,9 @@
       <replace>40</replace>
       <replace>,</replace>
       <replace>),50)</replace>
+      <replace>print(lr_justify</replace>
       <replace>print(lr_justify(</replace>
       <replace>50</replace>
-      <replace>print(lr_justify</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -212,8 +211,6 @@
         <option value="$PROJECT_DIR$/db/game.db" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/csv/enemies.csv" />
-        <option value="$PROJECT_DIR$/csv/levelnotes.csv" />
-        <option value="$PROJECT_DIR$/csv/weapons.csv" />
         <option value="$PROJECT_DIR$/csv/armor.csv" />
         <option value="$PROJECT_DIR$/csv/shields.csv" />
         <option value="$PROJECT_DIR$/csv/items.csv" />
@@ -222,10 +219,13 @@
         <option value="$PROJECT_DIR$/quoteslist.txt" />
         <option value="$PROJECT_DIR$/Enemy.py" />
         <option value="$PROJECT_DIR$/Hero.py" />
-        <option value="$PROJECT_DIR$/Armor.py" />
-        <option value="$PROJECT_DIR$/Weapon.py" />
-        <option value="$PROJECT_DIR$/Shield.py" />
         <option value="$PROJECT_DIR$/Item.py" />
+        <option value="$PROJECT_DIR$/Armor.py" />
+        <option value="$PROJECT_DIR$/Shield.py" />
+        <option value="$PROJECT_DIR$/Weapon.py" />
+        <option value="$PROJECT_DIR$/Story.py" />
+        <option value="$PROJECT_DIR$/csv/weapons.csv" />
+        <option value="$PROJECT_DIR$/csv/levelnotes.csv" />
         <option value="$PROJECT_DIR$/Game.py" />
       </list>
     </option>
@@ -237,8 +237,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1021" />
-    <option name="y" value="-26" />
+    <option name="x" value="982" />
+    <option name="y" value="374" />
     <option name="width" value="718" />
     <option name="height" value="900" />
   </component>
@@ -494,7 +494,21 @@
       <option name="project" value="LOCAL" />
       <updated>1510875520966</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Lots more formatting, bug fixes">
+      <created>1510876454120</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1510876454120</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Some minor formatting of how gear prints">
+      <created>1510877023347</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1510877023347</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -530,8 +544,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP - Adding Armer, Shield, and Weapon classes and database populations" />
-    <MESSAGE value="Semi-Functional - TODO: balance numbers - Challenge curve" />
     <MESSAGE value="Mostly functional. Had to create a couple global variable calls" />
     <MESSAGE value="WIP" />
     <MESSAGE value="Made random drops work." />
@@ -555,7 +567,9 @@
     <MESSAGE value="Added asthetic methods to make it look pretty" />
     <MESSAGE value="More asethetics, fixed HP and ATK when leveling up" />
     <MESSAGE value="Added a good DB to the repository" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a good DB to the repository" />
+    <MESSAGE value="Lots more formatting, bug fixes" />
+    <MESSAGE value="Some minor formatting of how gear prints" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some minor formatting of how gear prints" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -612,8 +626,8 @@
           <caret line="153" column="14" lean-forward="false" selection-start-line="153" selection-start-column="14" selection-end-line="153" selection-end-column="14" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <marker date="1510876221366" expanded="true" signature="5609:5645" ph="SELECT * FRO... enemies" />
-            <marker date="1510876221366" expanded="true" signature="6419:6459" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510878186342" expanded="true" signature="5656:5692" ph="SELECT * FRO... enemies" />
+            <marker date="1510878186342" expanded="true" signature="6466:6506" ph="SELECT * FRO... levelnotes" />
           </folding>
         </state>
       </provider>
@@ -654,8 +668,8 @@
           <caret line="49" column="7" lean-forward="false" selection-start-line="49" selection-start-column="7" selection-end-line="49" selection-end-column="7" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <marker date="1510876221366" expanded="true" signature="5609:5645" ph="SELECT * FRO... enemies" />
-            <marker date="1510876221366" expanded="true" signature="6419:6459" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510878186342" expanded="true" signature="5656:5692" ph="SELECT * FRO... enemies" />
+            <marker date="1510878186342" expanded="true" signature="6466:6506" ph="SELECT * FRO... levelnotes" />
           </folding>
         </state>
       </provider>
@@ -696,8 +710,8 @@
           <caret line="66" column="43" lean-forward="true" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <marker date="1510876221366" expanded="true" signature="5609:5645" ph="SELECT * FRO... enemies" />
-            <marker date="1510876221366" expanded="true" signature="6419:6459" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510878186342" expanded="true" signature="5656:5692" ph="SELECT * FRO... enemies" />
+            <marker date="1510878186342" expanded="true" signature="6466:6506" ph="SELECT * FRO... levelnotes" />
           </folding>
         </state>
       </provider>
@@ -766,8 +780,8 @@
           <caret line="49" column="7" lean-forward="false" selection-start-line="49" selection-start-column="7" selection-end-line="49" selection-end-column="7" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <marker date="1510876221366" expanded="true" signature="5609:5645" ph="SELECT * FRO... enemies" />
-            <marker date="1510876221366" expanded="true" signature="6419:6459" ph="SELECT * FRO... levelnotes" />
+            <marker date="1510878186342" expanded="true" signature="5656:5692" ph="SELECT * FRO... enemies" />
+            <marker date="1510878186342" expanded="true" signature="6466:6506" ph="SELECT * FRO... levelnotes" />
           </folding>
         </state>
       </provider>
@@ -861,14 +875,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Story.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/quoteslist.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="526">
@@ -901,39 +907,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Armor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Item.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
           <caret line="13" column="20" lean-forward="false" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="20" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Shield.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="26" column="30" lean-forward="true" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="111" column="31" lean-forward="true" selection-start-line="111" selection-start-column="31" selection-end-line="111" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1510876221366" expanded="true" signature="5609:5645" ph="SELECT * FRO... enemies" />
-            <marker date="1510876221366" expanded="true" signature="6419:6459" ph="SELECT * FRO... levelnotes" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -952,6 +930,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Shield.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="27" column="27" lean-forward="false" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Weapon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1209">
+          <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Armor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Story.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="899">
+          <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/weapons.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1674">
+          <caret line="54" column="30" lean-forward="false" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/csv/levelnotes.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
@@ -960,19 +978,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Weapon.py">
+    <entry file="file://$PROJECT_DIR$/Game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csv/weapons.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="52" column="34" lean-forward="true" selection-start-line="52" selection-start-column="34" selection-end-line="52" selection-end-column="34" />
-          <folding />
+        <state relative-caret-position="394">
+          <caret line="120" column="28" lean-forward="true" selection-start-line="120" selection-start-column="28" selection-end-line="120" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <marker date="1510878186342" expanded="true" signature="5656:5692" ph="SELECT * FRO... enemies" />
+            <marker date="1510878186342" expanded="true" signature="6466:6506" ph="SELECT * FRO... levelnotes" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -12,6 +12,7 @@ import dbsetup
 suspensemode = 0
 debugging = 0
 autoattack = 0
+armorbuff = .2
 
 
 # TODO: Rewrite in full OOP, and separate / simplify get rid of spaghetti in Game.py
@@ -74,7 +75,7 @@ def playerturn(m):
     critchance = random.randrange(0, 20)
     if critchance == 0:
         crit = ourhero.atk * .4
-    effatk = int(ourhero.atk + crit - ourenemy.defn * .35)
+    effatk = int(ourhero.atk + crit - ourenemy.defn * armorbuff)
     if effatk < 0:
         effatk = 0
     if m == 'a' or m == '':
@@ -90,7 +91,7 @@ def playerturn(m):
         centerprint('for ' + str(effatk) + ' damage!')
     elif m == 'd':
         marqueeprint('[DEFENSE]')
-        ourhero.defn += ourhero.defn * .5
+        ourhero.defn += ourhero.defn * armorbuff
     elif m == 'r':
         marqueeprint('[RUN ATTEMPT]')
         rand = random.randrange(0, 4)
@@ -110,14 +111,14 @@ def playerturn(m):
             newrand = random.randrange(0, 1)
             if newrand == 0:
                 ourhero.hp = ourhero.maxhp + ourhero.hpaug
-                marqueeprint('HEAL SUCCESS' + str(ourhero.hp))
+                marqueeprint('HEAL SUCCESS')
                 centerprint(str(ourhero.hp) + ' healed')
             else:
                 marqueeprint('HEAL FAILED\nYou lost the roll!\n')
         else:
             marqueeprint('HEAL FAILED')
             centerprint('You don\'t have enough money!')
-
+    marqueeprint('END TURN')
     # accounts for health regen potion
     if ourhero.regentimer > 0:
         regen = int(ourhero.hp * .2)
@@ -160,13 +161,13 @@ def enemyturn():
             return
         if ourhero.isbattling:
             marqueeprint('[ENEMY ATTACK]')
-            effatk = int(ourenemy.atk - (.5 * ourhero.defn))
+            effatk = int(ourenemy.atk - (armorbuff * ourhero.defn))
             if effatk < 0:
                 effatk = 0
             centerprint(str(ourenemy.name) + ' attacks ' + str(ourhero.name))
             centerprint(' for ' + str(effatk) + ' damage!')
-            ourhero.ourarmor.dur -= int(effatk * .2)
-            ourhero.ourshield.dur -= int(effatk * .2)
+            ourhero.ourarmor.dur -= int(effatk * .02)
+            ourhero.ourshield.dur -= int(effatk * .02)
             ourhero.hp = ourhero.hp - effatk
             marqueeprint('[END TURN]')
 
@@ -454,7 +455,7 @@ def adventure():
                 quote = random.choice(quotelist)
                 quote = quote.decode('utf-8')
                 centerprint(quote)
-            centerprint('\nYou venture back to camp')
+            centerprint('You venture back to camp')
     elif m == 'c':
         camp()
 
@@ -561,7 +562,8 @@ if __name__ == '__main__':
     # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
 
-    # re-creates the database, in case you change values
+    debugging = input('Enter Debugging Mode?\n[1] for yes\nENTER for no\n')
+    # re-creates the database, in case you change values1
     if debugging:
         printtest()
         print('Reload database?')

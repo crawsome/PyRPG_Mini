@@ -21,7 +21,6 @@ def hauntedhouse():
                    'There\'s a green van out front.\n'
                    'Inspect the [v]an or go to the  \n'
                    '[h]ouse and knock on the door?\n')
-
     if vhpick == 'v':
         pass
     elif vhpick == 'h':
