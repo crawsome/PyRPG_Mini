@@ -41,9 +41,9 @@ class Hero:
         self.hastetimer = 0
 
         # equip objects
-        ourweapon = Weapon.Weapon(0, 0, 0, 0, 0, 0, 0)
-        ourarmor = Armor.Armor(0, 0, 0, 0, 0, 0)
-        ourshield = Shield.Shield(0, 0, 0, 0, 0, 0)
+        ourweapon = Weapon.Weapon(1,'training','wooden','stick',3,20,'none')
+        ourarmor = Armor.Armor(0,'training','broken','plate',2,10)
+        ourshield = Shield.Shield(1,'training','wooden','ward',3,20)
         ouritem = Item.Item(0, 0, 0, 0, 0)
 
     def isalive(self):

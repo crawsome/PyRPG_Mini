@@ -1,76 +1,76 @@
 level,firstname,middlename,lastname,attack,xp,gold,hp,def,status
-1,Timid,Corny,Duck,6,2,1,11,3,run
-1,Timid,Clammy,Robot,7,3,1,11,5,run
-1,Timid,Salty,Mystic,8,4,2,13,6,run
-1,Timid,Coffee,Codger,9,6,3,13,7,run
-1,Timid,Naked,Swindler,10,7,3,17,8,run
-2,Docile,YUUUGE,Politician,11,4,4,19,10,poison
-2,Docile,Cocksure,Talking Head,12,6,5,27,11,bleeding
-2,Docile,Crying,Simpleton,10,7,5,29,12,none
-2,Docile,Oily,Sports Fan,12,8,6,32,13,none
-2,Docile,Roided,Rockman,12,9,7,34,15,none
-3,Bothered,Milky,Broseidon,15,10,7,37,16,poison
-3,Bothered,Corny,Duck,17,12,8,40,17,bleeding
-3,Bothered,Clammy,Robot,20,13,8,42,18,none
-3,Bothered,Salty,Mystic,22,14,9,45,20,none
-3,Bothered,Coffee,Codger,20,15,10,47,21,none
-4,Dastardly,Naked,Swindler,21,16,10,50,22,poison
-4,Dastardly,YUUUGE,Politician,22,18,11,53,23,bleeding
-4,Dastardly,Cocksure,Talking Head,23,19,12,55,24,none
-4,Dastardly,Crying,Simpleton,24,20,12,58,26,none
-4,Dastardly,Oily,Sports Fan,25,21,13,61,27,none
-5,Larger-than-average,Roided,Rockman,26,23,14,63,28,poison
-5,Larger-than-average,Milky,Broseidon,27,24,14,66,29,bleeding
-5,Larger-than-average,Corny,Duck,28,25,15,68,31,none
-5,Larger-than-average,Clammy,Robot,29,26,15,71,32,none
-5,Larger-than-average,Salty,Mystic,30,27,16,74,33,none
-6,Aggressive,Coffee,Codger,31,29,17,76,34,poison
-6,Aggressive,Naked,Swindler,32,30,17,79,36,bleeding
-6,Aggressive,YUUUGE,Politician,32,31,18,81,37,none
-6,Aggressive,Cocksure,Talking Head,33,32,19,84,38,none
-6,Aggressive,Crying,Simpleton,34,33,19,87,39,none
-7,Cunning,Oily,Sports Fan,35,35,20,89,41,poison
-7,Cunning,Roided,Rockman,36,36,21,92,42,bleeding
-7,Cunning,Milky,Broseidon,37,37,21,94,43,none
-7,Cunning,Corny,Duck,38,50,22,97,44,none
-7,Cunning,Clammy,Robot,39,52,22,100,45,none
-8,Fearsome,Salty,Mystic,40,53,23,102,47,poison
-8,Fearsome,Coffee,Codger,41,54,24,105,48,bleeding
-8,Fearsome,Naked,Swindler,42,43,24,108,49,none
-8,Fearsome,YUUUGE,Politician,43,44,25,110,50,none
-8,Fearsome,Cocksure,Talking Head,44,46,26,113,52,none
-9,Intimidating,Crying,Simpleton,45,47,26,115,53,poison
-9,Intimidating,Oily,Sports Fan,46,48,27,118,54,bleeding
-9,Intimidating,Roided,Rockman,47,49,28,121,55,none
-9,Intimidating,Milky,Broseidon,48,50,28,123,57,none
-9,Intimidating,Corny,Duck,49,52,29,126,58,none
-10,Godlike,Clammy,Robot,50,53,29,128,59,poison
-10,Godlike,Salty,Mystic,51,61,30,131,60,bleeding
-10,Godlike,Coffee,Codger,52,63,31,134,62,none
-10,Godlike,Naked,Swindler,53,64,31,136,63,none
-10,Godlike,YUUUGE,Politician,54,65,32,139,64,none
-11,Ascended,Cocksure,Talking Head,55,59,33,141,65,poison
-11,Ascended,Crying,Simpleton,56,60,33,144,67,bleeding
-11,Ascended,Oily,Sports Fan,57,61,34,147,68,none
-11,Ascended,Roided,Rockman,58,63,35,149,69,none
-11,Ascended,Milky,Broseidon,59,64,35,152,70,none
-12,Ethereal,Corny,Duck,60,65,36,155,71,poison
-12,Ethereal,Clammy,Robot,61,66,36,157,73,bleeding
-12,Ethereal,Salty,Mystic,62,67,37,160,74,none
-12,Ethereal,Coffee,Codger,63,69,38,162,75,none
-12,Ethereal,Naked,Swindler,64,70,38,165,76,none
-13,Vile-Hardened,YUUUGE,Politician,65,71,39,168,78,poison
-13,Vile-Hardened,Cocksure,Talking Head,66,72,40,170,79,bleeding
-13,Vile-Hardened,Crying,Simpleton,67,73,40,173,80,none
-13,Vile-Hardened,Oily,Sports Fan,68,82,41,175,81,none
-13,Vile-Hardened,Roided,Rockman,69,83,41,178,83,none
-14,Vile-Aggressive,Milky,Broseidon,70,84,42,181,84,poison
-14,Vile-Aggressive,Corny,Duck,71,86,43,183,85,bleeding
-14,Vile-Aggressive,Clammy,Robot,72,80,43,186,86,none
-14,Vile-Aggressive,Salty,Mystic,72,81,44,189,88,none
-14,Vile-Aggressive,Coffee,Codger,73,82,45,191,89,none
-15,Vile-Superior,Naked,Swindler,74,83,45,194,90,poison
-15,Vile-Superior,YUUUGE,Politician,75,84,46,196,91,bleeding
-15,Vile-Superior,Cocksure,Talking Head,76,86,47,387,92,none
-15,Vile-Superior,Crying,Simpleton,77,87,47,397,94,none
-15,Vile-Superior,Oily,TRUMP,78,88,48,428,95,none
+1,Timid,Corny,Duck,8,2,1,11,3,run
+1,Timid,Clammy,Robot,10,3,1,11,5,run
+1,Timid,Salty,Mystic,11,4,2,13,6,run
+1,Timid,Coffee,Codger,12,6,3,13,7,run
+1,Timid,Naked,Swindler,14,7,3,17,8,run
+2,Docile,YUUUGE,Politician,15,4,4,19,10,poison
+2,Docile,Cocksure,Talking Head,17,6,5,27,11,bleeding
+2,Docile,Crying,Simpleton,14,7,5,29,12,none
+2,Docile,Oily,Sports Fan,17,8,6,32,13,none
+2,Docile,Roided,Rockman,17,9,7,34,15,none
+3,Bothered,Milky,Broseidon,21,10,7,37,16,poison
+3,Bothered,Corny,Duck,24,12,8,40,17,bleeding
+3,Bothered,Clammy,Robot,27,13,8,42,18,none
+3,Bothered,Salty,Mystic,31,14,9,45,20,none
+3,Bothered,Coffee,Codger,28,15,10,47,21,none
+4,Dastardly,Naked,Swindler,29,16,10,50,22,poison
+4,Dastardly,YUUUGE,Politician,30,18,11,53,23,bleeding
+4,Dastardly,Cocksure,Talking Head,32,19,12,55,24,none
+4,Dastardly,Crying,Simpleton,33,20,12,58,26,none
+4,Dastardly,Oily,Sports Fan,35,21,13,61,27,none
+5,Larger-than-average,Roided,Rockman,36,23,14,63,28,poison
+5,Larger-than-average,Milky,Broseidon,37,24,14,66,29,bleeding
+5,Larger-than-average,Corny,Duck,39,25,15,68,31,none
+5,Larger-than-average,Clammy,Robot,40,26,15,71,32,none
+5,Larger-than-average,Salty,Mystic,41,27,16,74,33,none
+6,Aggressive,Coffee,Codger,43,29,17,76,34,poison
+6,Aggressive,Naked,Swindler,44,30,17,79,36,bleeding
+6,Aggressive,YUUUGE,Politician,45,31,18,81,37,none
+6,Aggressive,Cocksure,Talking Head,47,32,19,84,38,none
+6,Aggressive,Crying,Simpleton,48,33,19,87,39,none
+7,Cunning,Oily,Sports Fan,50,35,20,89,41,poison
+7,Cunning,Roided,Rockman,51,36,21,92,42,bleeding
+7,Cunning,Milky,Broseidon,52,37,21,94,43,none
+7,Cunning,Corny,Duck,54,50,22,97,44,none
+7,Cunning,Clammy,Robot,55,52,22,100,45,none
+8,Fearsome,Salty,Mystic,56,53,23,102,47,poison
+8,Fearsome,Coffee,Codger,58,54,24,105,48,bleeding
+8,Fearsome,Naked,Swindler,59,43,24,108,49,none
+8,Fearsome,YUUUGE,Politician,61,44,25,110,50,none
+8,Fearsome,Cocksure,Talking Head,62,46,26,113,52,none
+9,Intimidating,Crying,Simpleton,63,47,26,115,53,poison
+9,Intimidating,Oily,Sports Fan,65,48,27,118,54,bleeding
+9,Intimidating,Roided,Rockman,66,49,28,121,55,none
+9,Intimidating,Milky,Broseidon,67,50,28,123,57,none
+9,Intimidating,Corny,Duck,69,52,29,126,58,none
+10,Godlike,Clammy,Robot,70,53,29,128,59,poison
+10,Godlike,Salty,Mystic,71,61,30,131,60,bleeding
+10,Godlike,Coffee,Codger,73,63,31,134,62,none
+10,Godlike,Naked,Swindler,74,64,31,136,63,none
+10,Godlike,YUUUGE,Politician,76,65,32,139,64,none
+11,Ascended,Cocksure,Talking Head,77,59,33,141,65,poison
+11,Ascended,Crying,Simpleton,78,60,33,144,67,bleeding
+11,Ascended,Oily,Sports Fan,80,61,34,147,68,none
+11,Ascended,Roided,Rockman,81,63,35,149,69,none
+11,Ascended,Milky,Broseidon,82,64,35,152,70,none
+12,Ethereal,Corny,Duck,84,65,36,155,71,poison
+12,Ethereal,Clammy,Robot,85,66,36,157,73,bleeding
+12,Ethereal,Salty,Mystic,86,67,37,160,74,none
+12,Ethereal,Coffee,Codger,88,69,38,162,75,none
+12,Ethereal,Naked,Swindler,89,70,38,165,76,none
+13,Vile-Hardened,YUUUGE,Politician,109,71,39,168,78,poison
+13,Vile-Hardened,Cocksure,Talking Head,110,72,40,170,79,bleeding
+13,Vile-Hardened,Crying,Simpleton,112,73,40,173,80,none
+13,Vile-Hardened,Oily,Sports Fan,114,82,41,175,81,none
+13,Vile-Hardened,Roided,Rockman,115,83,41,178,83,none
+14,Vile-Aggressive,Milky,Broseidon,117,84,42,181,84,poison
+14,Vile-Aggressive,Corny,Duck,118,86,43,183,85,bleeding
+14,Vile-Aggressive,Clammy,Robot,120,80,43,186,86,none
+14,Vile-Aggressive,Salty,Mystic,122,81,44,189,88,none
+14,Vile-Aggressive,Coffee,Codger,123,82,45,191,89,none
+15,Vile-Superior,Naked,Swindler,125,83,45,194,90,poison
+15,Vile-Superior,YUUUGE,Politician,127,84,46,196,91,bleeding
+15,Vile-Superior,Cocksure,Talking Head,128,86,47,387,92,none
+15,Vile-Superior,Crying,Simpleton,130,87,47,397,94,none
+15,Vile-Superior,Oily,TRUMP,132,88,48,428,95,none

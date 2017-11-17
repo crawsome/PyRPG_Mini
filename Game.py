@@ -117,12 +117,12 @@ def playerturn(m):
                 marqueeprint('[HEAL SUCCESS]')
                 centerprint(str(ourhero.hp) + ' healed')
             else:
-                marqueeprint('HEAL FAILED\nYou lost the roll!\n')
+                marqueeprint('HEAL FAILED You lost the roll!')
         else:
             marqueeprint('[HEAL FAILED]')
             centerprint('You don\'t have enough money!')
     marqueeprint('[END TURN]')
-    wait = input('\n')
+    wait = input()
     # accounts for health regen potion
     if ourhero.regentimer > 0:
         regen = int(ourhero.hp * .2)
@@ -176,7 +176,7 @@ def enemyturn():
             ourhero.ourshield.dur -= int(effatk * .02)
             ourhero.hp = ourhero.hp - effatk
             marqueeprint('[END TURN]')
-            wait = input('\n')
+            wait = input()
 
 
 def getenemy():
@@ -285,14 +285,15 @@ def blacksmith():
                 ourhero.ourarmor.dur = ourhero.ourarmor.maxdur
                 centerprint('Repair Success')
     if nextdecision == 'b':
+
         weaponforsale = ourhero.newweapon()
         armorforsale = ourhero.newarmor()
         shieldforsale = ourhero.newshield()
 
         marqueeprint('[YOUR GEAR]')
         leftprint(str(1) + ' \tName: ' + str(ourhero.ourweapon.name) + ' ' + str(ourhero.ourweapon.type) + '\tAttack: ' + str(ourhero.ourweapon.atk) + '\tCost: ' + str(ourhero.ourweapon.level * 61))
-        leftprint(str(2) + ' \tName: ' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type) + '\tDefense: ' + str(ourhero.ourarmor.defn) + '\tCost: ' + str(ourhero.ourarmor.level * 57))
-        leftprint(str(3) + ' \tName: ' + str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type) + '\tDefense: ' + str(ourhero.ourshield.defn) + '\tCost: ' + str( ourhero.ourshield.level * 53))
+        leftprint(str(2) + ' \tName: ' + str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type) + '\tDefense: ' + str(ourhero.ourshield.defn) + '\tCost: ' + str( ourhero.ourshield.level * 53))
+        leftprint(str(3) + ' \tName: ' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type) + '\tDefense: ' + str(ourhero.ourarmor.defn) + '\tCost: ' + str(ourhero.ourarmor.level * 57))
 
         wepcost = weaponforsale.level * 38
         armcost = armorforsale.level * 29
@@ -343,8 +344,9 @@ def store():
 def camp():
     global ourhero
     marqueeprint('[CAMP]')
-    centerprint('[a]dventure [r]est [i]tem [e]quip [h]ero')
-    centerprint('[p]eddler [b]lacksmith [l]oad [s]ave [q]uit')
+    centerprint('[a]dventure [r]est [i]tem [h]ero')
+    centerprint('[p]eddler [b]lacksmith')
+    centerprint('[l]oad [s]ave [q]uit')
     m = input()
     if m == 'r':
         marqueeprint('[RESTING]')
@@ -355,9 +357,6 @@ def camp():
         marqueeprint('[ITEMS]')
         item_management()
         return
-    elif m == 'e':
-        marqueeprint('[GEAR]')
-        gear_management()
     elif m == 'h':
         marqueeprint('[HERO DETAIL]')
         ourhero.printheroinfodetail()
@@ -369,7 +368,6 @@ def camp():
         ourhero.ourarmor.printarmorinfo()
         wait = input()
     elif m == 'a':
-        marqueeprint('[ADVENTURE]')
         adventure()
     elif m == 'l':
         marqueeprint('[LOADGAME]')
@@ -382,11 +380,15 @@ def camp():
         blacksmith()
     elif m == 'p':
         marqueeprint('[PEDDLER\'S WARES]')
-        centerprint('An old Peddler rests at your camp.\nHe shows his wares:')
+        centerprint('An old Peddler rests at your camp.')
+        centerprint('He shows his wares:')
         nextdecision = input()
         if nextdecision == 'b':
-            # offer random choice of weapon, armor, or shield at 1.5x value price
             pass
+            # offer random choice of items at 1.5x value price
+        if nextdecision == 's':
+            pass
+            # let hero sell anything for .6 their value in gold.
     elif m == 'q':
         marqueeprint('[QUIT]')
         decision = input('Are you sure?')
@@ -466,14 +468,6 @@ def item_management():
         hastepotion()
     if ourhero.ouritem.name == 'Weapon Repair Tincture':
         weaponrepairtincture()
-
-
-# TODO: DOESN'T WORK
-def gear_management():
-    global ourshield
-    global ourweapon
-    global ourarmor
-    print(str(1) + ourshield.name + '\n' + str(2) + ourweapon.name + '\n' + str(3) + ourarmor.name + '\n')
 
 
 def gameloop():
@@ -582,7 +576,7 @@ def weaponrepairtincture():
     marqueeprint('[WEAPON REPAIR]')
     global ourhero
     rep = ourhero.ourweapon.maxdur * .6
-    centerprint('You repaired your weapon for\n' + str(rep) + ' durability points')
+    centerprint('You repaired your weapon for ' + str(rep) + ' durability points')
     ourhero.ourweapon.dur += rep
     if ourhero.ourweapon.dur > ourhero.ourweapon.maxdur:
         ourhero.ourweapon.dur = ourhero.ourweapon.maxdur
@@ -652,7 +646,6 @@ if __name__ == '__main__':
     centerprint('MiniRPG')
     centerprint('Colin Burke 2017')
     marqueeprint('')
-
     # our database path
     dbpath = './db/game.db'
     # import and create our player database
