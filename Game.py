@@ -283,7 +283,7 @@ def camp():
     if m == 'r':
         marqueeprint('[RESTING]')
         ourhero.hp = (ourhero.maxhp + ourhero.hpaug)
-        centerprint('You healed to' + str(ourhero.hp))
+        centerprint('Hero HP: ' + str(ourhero.hp))
         return
     elif m == 'i':
         marqueeprint('[ITEMS]')
