@@ -26,7 +26,7 @@ class Weapon:
         self.dur = self.maxdur
 
     def printweaponinfo(self):
-        Game.marqueeprint('Weapon:')
+        Game.marqueeprint('WEAPON')
         print(Game.lr_justify('Level:', str(self.level), 50))
         print(Game.lr_justify('Class:', str(self.ourclass), 50))
         print(Game.lr_justify('Name:', str(self.name), 50))

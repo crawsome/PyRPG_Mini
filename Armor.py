@@ -25,7 +25,7 @@ class Armor:
         self.dur = self.maxdur
 
     def printarmorinfo(self):
-        Game.marqueeprint('Armor: ')
+        Game.marqueeprint('ARMOR')
         print(Game.lr_justify('Level:', str(self.level), 50))
         print(Game.lr_justify('Name:', str(self.name), 50))
         print(Game.lr_justify('Type:', str(self.type), 50))

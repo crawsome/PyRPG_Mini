@@ -25,7 +25,7 @@ class Shield:
         self.dur = self.maxdur
 
     def printshieldinfo(self):
-        Game.marqueeprint('Shield:')
+        Game.marqueeprint('SHIELD')
         print(Game.lr_justify('Level:', str(self.level), 50))
         print(Game.lr_justify('Name:', str(self.name), 50))
         print(Game.lr_justify('Type:', str(self.type), 50))
