@@ -13,7 +13,7 @@ class dbsetup():
         self.conn = self.gamedb.cursor()
 
     def setupdb(self):
-        debugging = 0
+        debugging = 1
 
         # make a database connection to the game database
         if debugging:
