@@ -213,10 +213,10 @@ def newhero():
     centerprint('[1]easy [2]med [3]hard')
     diff = input()
     if diff == '1' or diff == '':
-        armorbuff = 4
+        armorbuff = .4
         diff = '1'
     elif diff == '2':
-        armorbuff = 1.5
+        armorbuff = .2
     elif diff == '3':
         armorbuff = .5
     else:
@@ -290,27 +290,18 @@ def blacksmith():
         shieldforsale = ourhero.newshield()
 
         marqueeprint('[YOUR GEAR]')
-        leftprint(
-            str(1) + ' \tName: ' + str(ourhero.ourweapon.name) + ' ' + str(ourhero.ourweapon.type) + '\tAttack: ' + str(
-                ourhero.ourweapon.atk) + '\tCost: ' + str(ourhero.ourweapon.level * 61))
-        leftprint(
-            str(2) + ' \tName: ' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type) + '\tDefense: ' + str(
-                ourhero.ourarmor.name) + '\tCost: ' + str(ourhero.ourarmor.level * 57))
-        leftprint(str(3) + ' \tName: ' + str(ourhero.ourshield.name) + ' ' + str(
-            ourhero.ourshield.type) + '\tDefense: ' + str(ourhero.ourshield.name) + '\tCost: ' + str(
-            ourhero.ourshield.level * 53))
+        leftprint(str(1) + ' \tName: ' + str(ourhero.ourweapon.name) + ' ' + str(ourhero.ourweapon.type) + '\tAttack: ' + str(ourhero.ourweapon.atk) + '\tCost: ' + str(ourhero.ourweapon.level * 61))
+        leftprint(str(2) + ' \tName: ' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type) + '\tDefense: ' + str(ourhero.ourarmor.defn) + '\tCost: ' + str(ourhero.ourarmor.level * 57))
+        leftprint(str(3) + ' \tName: ' + str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type) + '\tDefense: ' + str(ourhero.ourshield.defn) + '\tCost: ' + str( ourhero.ourshield.level * 53))
 
         wepcost = weaponforsale.level * 38
         armcost = armorforsale.level * 29
         shcost = shieldforsale.level * 43
 
         marqueeprint('[GEAR FOR SALE]')
-        leftprint(str(1) + ' \tName: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type) + '\tAttack: ' + str(
-            weaponforsale.atk) + '\tCost: ' + str(wepcost))
-        leftprint(str(2) + ' \tName: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type) + '\tDefense: ' + str(
-            shieldforsale.name) + '\tCost: ' + str(shcost))
-        leftprint(str(3) + ' \tName: ' + str(armorforsale.name) + ' ' + str(armorforsale.type) + '\tDefense: ' + str(
-            armorforsale.name) + '\tCost: ' + str(armcost))
+        leftprint(str(1) + ' \tName: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type) + '\tAttack: ' + str(weaponforsale.atk) + '\tCost: ' + str(wepcost))
+        leftprint(str(2) + ' \tName: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type) + '\tDefense: ' + str(shieldforsale.defn) + '\tCost: ' + str(shcost))
+        leftprint(str(3) + ' \tName: ' + str(armorforsale.name) + ' ' + str(armorforsale.type) + '\tDefense: ' + str(armorforsale.defn) + '\tCost: ' + str(armcost))
         centerprint('Please enter decision')
         itemindex = input()
         if itemindex not in ['1', '2', '3']:
@@ -320,18 +311,21 @@ def blacksmith():
             ourhero.ourweapon = weaponforsale
             if ourhero.gold < wepcost:
                 centerprint('You don\'t have enough money!')
+                return
             ourhero.gold -= wepcost
             centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
         if itemindex == '2':
             ourhero.ourshield = shieldforsale
             if ourhero.gold < wepcost:
                 centerprint('You don\'t have enough money!')
+                return
             ourhero.gold -= armcost
             centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
         if itemindex == '3':
             ourhero.ourarmor = armorforsale
             if ourhero.gold < shcost:
                 centerprint('You don\'t have enough money!')
+                returnfr
             ourhero.gold -= shcost
             centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
         return
