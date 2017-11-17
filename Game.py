@@ -4,7 +4,7 @@ import pickle
 import random
 import time
 from sqlite3 import connect
-
+import textwrap
 import Enemy
 import Hero
 import dbsetup
@@ -47,12 +47,12 @@ def battle():
     if not ourenemy.isalive():
         ourhero.isbattling = False
         ourenemy.reset()
-        hpback = int(ourhero.maxhp * .4)
+        hpback = int(ourhero.maxhp * .2)
         marqueeprint('[VICTORY]')
         centerprint('You gained ' + str(ourenemy.xp) + ' Exp')
         centerprint('You earned ' + str(ourenemy.gold) + ' Gold')
         # 20% chance to get some health back.
-        if random.randrange(0, 4) == 0:
+        if random.randrange(0, 6) == 0:
             centerprint('You found some food. You gained')
             centerprint(str(hpback) + ' HP back')
             ourhero.hp += hpback
@@ -70,6 +70,7 @@ def battle():
 def playerturn(m):
     global ourhero
     global ourenemy
+    marqueeprint('[HERO TURN]')
     ourhero.defn = ourhero.basedef + ourhero.ourarmor.basedefn + ourhero.ourshield.basedefn
     crit = 0
     critchance = random.randrange(0, 20)
@@ -79,7 +80,6 @@ def playerturn(m):
     if effatk < 0:
         effatk = 0
     if m == 'a' or m == '':
-        marqueeprint('[HERO ATTACK]')
         if critchance == 0:
             centerprint('CRITICAL HIT!')
         ourenemy.hp = ourenemy.hp - effatk
@@ -111,14 +111,15 @@ def playerturn(m):
             newrand = random.randrange(0, 1)
             if newrand == 0:
                 ourhero.hp = ourhero.maxhp + ourhero.hpaug
-                marqueeprint('HEAL SUCCESS')
+                marqueeprint('[HEAL SUCCESS]')
                 centerprint(str(ourhero.hp) + ' healed')
             else:
                 marqueeprint('HEAL FAILED\nYou lost the roll!\n')
         else:
-            marqueeprint('HEAL FAILED')
+            marqueeprint('[HEAL FAILED]')
             centerprint('You don\'t have enough money!')
-    marqueeprint('END TURN')
+    marqueeprint('[END TURN]')
+    wait = input()
     # accounts for health regen potion
     if ourhero.regentimer > 0:
         regen = int(ourhero.hp * .2)
@@ -143,6 +144,7 @@ def enemyturn():
     global ourenemy
     overunder = random.randrange(0, 20)
     if ourenemy.isalive:
+        marqueeprint('[ENEMY TURN]')
         if overunder == 0:
             ourenemy.atk += ourenemy.atk * .2
             centerprint(str(ourenemy.name) + ' got Angrier!')
@@ -155,12 +157,11 @@ def enemyturn():
             ourhero.isbattling = False
             return
         if overunder in range(3, ourhero.dodge):
-            marqueeprint('[ENEMY ATTACK]')
             centerprint(str(ourenemy.name) + ' swings and misses!')
             marqueeprint('[END TURN]')
+            wait = input()
             return
         if ourhero.isbattling:
-            marqueeprint('[ENEMY ATTACK]')
             effatk = int(ourenemy.atk - (armorbuff * ourhero.defn))
             if effatk < 0:
                 effatk = 0
@@ -170,6 +171,7 @@ def enemyturn():
             ourhero.ourshield.dur -= int(effatk * .02)
             ourhero.hp = ourhero.hp - effatk
             marqueeprint('[END TURN]')
+            wait = input()
 
 
 def getenemy():
@@ -262,7 +264,48 @@ def blacksmith():
                 ourhero.ourarmor.dur = ourhero.ourarmor.maxdur
                 centerprint('Repair Success')
     if nextdecision == 'b':
-        pass
+        weaponforsale = ourhero.newweapon()
+        armorforsale = ourhero.newarmor()
+        shieldforsale = ourhero.newshield()
+
+        marqueeprint('[YOUR GEAR]')
+        leftprint(str(1) + ' \tName: ' + str(ourhero.ourweapon.name)+ ' ' + str(ourhero.ourweapon.type) + '\tAttack: ' + str(ourhero.ourweapon.atk) + '\tCost: ' + str(ourhero.ourweapon.level * 61))
+        leftprint(str(2) + ' \tName: ' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type)+ '\tDefense: ' + str(ourhero.ourarmor.name) + '\tCost: ' + str(ourhero.ourarmor.level* 57))
+        leftprint(str(3) + ' \tName: ' + str(ourhero.ourshield.name)+ ' ' + str(ourhero.ourshield.type) + '\tDefense: ' + str(ourhero.ourshield.name) + '\tCost: ' + str(ourhero.ourshield.level* 53))
+
+        wepcost = weaponforsale.level * 38
+        armcost = armorforsale.level * 29
+        shcost = shieldforsale.level * 43
+
+
+        marqueeprint('[GEAR FOR SALE]')
+        leftprint(str(1) + ' \tName: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type) + '\tAttack: ' + str(weaponforsale.atk) + '\tCost: ' + str(wepcost))
+        leftprint(str(2) + ' \tName: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type) + '\tDefense: ' + str(shieldforsale.name) + '\tCost: ' + str(shcost))
+        leftprint(str(3) + ' \tName: ' + str(armorforsale.name) + ' ' + str(armorforsale.type) + '\tDefense: ' + str(armorforsale.name) + '\tCost: ' + str(armcost))
+        centerprint('Please enter decision')
+        itemindex = input()
+        if itemindex not in ['1', '2', '3']:
+            centerprint('Please enter a valid choice')
+            return
+        if itemindex == '1':
+            ourhero.ourweapon = weaponforsale
+            if ourhero.gold <wepcost:
+                centerprint('You don\'t have enough money!')
+            ourhero.gold -= wepcost
+            centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
+        if itemindex == '2':
+            ourhero.ourshield = shieldforsale
+            if ourhero.gold <wepcost:
+                centerprint('You don\'t have enough money!')
+            ourhero.gold -= armcost
+            centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
+        if itemindex == '3':
+            ourhero.ourarmor = armorforsale
+            if ourhero.gold <shcost:
+                centerprint('You don\'t have enough money!')
+            ourhero.gold -= shcost
+            centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
+        return
         # offer random choice of weapon, armor, or shield at 1.5x value price
 
 
@@ -420,7 +463,7 @@ def adventure():
     ourrand = random.randint(0, 100)
 
     if m == 'a' or m == '':
-        if ourrand <= 75:
+        if ourrand <= 75 and False:
             ourhero.isbattling = True
             # Make new enemy
             ourenemy = getenemy()
@@ -431,7 +474,7 @@ def adventure():
                 marqueeprint('[TURN ' + str(turnnum) + ']')
                 battle()
                 turnnum += 1
-        elif 75 < ourrand <= 95:
+        elif 75 < ourrand <= 95 and False:
             marqueeprint('[FOUND ITEM!]')
             itemrand = random.randrange(0, 6)
             if itemrand == 0:
@@ -451,12 +494,16 @@ def adventure():
         elif 95 < ourrand <= 100:
             centerprint('You find a traveler,')
             centerprint('He says:')
+            print('\n')
             with open('./quoteslist.txt', 'rb') as f:
                 quotelist = f.read().splitlines()
                 quote = random.choice(quotelist)
                 quote = quote.decode('utf-8')
-                centerprint(quote)
-            centerprint('You venture back to camp')
+                wrapstring = textwrap.wrap(quote, width=48)
+                for line in wrapstring:
+                    centerprint(line)
+                print('\n')
+            centerprint('...you venture back to camp')
     elif m == 'c':
         camp()
 
@@ -494,7 +541,7 @@ def healthregenpotion():
     ourhero.activeitem = 0
 
 
-# two attacks
+# dodge buff
 def hastepotion():
     marqueeprint('[HASTE POTION]')
     global ourhero
@@ -552,6 +599,7 @@ def printaversaries():
     print(lr_justify(ourhero.name, ourenemy.name, 50))
     print(lr_justify(str('lvl: ' + str(ourhero.level)), str('lvl: ' + str(ourenemy.level)), 50))
     print(lr_justify(str('HP: ' + str(ourhero.hp)), str('HP: ' + str(ourenemy.hp)), 50))
+    print(lr_justify(str('XP: ' + str(ourhero.xp) + '/' + str(ourhero.nextlevel)), str('XP drop: ' + str(ourenemy.xp)), 50))
 
 
 def lr_justify(left, right, width):
