@@ -124,6 +124,7 @@ class Hero:
         self.defn = self.basedef
         self.nextlevel += int(new_hero_data[4] * self.levelupaug)
         self.dodge = new_hero_data[5] + self.dodgeaug
+        self.xp = 0
         self.printheroinfodetail()
 
     def newweapon(self):
