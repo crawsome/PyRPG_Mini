@@ -1,13 +1,13 @@
-import random
-
-import Armor
 import Game
+import random
+import Armor
 import Item
 import Shield
 import Weapon
 import dbsetup
 
-
+# TODO: Add crit as a stat
+# TODO: Add luck as a stat
 class Hero:
     def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, herododge):
         # name
@@ -41,16 +41,64 @@ class Hero:
         self.hastetimer = 0
 
         # equip objects
-        ourweapon = Weapon.Weapon(1,'training','wooden','stick',3,20,'none')
-        ourarmor = Armor.Armor(0,'training','broken','plate',2,10)
-        ourshield = Shield.Shield(1,'training','wooden','ward',3,20)
-        ouritem = Item.Item(0, 0, 0, 0, 0)
+        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
+        self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10)
+        self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20)
+        self.ouritem = Item.Item(0, 0, 0, 0, 0)
+
+    def heal(self, hpup):
+        self.hp += hpup
+        if self.hp > self.maxhp:
+            self.hp = self.maxhp
+
+    def food(self):
+        hpback = int(self.maxhp * .2)
+        Game.centerprint('You found some food. You gained')
+        Game.centerprint(str(hpback) + ' HP back')
+        self.heal(hpback)
+
+    def damage(self, hpdown):
+        self.hp -= hpdown
+        if self.hp < self.maxhp:
+            self.hp = 0
+
+    def death(self):
+        self.isbattling = False
+        Game.marqueeprint('YOU DIED')
+        self.printheroinfodetail()
+        quit()
+
+    def addxp(self, gainedxp):
+        Game.centerprint('You gained ' + str(gainedxp) + ' Exp')
+        self.xp += gainedxp
+        if self.xp >= self.nextlevel:
+            self.levelup()
+
+    def addgold(self, gainedgold, curve):
+        Game.centerprint('You earned ' + str(int(gainedgold * curve)) + ' Gold')
+        self.gold += gainedgold + int(gainedgold * curve)
+
+    def buy(self, item):
+        if self.canafford(item.val):
+            self.gold -= item.val
+            self.items.append(item)
+            print('You bought ' + item.name)
+        else:
+            print('You can\'t afford that!')
+
+    def canafford(self, val):
+        if self.gold >= val:
+            return True
+        else:
+            return False
 
     def isalive(self):
         if self.hp > 0:
             return True
         else:
             return False
+
+
 
     def heroperks(self):
         if self.ourclass == 'warrior':
@@ -94,14 +142,12 @@ class Hero:
         print(Game.lr_justify('Class:', str(self.ourclass),50))
         print(Game.lr_justify('Name:', str(self.name),50))
         print(Game.lr_justify('Level:', str(self.level),50))
-        print(Game.lr_justify('Max HP:', str(self.maxhp),50))
-        print(Game.lr_justify('Current HP:', str(self.hp),50))
+        print(Game.lr_justify('XP:', str(self.xp) + '/' + str(self.nextlevel), 50))
+        print(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp),50))
         print(Game.lr_justify('Gold:', str(self.gold),50))
         print(Game.lr_justify('Atk:', str(self.atk),50))
         print(Game.lr_justify('Defense:', str(self.defn),50))
         print(Game.lr_justify('Dodge:', str(self.dodge),50))
-        print(Game.lr_justify('XP:', str(self.xp),50))
-        print(Game.lr_justify('NextLvl:', str(self.nextlevel),50))
         print(Game.lr_justify('battles fought', str(self.battlecount),50))
 
     def levelup(self):

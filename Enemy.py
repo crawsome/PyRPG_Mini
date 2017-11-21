@@ -1,4 +1,5 @@
-from Game import centerprint, marqueeprint, leftprint
+from Game import centerprint
+
 
 class Enemy:
     def __init__(self, enemylevel, enemyname1, enemyname2, enemyname3, enemyatk, enemyxp, enemygold, enemyhp, enemydefn,
@@ -15,6 +16,16 @@ class Enemy:
         self.defn = enemydefn
         self.effect = enemystatuseffect
 
+    def heal(self, hpup):
+        self.hp += hpup
+        if self.hp > self.maxhp:
+            self.hp = self.maxhp
+
+    def damage(self, hpdown):
+        self.hp -= hpdown
+        if self.hp < 0:
+            self.hp = 0
+
     def reset(self):
         self.hp = self.maxhp
 
@@ -24,7 +35,13 @@ class Enemy:
         else:
             return False
 
+    def anger(self):
+        centerprint(str(self.name) + ' got Angrier!')
+        self.atk += self.atk * .14
 
+    def weaker(self):
+        centerprint(str(self.name) + ' got Weaker!')
+        self.atk -= self.atk * .14
 
     def printenemyinfodetail(self):
         print(str(self.name))

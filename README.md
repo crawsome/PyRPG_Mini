@@ -24,9 +24,18 @@ Check back soon for new features!
 
 # How to use
 
-If New game run game.py and choose a class
+ 1. run game.py
+ 2. If you want to reload the database, or view some arithmetic, enter debugging mode.
+ 3. Choose your character [w]arrior [m]age [h]unter
+ 4. Enter your name
+ 5. [a]dventure or [c]amp
+ 6. [a]dventure is where you battle, level, find items, find gear, and run into an old man who gives advice.
+ 7. [c]amp is where you can rest, save, load, visit the blacksmith, peddler, look at hero status, and quit the game
 
+# Saving / loading
 If loading game run game.py, choose a class, go to camp, and select [l]oad
+
+If saving, go to camp, select [s]ave, and name the save file. (The script needs permissions to write to the directory!)
 
 # If you liked it:
 

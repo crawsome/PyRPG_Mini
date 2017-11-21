@@ -14,11 +14,27 @@ class Weapon:
         self.dur = self.maxdur
         self.power = weaponpower
 
+    # damage durability, and check to see if broken
+    def damagedur(self, aug, curve):
+        self.dur -= int(aug * curve)
+        self.isbroken()
+        pass
+
+    # restore dur and check to see if fixed
+    def restoredur(self, aug):
+        self.dur += aug
+        if not self.isbroken():
+            self.dur == self.maxdur
+
+    def gearbreak(self):
+        self.atk = int(self.baseatk * .3)
+
+    # 15% durability = stat reduction
     def isbroken(self):
         if self.dur <= 0:
-            self.defn = int(self.baseatk * .3)
+            self.gearbreak()
             return True
-        else:
+        elif self.dur >= self.maxdur * .15:
             return False
 
     def repair(self):
@@ -31,9 +47,7 @@ class Weapon:
         print(Game.lr_justify('Class:', str(self.ourclass), 50))
         print(Game.lr_justify('Name:', str(self.name), 50))
         print(Game.lr_justify('Type:', str(self.type), 50))
-        print(Game.lr_justify('Base Atk:', str(self.baseatk), 50))
-        print(Game.lr_justify('Atk:', str(self.atk), 50))
-        print(Game.lr_justify('Max Dur:', str(self.maxdur), 50))
-        print(Game.lr_justify('Dur:', str(self.dur), 50))
+        print(Game.lr_justify('Atk:', str(self.atk) + '/' + str(self.baseatk), 50))
+        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 50))
         print(Game.lr_justify('Broken?:', str(self.isbroken()), 50))
         print(Game.lr_justify('Power:', str(self.power), 50))
