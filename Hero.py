@@ -39,6 +39,7 @@ class Hero:
         self.battlecount = 0
         self.regentimer = 0
         self.hastetimer = 0
+        self.diffcurve = 1
 
         # equip objects
         self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
@@ -75,8 +76,8 @@ class Hero:
             self.levelup()
 
     def addgold(self, gainedgold, curve):
-        Game.centerprint('You earned ' + str(int(gainedgold * curve)) + ' Gold')
-        self.gold += gainedgold + int(gainedgold * curve)
+        Game.centerprint('You earned ' + str(int(gainedgold + (gainedgold * curve))) + ' Gold')
+        self.gold += gainedgold + int(gainedgold + (gainedgold * curve))
 
     def buy(self, item):
         if self.canafford(item.val):
@@ -97,8 +98,6 @@ class Hero:
             return True
         else:
             return False
-
-
 
     def heroperks(self):
         if self.ourclass == 'warrior':
