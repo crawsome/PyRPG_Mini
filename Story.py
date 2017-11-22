@@ -1,31 +1,43 @@
 # makes a story progression with 20 or so variable checkpoints
 # each checkpoint requires decisions and talking?
 # A narrative would have to be made
+import Game
+import textwrap
 
-
-class Story:
+class TheStory:
     def __init__(self):
-        self.hauntedhousecomplete = 0
-        self.swampcomplete = 0
-        self.plainscomplete = 0
-        self.mountaincomplete = 0
-        self.dreamcomplete = 0
-        self.revolutioncomplete = 0
-        self.storycomplete = 0
+        Chapter1 = Chapter(1, 'Haunted House', 'd', 'o', 'e')
+        pass
+
+class Chapter:
+    def __init__(self,chapnum,chapname,answer1,answer2,answer3,story1,story2,story3):
+        self.chapternum = chapnum
+        self.chaptername = chapname
+        self.ans1 = answer1
+        self.ans2 = answer2
+        self.ans3 = answer3
+        self.story1 = story1
+        self.story2 = story2
+        self.story3 = story3
+        self.done = False
+        pass
+    
+    def story1(self):
+        wrapstring = textwrap.wrap(self.story1, width=48)
+        for line in wrapstring:
+            Game.centerprint(line)
+    
+    def story2(self):
+        pass
+    
+    def story3(self):
+        pass
 
 
 # Different scenarios, to spice the game up a little bit.
 # 2 diff choices on entrance, 4 inside, 2 on each.
 def hauntedhouse():
-    vhpick = input('You arrive at a spooky house.\n'
-                   'There\'s a green van out front.\n'
-                   'Inspect the [v]an or go to the  \n'
-                   '[h]ouse and knock on the door?\n')
-    if vhpick == 'v':
-        pass
-    elif vhpick == 'h':
-        pass
-
+    pass
 
 def swamp():
     pass

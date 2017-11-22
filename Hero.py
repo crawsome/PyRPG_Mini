@@ -1,5 +1,4 @@
 import random
-
 import Armor
 import Game
 import Item
@@ -75,7 +74,7 @@ class Hero:
         self.isbattling = False
         self.hp = 0
         Game.marqueeprint('')
-        Game.marqueeprint('YOU DIED')
+        Game.marqueeprint(' YOU DIED ')
         Game.marqueeprint('')
         print('')
         self.printheroinfodetail()
@@ -159,10 +158,12 @@ class Hero:
         print(Game.lr_justify('Defense:', str(self.defn), 50))
         print(Game.lr_justify('Dodge:', str(self.dodge), 50))
         print(Game.lr_justify('battles fought', str(self.battlecount), 50))
+        print('')
 
     def levelup(self):
         newdb = dbsetup.dbsetup()
         Game.marqueeprint('LEVEL UP!')
+        print('\n')
         self.level += 1
         if self.level > 15:
             Game.marqueeprint('MAX LEVEL! YOU WIN!')

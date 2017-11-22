@@ -29,8 +29,9 @@ def battle():
     global ourhero
     global ourenemy
     ourhero.battlecount += 1
-    printaversaries()
-    marqueeprint('[BATTLE]')
+    printadversaries()
+    print('')
+    marqueeprint('[CHOOSE ACTION]')
     centerprint('[a]tk  [d]ef [r]un [i]tem')
     centerprint('Coinflip to [h]eal (100g)')
     centerprint('Action?')
@@ -56,8 +57,11 @@ def battle():
         # 15% chance to get some health back.
         if random.randrange(0, 100) in range(0, 15):
             hpback = int(ourhero.maxhp * .2)
+            ourhero.heal(hpback)
+        wait = input()
     if not ourhero.isbattling:
         return
+        wait = input()
 
 
 def playerturn(m):
@@ -150,7 +154,6 @@ def enemyturn():
             wait = input()
         elif overunder == 2:
             centerprint(str(ourenemy.name) + ' ran away!')
-            wait = input()
             ourenemy.hp = 0
             ourhero.isbattling = False
             wait = input()
@@ -310,28 +313,27 @@ def blacksmith():
         itemindex = input()
         if itemindex not in ['1', '2', '3']:
             centerprint('Please enter a valid choice')
-            return
-        if itemindex == '1':
+        elif itemindex == '1':
             ourhero.ourweapon = weaponforsale
             if ourhero.gold < wepcost:
                 centerprint('You don\'t have enough money!')
-                return
             ourhero.gold -= wepcost
             centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
-        if itemindex == '2':
+        elif itemindex == '2':
             ourhero.ourshield = shieldforsale
             if ourhero.gold < wepcost:
                 centerprint('You don\'t have enough money!')
                 return
             ourhero.gold -= armcost
             centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
-        if itemindex == '3':
+        elif itemindex == '3':
             ourhero.ourarmor = armorforsale
             if ourhero.gold < shcost:
                 centerprint('You don\'t have enough money!')
                 return
             ourhero.gold -= shcost
             centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
+        ourhero.applyequip()
         return
 
 
@@ -434,6 +436,8 @@ def loadgame():
         print(str(datetime.datetime.fromtimestamp(os.path.getmtime('./saves/' + item))))
         print('\n')
     index = input("Which Character?\nOr [c]ancel")
+    if index == '':
+        index = 0
     if index == 'c':
         return
     index = int(index)
@@ -479,7 +483,7 @@ def item_management():
         if i > invlimit:
             break
     centerprint('Please enter decision')
-    itemindex = input()
+    itemindex = int(input())
     if itemindex not in range(0, invlimit):
         centerprint('Please enter a valid choice')
         return
@@ -524,6 +528,7 @@ def gameloop():
         while ourhero.isalive():
             adventure()
 
+
 def adventure():
     global ourenemy
     global ourhero
@@ -535,18 +540,19 @@ def adventure():
     ourrand = random.randint(0, 100)
 
     if m == 'a' or m == '':
-        if ourrand <= 75:
+        if ourrand <= 70:
             ourhero.isbattling = True
             # Make new enemy
             ourenemy = getenemy()
             marqueeprint('[BATTLE]')
+            print('')
             # battle until one is dead
             turnnum = 1
             while ourhero.isalive() and ourenemy.isalive() and ourhero.isbattling:
                 marqueeprint('[TURN ' + str(turnnum) + ']')
                 battle()
                 turnnum += 1
-        elif 75 < ourrand <= 95:
+        elif 70 < ourrand <= 90:
             marqueeprint('[FOUND ITEM!]')
             itemrand = random.randrange(0, 6)
             if itemrand == 0:
@@ -563,7 +569,7 @@ def adventure():
                 ourhero.ouritem.printiteminfo()
                 ourhero.items.append(ourhero.ouritem)
             ourhero.applyequip()
-        elif 95 < ourrand <= 100:
+        elif 90 < ourrand <= 95:
             centerprint('You find a traveler,')
             centerprint('He says:')
             print('\n')
@@ -576,8 +582,11 @@ def adventure():
                     centerprint(line)
                 print('\n')
             centerprint('...you venture back to camp')
+        elif 90 < ourrand <= 95:
+            pass
     else:
-        camp()
+        print('')
+        #camp()
 
 
 def healingpotion():
@@ -675,7 +684,7 @@ def printtest():
     centerprint('Center Print')
 
 
-def printaversaries():
+def printadversaries():
     global ourhero
     global ourenemy
     print(lr_justify('[HERO]', '[ENEMY]', 50))

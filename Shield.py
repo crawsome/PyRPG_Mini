@@ -26,7 +26,7 @@ class Shield:
             self.dur == self.maxdur
 
     def gearbreak(self):
-        self.atk = int(self.basedef * .3)
+        self.atk = int(self.basedefn * .3)
 
     # 15% durability = stat reduction
     def isbroken(self):
