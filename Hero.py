@@ -1,10 +1,12 @@
-import Game
 import random
+
 import Armor
+import Game
 import Item
 import Shield
 import Weapon
 import dbsetup
+
 
 # TODO: Add crit as a stat
 # TODO: Add luck as a stat
@@ -26,20 +28,26 @@ class Hero:
         self.dodge = self.basedodge
         # game-created vars
         self.gold = 0
+        self.xp = 0
+
         self.items = []
         self.gear = []
         self.activeitem = 0
-        self.xp = 0
+
         self.isbattling = False
+
         self.hpaug = 0
         self.dodgeaug = 0
         self.defaug = 0
         self.atkaug = 0
         self.levelupaug = 0
+
         self.battlecount = 0
+
         self.regentimer = 0
         self.hastetimer = 0
-        self.diffcurve = 1
+
+        self.diffcurve = .4
 
         # equip objects
         self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
@@ -65,9 +73,12 @@ class Hero:
 
     def death(self):
         self.isbattling = False
+        self.hp = 0
+        Game.marqueeprint('')
         Game.marqueeprint('YOU DIED')
+        Game.marqueeprint('')
+        print('')
         self.printheroinfodetail()
-        quit()
 
     def addxp(self, gainedxp):
         Game.centerprint('You gained ' + str(gainedxp) + ' Exp')
@@ -138,16 +149,16 @@ class Hero:
 
     def printheroinfodetail(self):
         Game.marqueeprint('[HERO DATA]')
-        print(Game.lr_justify('Class:', str(self.ourclass),50))
-        print(Game.lr_justify('Name:', str(self.name),50))
-        print(Game.lr_justify('Level:', str(self.level),50))
+        print(Game.lr_justify('Class:', str(self.ourclass), 50))
+        print(Game.lr_justify('Name:', str(self.name), 50))
+        print(Game.lr_justify('Level:', str(self.level), 50))
         print(Game.lr_justify('XP:', str(self.xp) + '/' + str(self.nextlevel), 50))
-        print(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp),50))
-        print(Game.lr_justify('Gold:', str(self.gold),50))
-        print(Game.lr_justify('Atk:', str(self.atk),50))
-        print(Game.lr_justify('Defense:', str(self.defn),50))
-        print(Game.lr_justify('Dodge:', str(self.dodge),50))
-        print(Game.lr_justify('battles fought', str(self.battlecount),50))
+        print(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp), 50))
+        print(Game.lr_justify('Gold:', str(self.gold), 50))
+        print(Game.lr_justify('Atk:', str(self.atk), 50))
+        print(Game.lr_justify('Defense:', str(self.defn), 50))
+        print(Game.lr_justify('Dodge:', str(self.dodge), 50))
+        print(Game.lr_justify('battles fought', str(self.battlecount), 50))
 
     def levelup(self):
         newdb = dbsetup.dbsetup()

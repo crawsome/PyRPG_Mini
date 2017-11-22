@@ -23,8 +23,6 @@ debugging = 0
 autoattack = 0
 
 # TODO: Get rid of global vars
-
-
 # TODO: Go back from item menu without enemy turn happening
 # One round of a battle
 def battle():
@@ -48,6 +46,7 @@ def battle():
         enemyturn()
     if not ourhero.isalive():
         ourhero.death()
+        return
     if not ourenemy.isalive():
         ourhero.isbattling = False
         ourenemy.reset()
@@ -338,17 +337,14 @@ def blacksmith():
 
 def camp():
     global ourhero
+    ourhero.hp = ourhero.maxhp
+    centerprint('You rest at camp. Hero HP: ' + str(ourhero.hp))
     marqueeprint('[CAMP]')
-    centerprint('[a]dventure [r]est [i]tem [h]ero')
+    centerprint('[a]dventure [i]tem [h]ero')
     centerprint('[p]eddler [b]lacksmith')
     centerprint('[l]oad [s]ave [q]uit')
     m = input()
-    if m == 'r':
-        marqueeprint('[RESTING]')
-        ourhero.hp = ourhero.maxhp
-        centerprint('Hero HP: ' + str(ourhero.hp))
-        return
-    elif m == 'i':
+    if m == 'i':
         marqueeprint('[ITEMS]')
         item_management()
         return
@@ -472,14 +468,15 @@ def savegame():
             with open(filepath + str(newname), 'wb') as f:
                 pickle.dump(gamedata, f, -1)
 
-
+# TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
+# TODO: Items not being used currently FIX ME
 def item_management():
     global ourhero
     invlimit = 20
     marqueeprint('[CHOOSE ITEM]')
     for i, item in enumerate(ourhero.items):
         print(str(i) + ' \tName: ' + str(item.name) + '\tEffect: ' + str(item.effect))
-        if i < invlimit:
+        if i > invlimit:
             break
     centerprint('Please enter decision')
     itemindex = input()
@@ -503,13 +500,35 @@ def item_management():
 
 
 def gameloop():
+    global ourhero
+    global ourenemy
     while True:
-        adventure()
-
+        marqueeprint('')
+        centerprint('MiniRPG')
+        centerprint('Colin Burke 2017')
+        marqueeprint('')
+        centerprint('[n]ew game [l]oad')
+        decision = input()
+        if decision == 'n' or decision == '':
+            # Make new global hero and enemy which will change over time
+            ourhero = newhero()
+            centerprint('Your name, ' + str(ourhero.ourclass) + '?\n')
+            ourhero.name = input()
+            if ourhero.name == '':
+                ourhero.name = 'Lazy Adventurer'
+            ourhero.heroperks()
+            ourhero.printheroinfodetail()
+        if decision == 'l':
+            loadgame()
+        ourenemy = getenemy()
+        while ourhero.isalive():
+            adventure()
 
 def adventure():
     global ourenemy
     global ourhero
+    if not ourhero.isalive():
+        return
     marqueeprint('[ADVENTURE]')
     centerprint('[a]dventure or [c]amp')
     m = input()
@@ -557,7 +576,7 @@ def adventure():
                     centerprint(line)
                 print('\n')
             centerprint('...you venture back to camp')
-    elif m == 'c':
+    else:
         camp()
 
 
@@ -681,25 +700,10 @@ if __name__ == '__main__':
         if dbreload == 'y':
             oursetup = dbsetup.dbsetup()
             oursetup.setupdb()
-    marqueeprint('')
-    centerprint('MiniRPG')
-    centerprint('Colin Burke 2017')
-    marqueeprint('')
     # our database path
     dbpath = './db/game.db'
     # import and create our player database
     gamedb = connect(dbpath)
     conn = gamedb.cursor()
-
-    # Make new global hero and enemy which will change over time
-    ourhero = newhero()
-
-    # make a basic enemy object
-    ourenemy = getenemy()
-
-    centerprint('Your name, ' + str(ourhero.ourclass) + '?\n')
-    ourhero.name = input()
-
-    ourhero.heroperks()
 
     gameloop()
