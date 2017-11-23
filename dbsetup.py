@@ -1,13 +1,17 @@
 import csv
 from sqlite3 import connect
-
+from os import remove
+import Game
 
 class dbsetup():
     def __init__(self):
 
         # database setup
+        wait = input()
         self.dbpath = './db/game.db'
-
+        wait = input()
+        remove('./db/game.db')
+        wait = input()
         # import and create our player database
         self.gamedb = connect(self.dbpath)
         self.conn = self.gamedb.cursor()
@@ -151,3 +155,4 @@ class dbsetup():
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
         conn.commit()
+        Game.centerprint('...Have fun')

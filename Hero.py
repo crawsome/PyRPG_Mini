@@ -7,8 +7,6 @@ import Weapon
 import dbsetup
 
 
-# TODO: Add crit as a stat
-# TODO: Add luck as a stat
 class Hero:
     def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, herododge):
         # name
@@ -16,37 +14,60 @@ class Hero:
         # instance vars
         self.ourclass = heroclass
         self.level = herolevel
+        self.nextlevel = heronextlevel
+
+        # HP
         self.maxhp = herohp
         self.hp = self.maxhp
+
+        # Attack
         self.baseatk = heroatk
         self.atk = self.baseatk
+
+        # Defense
         self.basedef = herodefn
         self.defn = self.basedef
-        self.nextlevel = heronextlevel
+
+        # Dodge
         self.basedodge = herododge
         self.dodge = self.basedodge
+
+        # Luck
+        self.baseluck = 0
+        self.luck = self.baseluck
+
+        # Crit
+        self.basecrit = 5
+        self.crit = self.basecrit
+
         # game-created vars
         self.gold = 0
         self.xp = 0
 
-        self.items = []
-        self.gear = []
-        self.activeitem = 0
-
-        self.isbattling = False
-
+        # Augmentations for hero classes
         self.hpaug = 0
         self.dodgeaug = 0
         self.defaug = 0
         self.atkaug = 0
         self.levelupaug = 0
 
+        # Items container and usage
+        self.items = []
+        self.activeitem = 0
+
+        # Gear container
+        self.gear = []
+
+        # Keep track of battle count
         self.battlecount = 0
 
+        # Used for regen and haste potions
         self.regentimer = 0
         self.hastetimer = 0
 
+        # A difficulty curve for determining lots of things
         self.diffcurve = .4
+        self.enemydefhandicap = 0.5
 
         # equip objects
         self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
@@ -54,10 +75,28 @@ class Hero:
         self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20)
         self.ouritem = Item.Item(0, 0, 0, 0, 0)
 
+        self.isbattling = False
+
     def heal(self, hpup):
         self.hp += hpup
         if self.hp > self.maxhp:
             self.hp = self.maxhp
+
+    def healflip(self):
+        Game.marqueeprint('[HEAL FLIP]')
+        Game.centerprint('Death appears to flip a coin with you.')
+        if self.gold >= 100:
+            self.gold -= 100
+            newrand = random.randrange(0, 1)
+            if newrand == 0:
+                self.heal(self.maxhp)
+                Game.marqueeprint('[HEAL SUCCESS]')
+                Game.centerprint(str(self.maxhp) + ' healed')
+            else:
+                Game.marqueeprint('HEAL FAILED You lost the roll!')
+        else:
+            Game.marqueeprint('[HEAL FAILED]')
+            Game.centerprint('You don\'t have enough money!')
 
     def food(self):
         hpback = int(self.maxhp * .2)
@@ -173,14 +212,14 @@ class Hero:
         newdb.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
         rows = newdb.conn.fetchall()
         new_hero_data = rows[0]
-        self.maxhp = new_hero_data[1] + self.hpaug
+        self.maxhp = int(new_hero_data[1] + self.hpaug)
         self.hp = self.maxhp
-        self.baseatk = new_hero_data[2] + self.atkaug
+        self.baseatk = int(new_hero_data[2] + self.atkaug)
         self.atk = self.baseatk
-        self.basedef = new_hero_data[3] + self.defaug
+        self.basedef = int(new_hero_data[3] + self.defaug)
         self.defn = self.basedef
         self.nextlevel += int(new_hero_data[4] * self.levelupaug)
-        self.dodge = new_hero_data[5] + self.dodgeaug
+        self.dodge = int(new_hero_data[5] + self.dodgeaug)
         self.xp = 0
         self.printheroinfodetail()
 

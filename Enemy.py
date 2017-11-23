@@ -35,6 +35,9 @@ class Enemy:
         else:
             return False
 
+    def run(self):
+        self.hp = 0
+
     def anger(self):
         centerprint(str(self.name) + ' got Angrier!')
         self.atk += self.atk * .14
