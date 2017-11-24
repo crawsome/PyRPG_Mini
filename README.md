@@ -1,36 +1,36 @@
 # PyRPG_Mini
 
 A text RPG written in Python 3 with many technical RPG features you'd want. 
-* 15 levels of stats and 75 enemies
-* 3 classes with unique weapons, armor, shields, and base stats
-* Save / Load system for saving your character
-* A customizable set of CSVs for modifying it yourself and creating your own enemies, weapons, shields, armor, and level stats.
-* A database population module which implements new changes, makes a new database.
+## Game Features
+* Python3, sqlite3
+* OOP Python RPG with simple class names, calls like *ourhero.heal()* and *ourhero.isalive()*
+* 15 levels of stats
+* 3 hero classes, each with unique gear and base stats
+* Save / Load system for saving your character's progress
+* A customizable set of CSVs for modifying the game.
+* A database population module which implements new changes and makes a new database.
+* 5 Items with added status effects (damage, healing, regen, dodge, weapon repair)
+
+## What you will experience
+* 75 enemies with different HP, XP, Gold, Atk, Def
 * A miserable old traveler who gives unsolicited life advice
-* Gold
-* Dodge chance
-* Status effects (Coming soon)
-* Many Items with added status effects(Coming soon)
-* Blacksmith (Coming soon)
-* Store (Coming soon)
-
-TODO: Flow control to load or save at beginning instead of starting a new character and camping
-TODO: GUI Interface
-TODO:
-
-Uses sqlite3
+* A Blacksmith who sells and repairs gear
+* Riddles which reward gold and EXP
+* A Store which sells items
 
 Check back soon for new features!
 
 # How to use
 
- 1. run game.py
- 2. If you want to reload the database, or view some arithmetic, enter debugging mode.
- 3. Choose your character [w]arrior [m]age [h]unter
- 4. Enter your name
- 5. [a]dventure or [c]amp
- 6. [a]dventure is where you battle, level, find items, find gear, and run into an old man who gives advice.
- 7. [c]amp is where you can rest, save, load, visit the blacksmith, peddler, look at hero status, and quit the game
+ 1. Run game.py. The first time running, the database may need loading.
+ 2. Press [ENTER] to play regular game. Enter [1] to go into debugging mode.
+ 3. Select [n]ew game
+ 4. Choose your class: [w]arrior [m]age [h]unter
+ 5. Choose difficulty: [1]easy [2]med [3]hard
+ 6. Enter your character's name
+
+
+
 
 # Saving / loading
 If loading game run game.py, choose a class, go to camp, and select [l]oad

@@ -474,10 +474,11 @@ def gameloop():
         marqueeprint('')
         centerprint('[n]ew game [l]oad')
         decision = input()
-        ourhero = newhero()
-        ourenemy = getenemy(ourhero)
+
         if decision == 'n' or decision == '':
             # Make new global hero and enemy which will change over time
+            ourhero = newhero()
+            ourenemy = getenemy(ourhero)
             centerprint('Your name, ' + str(ourhero.ourclass) + '?\n')
             ourhero.name = input()
             if ourhero.name == '':
@@ -487,6 +488,7 @@ def gameloop():
         if decision == 'l':
             print('lOADING GAME')
             ourhero = loadgame()
+            ourenemy = getenemy(ourhero)
         while ourhero.isalive():
             adventure(ourhero, ourenemy)
 
