@@ -125,7 +125,7 @@ class Hero:
             self.levelup()
 
     def addgold(self, gainedgold):
-        Game.centerprint('You earned ' + str(int(gainedgold + (gainedgold * self.diffcurve))) + ' Gold')
+        Game.centerprint('You gained ' + str(int(gainedgold + (gainedgold * self.diffcurve))) + ' Gold')
         self.gold += int(gainedgold + (gainedgold * self.diffcurve))
 
     def buy(self, item):

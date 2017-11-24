@@ -8,6 +8,7 @@ from sqlite3 import connect
 import Enemy
 import Hero
 import dbsetup
+from difflib import SequenceMatcher
 
 # adds a little suspense
 suspensemode = 0
@@ -50,7 +51,6 @@ def battle(ourhero, ourenemy):
             centerprint('')
             hpback = int(ourhero.maxhp * .2)
             ourhero.heal(hpback)
-        wait = input()
     if not ourhero.isbattling:
         return
         wait = input()
@@ -526,7 +526,8 @@ def adventure(ourhero, ourenemy):
                 ourhero.items.append(ourhero.ouritem)
             ourhero.applyequip()
         elif 90 < ourrand <= 95:
-            centerprint('You find a traveler,')
+            marqueeprint('A LONE TRAVELER')
+            centerprint('You find a lone traveler,')
             centerprint('He says:')
             print('\n')
             with open('./quoteslist.txt', 'rb') as f:
@@ -552,20 +553,30 @@ def adventure(ourhero, ourenemy):
             # a story event?
             pass
         elif 95 < ourrand <= 100:
-            marqueeprint('[A BOOK LIES ON THE GROUND]')
+            marqueeprint('[RIDDLE]')
+            centerprint('The area gets quiet. The wind blows.')
+            centerprint('A torn page lands in your grasp. It reads:')
+            print('')
             ourriddle = getriddle()
             wrapstring = textwrap.wrap(ourriddle[0], width=48)
+            answer = str(ourriddle[1]).lower()
             for line in wrapstring:
                 centerprint(line)
-            print('\n')
-            centerprint('Your answer?')
-            answer = input()
-            if answer in ourriddle[1] and answer != '':
+            print('')
+            centerprint('Speak the answer to the wind...')
+            useranswer = input()
+            if useranswer == '':
+                while(useranswer == ''):
+                    centerprint('Please answer the riddle.')
+                    useranswer = input()
+                    if debugging:
+                        print(answer + ', you cheater!')
+            if similarstring(useranswer, answer) and useranswer != '':
                 centerprint('You have successfully answered the riddle')
-                centerprint('The answer was ' + ourriddle[1])
+                centerprint('The answer was \"' + answer + '\"')
                 centerprint('I present you with this:')
+                ourhero.addgold(ourhero.level * 40)
                 ourhero.addxp(ourhero.nextlevel * .4)
-                ourhero.addgold(ourhero.gold * .2)
             else:
                 centerprint('You Fail! Leave this place!')
 
@@ -687,6 +698,15 @@ def printmarqueehero(ourhero, sometext):
     print(lr_justify(str('HP: ' + str(ourhero.hp) + '/' + str(ourhero.maxhp)), '', 50))
     print(lr_justify(str('XP: ' + str(ourhero.xp) + '/' + str(ourhero.nextlevel)), '', 50))
 
+# if string is at least 80% similar, will return true
+def similarstring(a,b):
+    ourratio = SequenceMatcher(None, a, b).ratio()
+    if debugging:
+        print('correctness:' + str(ourratio))
+    if ourratio >= .8:
+        return True
+    else:
+        return False
 
 if __name__ == '__main__':
     # this is for repopulating the database with modified CSV files
