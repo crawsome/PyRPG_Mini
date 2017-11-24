@@ -31,10 +31,6 @@ def battle(ourhero, ourenemy):
     centerprint('Coinflip to [h]eal (100g)')
     centerprint('Action?')
     nextmove = input()
-    # Used for auto attack
-    if autoattack:
-        nextmove = 'a'
-
     # conditions to end battle
     if ourhero.isalive():
         playerturn(ourhero, ourenemy, nextmove)
@@ -48,9 +44,10 @@ def battle(ourhero, ourenemy):
         ourenemy.reset()
         marqueeprint('[VICTORY]')
         ourhero.addxp(ourenemy.xp)
-        ourhero.addgold(ourenemy.gold, ourhero.diffcurve)
+        ourhero.addgold(ourenemy.gold)
         # 15% chance to get some health back.
         if random.randrange(0, 100) in range(0, 15):
+            centerprint('')
             hpback = int(ourhero.maxhp * .2)
             ourhero.heal(hpback)
         wait = input()
@@ -66,7 +63,6 @@ def playerturn(ourhero, ourenemy, m):
     if critrand in range(ourhero.crit, critrand):
         crit = ourhero.atk * .4
     effatk = int(ourhero.atk + crit - (ourenemy.defn * ourhero.diffcurve))
-    #ourhero.defn = ourhero.basedef + ourhero.ourarmor.basedefn + ourhero.ourshield.basedefn
     if debugging:
         centerprint('playerattack(' + str(ourhero.atk) + ') + crit(' + str(crit) + ') -')
         centerprint('(ourhero.diffcurve(' + str(ourhero.diffcurve) + ') * Enemy def(' + str(ourenemy.defn) + '))')
@@ -153,6 +149,13 @@ def enemyturn(ourhero, ourenemy):
             wait = input()
 
 
+def getriddle():
+    conn.execute('SELECT * FROM riddles ORDER BY RANDOM() LIMIT 1' + ';')
+    row = conn.fetchall()[0]
+    riddle = [row[0], row[1]]
+    return riddle
+    pass
+
 def getenemy(ourhero):
     conn.execute('SELECT * FROM enemies WHERE level = ' + str(ourhero.level) + ';')
     rows = conn.fetchall()
@@ -162,7 +165,7 @@ def getenemy(ourhero):
     adjective = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
     enemyname = random.choice((rows[0][3], rows[1][3], rows[2][3], rows[3][3], rows[4][3]))
     ournewenemy = Enemy.Enemy(new_enemy[0], levelname, adjective, enemyname, new_enemy[4], new_enemy[5],
-                              new_enemy[6], new_enemy[7], new_enemy[8], new_enemy[9])
+                              (new_enemy[6] + (new_enemy[6] * ourhero.diffcurve)), new_enemy[7], new_enemy[8], new_enemy[9])
     return ournewenemy
 
 
@@ -209,6 +212,7 @@ def blacksmith(ourhero):
     centerprint('He shows his wares and services:')
     centerprint('[f]ix gear [b]uy gear')
     nextdecision = input()
+    centerprint('Gold: ' + str(ourhero.gold))
     if nextdecision == 'f':
         # offer equipment repair for any of the 3 slots, for 1g/durability point
         centerprint('The Blacksmith can offer repair ')
@@ -251,7 +255,7 @@ def blacksmith(ourhero):
                 ourhero.ourarmor.dur = ourhero.ourarmor.maxdur
                 centerprint('Repair Success')
     # offer random choice of weapon, armor, or shield at 1.5x value price
-    if nextdecision == 'b':
+    elif nextdecision == 'b':
         weaponforsale = ourhero.newweapon()
         armorforsale = ourhero.newarmor()
         shieldforsale = ourhero.newshield()
@@ -326,7 +330,7 @@ def camp(ourhero, ourenemy):
         # adventure(ourhero, ourenemy)
     elif m == 'l':
         marqueeprint('[LOADGAME]')
-        loadgame(ourhero)
+        ourhero = loadgame()
     elif m == 's':
         marqueeprint('[SAVEGAME]')
         savegame(ourhero)
@@ -388,7 +392,7 @@ def peddler(ourhero):
 
 
 # pickle out to hero obj
-def loadgame(ourhero):
+def loadgame():
     # load hero object from pickle file
     dirlist = os.listdir('./saves/')
     for i, item in enumerate(dirlist):
@@ -403,7 +407,7 @@ def loadgame(ourhero):
     index = int(index)
     ourpickle = open(('./saves/' + str(dirlist[index])), "rb")
     ourdata = pickle.load(ourpickle)
-    ourhero = ourdata
+    return ourdata
 
 
 # pickle in to hero obj and start gameloop
@@ -481,14 +485,13 @@ def gameloop():
             ourhero.heroperks()
             ourhero.printheroinfodetail()
         if decision == 'l':
-            loadgame(ourhero)
+            print('lOADING GAME')
+            ourhero = loadgame()
         while ourhero.isalive():
             adventure(ourhero, ourenemy)
 
 
 def adventure(ourhero, ourenemy):
-    if not ourhero.isalive():
-        return
     centerprint('[a]dventure or [c]amp')
     m = input()
     ourrand = random.randint(0, 100)
@@ -534,29 +537,43 @@ def adventure(ourhero, ourenemy):
                 for line in wrapstring:
                     centerprint(line)
                 print('\n')
-            threechoicerandom = random.randrange(0,2)
+            threechoicerandom = random.randrange(0, 2)
             if threechoicerandom == 1:
                 xpgain = int(ourhero.xp * .10)
-                ourhero.addxp(xpgain)
-                centerprint('You gain ' + str(xpgain) + ' XP')
+                ourhero.addxp(int(round(xpgain,1)))
             if threechoicerandom == 2:
                 goldgain = int(ourhero.gold * .10)
                 ourhero.addgold(goldgain)
-                centerprint('You gain ' + str(goldgain) + ' Gold')
+
             if threechoicerandom == 3:
-                ourenemy.name = ' FOO '
-                centerprint('BUT HE WAS A MONSTER!')
-                battle(ourhero, ourenemy)
+                pass
             centerprint('...you venture back to camp')
         elif 90 < ourrand <= 95:
             # a story event?
             pass
         elif 95 < ourrand <= 100:
-            # a riddler? an exp cache? a gold cache? a gambler with some dice?
-            pass
+            marqueeprint('[A BOOK LIES ON THE GROUND]')
+            ourriddle = getriddle()
+            wrapstring = textwrap.wrap(ourriddle[0], width=48)
+            for line in wrapstring:
+                centerprint(line)
+            print('\n')
+            centerprint('Your answer?')
+            answer = input()
+            if answer in ourriddle[1] and answer != '':
+                centerprint('You have successfully answered the riddle')
+                centerprint('The answer was ' + ourriddle[1])
+                centerprint('I present you with this:')
+                ourhero.addxp(ourhero.nextlevel * .4)
+                ourhero.addgold(ourhero.gold * .2)
+            else:
+                centerprint('You Fail! Leave this place!')
+
     elif m == 'c':
         print('')
         camp(ourhero, ourenemy)
+    if not ourhero.isalive():
+        return
 
 
 def healingpotion(ourhero):
@@ -581,16 +598,16 @@ def explosivemanavial(ourhero, ourenemy):
 # adds health per turn
 def healthregenpotion(ourhero):
     marqueeprint('[REGEN POTION]')
-    centerprint('5 turns health regen')
-    ourhero.regentimer = 5
+    ourhero.regentimer += 5
+    centerprint(str(ourhero.regentimer) + ' turns health regen')
     ourhero.activeitem = 0
 
 
 # dodge buff
 def hastepotion(ourhero):
     marqueeprint('[HASTE POTION]')
-    centerprint('5 turns dodge buff')
-    ourhero.hastetimer = 5
+    centerprint(str(ourhero.hastetimer) + ' turns dodge buff')
+    ourhero.hastetimer += 5
     ourhero.activeitem = 0
 
 
@@ -676,10 +693,12 @@ if __name__ == '__main__':
     # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
 
-    firsttime = True
-    if 'game.db' in os.listdir('./db/'):
-        print('FIRST TIME')
-        firsttime = False
+    firsttime = False
+    if 'game.db' not in os.listdir('./db/'):
+        centerprint('This looks like it\'s your first time playing.')
+        centerprint('We must load the database first')
+        centerprint('This will only take a couple of seconds...')
+        firsttime = True
 
     debugging = input('Enter Debugging Mode?\n[1] for yes\nENTER for no\n')
     # re-creates the database, in case you change values1
@@ -689,8 +708,6 @@ if __name__ == '__main__':
         oursetup.setupdb()
     if debugging:
         printtest()
-
-
     # our database path
     dbpath = './db/game.db'
     # import and create our player database

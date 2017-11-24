@@ -119,14 +119,14 @@ class Hero:
         self.printheroinfodetail()
 
     def addxp(self, gainedxp):
-        Game.centerprint('You gained ' + str(gainedxp) + ' Exp')
-        self.xp += gainedxp
+        Game.centerprint('You gained ' + str(int(gainedxp)) + ' Exp')
+        self.xp += int(gainedxp)
         if self.xp >= self.nextlevel:
             self.levelup()
 
-    def addgold(self, gainedgold, curve):
-        Game.centerprint('You earned ' + str(int(gainedgold + (gainedgold * curve))) + ' Gold')
-        self.gold += gainedgold + int(gainedgold + (gainedgold * curve))
+    def addgold(self, gainedgold):
+        Game.centerprint('You earned ' + str(int(gainedgold + (gainedgold * self.diffcurve))) + ' Gold')
+        self.gold += int(gainedgold + (gainedgold * self.diffcurve))
 
     def buy(self, item):
         if self.canafford(item.val):
@@ -167,7 +167,7 @@ class Hero:
             self.dodgeaug = 5
             # low DEF
             self.defaug = 6
-            # lor atk
+            # lower atk
             self.atkaug = 12
             self.levelupaug = .6
         elif self.ourclass == 'hunter':
@@ -211,6 +211,7 @@ class Hero:
             quit()
         newdb.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
         rows = newdb.conn.fetchall()
+        newdb.conn.close()
         new_hero_data = rows[0]
         self.maxhp = int(new_hero_data[1] + self.hpaug)
         self.hp = self.maxhp
@@ -225,9 +226,9 @@ class Hero:
 
     def newweapon(self):
         newdb = dbsetup.dbsetup()
-        newdb.conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',
-                           (str(self.level), str(self.ourclass),))
+        newdb.conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',(str(self.level), str(self.ourclass),))
         rows = newdb.conn.fetchall()
+        newdb.conn.close()
         new_weapon_data = rows[0]
         ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
                                      new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
@@ -238,6 +239,7 @@ class Hero:
         newdb.conn.execute('SELECT * FROM armor WHERE "level" = ? AND "class" = ? ;',
                            (str(self.level), str(self.ourclass),))
         rows = newdb.conn.fetchall()
+        newdb.conn.close()
         new_armor_data = rows[0]
         ournewarmor = Armor.Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3],
                                   new_armor_data[4], new_armor_data[5])
@@ -248,6 +250,7 @@ class Hero:
         newdb.conn.execute('SELECT * FROM shields WHERE "level" = ? AND "class" = ? ;',
                            (str(self.level), str(self.ourclass),))
         rows = newdb.conn.fetchall()
+        newdb.conn.close()
         new_shield_data = rows[0]
         ournewshield = Shield.Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3],
                                      new_shield_data[4], new_shield_data[5])
@@ -257,6 +260,7 @@ class Hero:
         newdb = dbsetup.dbsetup()
         newdb.conn.execute('SELECT * FROM items WHERE "level" = ? ;', (self.level,))
         rows = newdb.conn.fetchall()
+        newdb.conn.close()
         new_item_data = random.choice(rows)
         ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3], new_item_data[4])
         return ournewitem

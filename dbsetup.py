@@ -1,23 +1,22 @@
 import csv
 from sqlite3 import connect
-from os import remove
+import os
 import Game
 
 class dbsetup():
     def __init__(self):
-
-        # database setup
-        wait = input()
         self.dbpath = './db/game.db'
-        wait = input()
-        remove('./db/game.db')
-        wait = input()
         # import and create our player database
         self.gamedb = connect(self.dbpath)
         self.conn = self.gamedb.cursor()
 
+    def deletedbifexists(self):
+        if os.path.exists('./db/game.db'):
+            os.remove('./db/game.db')
+
     def setupdb(self):
-        debugging = 1
+        # If you set this to 1, it will print out all data as it populates the datbase.
+        debugging = 0
 
         # make a database connection to the game database
         if debugging:
@@ -154,5 +153,27 @@ class dbsetup():
                 rows = cur.fetchall()
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
+
+        # create our riddles table in the database
+        if debugging:
+            print('creating table for riddles')
+        cur.execute(
+            '''CREATE TABLE IF NOT EXISTS riddles (question TEXT ,answer TEXT)''')
+
+        # insert our riddles table in the database
+        if debugging:
+            print('inserting riddles into database')
+        with open('./csv/riddles.csv', 'r') as fin:
+            dr = csv.reader(fin)
+            for i in dr:
+                if debugging:
+                    print('inserting ' + str(i))
+                cur.execute('INSERT INTO riddles VALUES (?,?);', i)
+            if debugging:
+                cur.execute('SELECT * FROM riddles')
+                rows = cur.fetchall()
+                for row in rows:
+                    print('QUERY ALL: ' + str(row))
         conn.commit()
+        conn.close()
         Game.centerprint('...Have fun')

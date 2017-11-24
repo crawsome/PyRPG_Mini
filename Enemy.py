@@ -1,4 +1,4 @@
-from Game import centerprint
+import Game
 
 
 class Enemy:
@@ -39,11 +39,11 @@ class Enemy:
         self.hp = 0
 
     def anger(self):
-        centerprint(str(self.name) + ' got Angrier!')
+        Game.centerprint(str(self.name) + ' got Angrier!')
         self.atk += self.atk * .14
 
     def weaker(self):
-        centerprint(str(self.name) + ' got Weaker!')
+        Game.centerprint(str(self.name) + ' got Weaker!')
         self.atk -= self.atk * .14
 
     def printenemyinfodetail(self):
