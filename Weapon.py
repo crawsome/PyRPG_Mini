@@ -20,12 +20,19 @@ class Weapon:
         self.isbroken()
         pass
 
-    # restore dur and check to see if fixed
+    # restore dur by integer and check to see if fixed
     def restoredur(self, aug):
         self.dur += aug
         if not self.isbroken():
             self.dur == self.maxdur
+            self.atk = self.baseatk
 
+    # restore dur entirely
+    def repair(self):
+        self.atk = self.baseatk
+        self.dur = self.maxdur
+
+    # this breaks the gear
     def gearbreak(self):
         self.atk = int(self.baseatk * .3)
 
@@ -37,10 +44,7 @@ class Weapon:
         elif self.dur >= self.maxdur * .15:
             return False
 
-    def repair(self):
-        self.atk = self.baseatk
-        self.dur = self.maxdur
-
+    # prints all weapon stats
     def printweaponinfo(self):
         Game.marqueeprint('WEAPON')
         print(Game.lr_justify('Level:', str(self.level), 50))

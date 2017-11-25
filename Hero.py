@@ -77,11 +77,15 @@ class Hero:
 
         self.isbattling = False
 
+    # Heals user up to max health
     def heal(self, hpup):
+        Game.centerprint('You heal for ' + str(int(hpup)) + ' HP')
+        print('')
         self.hp += hpup
         if self.hp > self.maxhp:
             self.hp = self.maxhp
 
+    # flip a coin, pay 100g, 1/2 chance of regaining health
     def healflip(self):
         Game.marqueeprint('[HEAL FLIP]')
         Game.centerprint('Death appears to flip a coin with you.')
@@ -98,36 +102,42 @@ class Hero:
             Game.marqueeprint('[HEAL FAILED]')
             Game.centerprint('You don\'t have enough money!')
 
+    # sometimes you find food after a fight
     def food(self):
         hpback = int(self.maxhp * .2)
-        Game.centerprint('You found some food. You gained')
-        Game.centerprint(str(hpback) + ' HP back')
+        Game.centerprint('You found some food.')
         self.heal(hpback)
 
+    # take damage
     def damage(self, hpdown):
         self.hp -= hpdown
         if self.hp < self.maxhp:
             self.hp = 0
 
+    # kills the character
     def death(self):
         self.isbattling = False
         self.hp = 0
         Game.marqueeprint('')
-        Game.marqueeprint(' YOU DIED ')
+        Game.marqueeprint('[GAME OVER]')
         Game.marqueeprint('')
-        print('')
         self.printheroinfodetail()
 
+    # adds XP to character, and levels up if it goes over
     def addxp(self, gainedxp):
+        gainedxp = gainedxp + (gainedxp * self.diffcurve)
         Game.centerprint('You gained ' + str(int(gainedxp)) + ' Exp')
         self.xp += int(gainedxp)
         if self.xp >= self.nextlevel:
             self.levelup()
 
+    # adds gold to character
     def addgold(self, gainedgold):
+        gainedgold = gainedgold + (gainedgold * self.diffcurve)
         Game.centerprint('You gained ' + str(int(gainedgold + (gainedgold * self.diffcurve))) + ' Gold')
         self.gold += int(gainedgold + (gainedgold * self.diffcurve))
 
+    # attempt to buy an item
     def buy(self, item):
         if self.canafford(item.val):
             self.gold -= item.val
@@ -136,18 +146,21 @@ class Hero:
         else:
             print('You can\'t afford that!')
 
+    # see if you can afford an item
     def canafford(self, val):
         if self.gold >= val:
             return True
         else:
             return False
 
+    # alive check
     def isalive(self):
         if self.hp > 0:
             return True
         else:
             return False
 
+    # applies hero's perks
     def heroperks(self):
         if self.ourclass == 'warrior':
             # more HP
@@ -185,6 +198,7 @@ class Hero:
         self.baseatk += self.atkaug
         self.atk += self.atkaug
 
+    # prints all hero stat info
     def printheroinfodetail(self):
         Game.marqueeprint('[HERO DATA]')
         print(Game.lr_justify('Class:', str(self.ourclass), 50))
@@ -199,6 +213,7 @@ class Hero:
         print(Game.lr_justify('battles fought', str(self.battlecount), 50))
         print('')
 
+    # levels up hero
     def levelup(self):
         newdb = dbsetup.dbsetup()
         Game.marqueeprint('LEVEL UP!')
@@ -224,6 +239,7 @@ class Hero:
         self.xp = 0
         self.printheroinfodetail()
 
+    # fetches a new weapon for hero
     def newweapon(self):
         newdb = dbsetup.dbsetup()
         newdb.conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',(str(self.level), str(self.ourclass),))
@@ -234,6 +250,7 @@ class Hero:
                                      new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
         return ournewweapon
 
+    # fetches a new armor for hero
     def newarmor(self):
         newdb = dbsetup.dbsetup()
         newdb.conn.execute('SELECT * FROM armor WHERE "level" = ? AND "class" = ? ;',
@@ -245,6 +262,7 @@ class Hero:
                                   new_armor_data[4], new_armor_data[5])
         return ournewarmor
 
+    # fetches a new shield for hero
     def newshield(self):
         newdb = dbsetup.dbsetup()
         newdb.conn.execute('SELECT * FROM shields WHERE "level" = ? AND "class" = ? ;',
@@ -256,6 +274,7 @@ class Hero:
                                      new_shield_data[4], new_shield_data[5])
         return ournewshield
 
+    # fetches a new item for hero
     def newitem(self):
         newdb = dbsetup.dbsetup()
         newdb.conn.execute('SELECT * FROM items WHERE "level" = ? ;', (self.level,))
@@ -265,6 +284,7 @@ class Hero:
         ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3], new_item_data[4])
         return ournewitem
 
+    # re-equips all gear. Usually called when setting something like self.ourarmor = Armor.Armor(*args)
     def applyequip(self):
         self.atk = int(self.baseatk + self.ourweapon.baseatk)
         self.defn = int(self.basedef + self.ourarmor.defn + self.ourshield.defn)

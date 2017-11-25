@@ -10,6 +10,7 @@ class Item:
         self.effect = itemeffect
         self.val = itemvalue
 
+    # prints all item stats
     def printiteminfo(self):
         Game.marqueeprint('Item: ')
         print(Game.lr_justify('Level:', str(self.level), 50))

@@ -10,6 +10,7 @@ class dbsetup():
         self.gamedb = connect(self.dbpath)
         self.conn = self.gamedb.cursor()
 
+    # used to delete the current database
     def deletedbifexists(self):
         if os.path.exists('./db/game.db'):
             os.remove('./db/game.db')
@@ -174,6 +175,8 @@ class dbsetup():
                 rows = cur.fetchall()
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
+        # commit the changes
         conn.commit()
+        # close the database connection to let other operations use it
         conn.close()
         Game.centerprint('...Have fun')

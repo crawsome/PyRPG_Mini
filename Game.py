@@ -4,11 +4,12 @@ import pickle
 import random
 import textwrap
 import time
+from difflib import SequenceMatcher
 from sqlite3 import connect
+
 import Enemy
 import Hero
 import dbsetup
-from difflib import SequenceMatcher
 
 # adds a little suspense
 suspensemode = 0
@@ -20,8 +21,175 @@ debugging = 0
 autoattack = 0
 
 
-# TODO: Get rid of global vars
-# TODO: Go back from item menu without enemy turn happening
+# TODO: make ourhero.levelup and newhero the same function
+
+# makes a new hero object for when starting new game.
+def newhero():
+    conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
+    rows = conn.fetchall()
+    marqueeprint('[CHOOSE CLASS]')
+    centerprint('[w]arrior [m]age [h]unter')
+    ourclass = input()
+    if ourclass == 'w' or ourclass == '':
+        ourclass = 'warrior'
+    elif ourclass == 'm':
+        ourclass = 'mage'
+    elif ourclass == 'h':
+        ourclass = 'hunter'
+    else:
+        centerprint('Please enter a valid selection')
+    marqueeprint('[CHOOSE DIFFICULTY]')
+    centerprint('[1]easy [2]med [3]hard')
+    diff = input()
+    if diff == '1' or diff == '':
+        diffcurve = .4
+        handicap = .05
+    elif diff == '2':
+        diffcurve = .2
+        handicap = .2
+    elif diff == '3':
+        diffcurve = .05
+        handicap = .4
+    else:
+        centerprint('Please enter a valid selection')
+        diff = 1
+        diffcurve = .4
+        centerprint('Setting Difficulty to ' + str(diff))
+
+    new_hero_data = rows[0]
+    ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2],
+                           new_hero_data[3], new_hero_data[4], new_hero_data[5])
+    ournewhero.diffcurve = diffcurve
+    marqueeprint('ENTER NAME')
+    centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
+    ournewhero.name = input()
+    if ournewhero.name == '':
+        ournewhero.name = 'Sir Lazy of Flabgard'
+
+    return ournewhero
+
+
+# brings game back after death.
+def gameloop():
+    while True:
+        marqueeprint('')
+        centerprint('MiniRPG')
+        centerprint('Colin Burke 2017')
+        marqueeprint('')
+        centerprint('[n]ew game [l]oad')
+        decision = input()
+
+        if decision == 'n' or decision == '':
+            # Make new global hero and enemy which will change over time
+            ourhero = newhero()
+            ourenemy = getenemy(ourhero)
+
+            ourhero.heroperks()
+            ourhero.printheroinfodetail()
+        if decision == 'l':
+            print('lOADING GAME')
+            ourhero = loadgame()
+            ourenemy = getenemy(ourhero)
+        while ourhero.isalive():
+            adventure(ourhero, ourenemy)
+
+
+# where the meat of things happen, this decides what happens when you enter [a]dventure
+def adventure(ourhero, ourenemy):
+    centerprint('[a]dventure or [c]amp')
+    m = input()
+    ourrand = random.randint(0, 100)
+    if m == 'a' or m == '':
+        if ourrand <= 70:
+            ourhero.isbattling = True
+            # Make new enemy
+            ourenemy = getenemy(ourhero)
+            marqueeprint('[BATTLE]')
+            print('')
+            # battle until one is dead
+            turnnum = 1
+            while ourhero.isalive() and ourenemy.isalive() and ourhero.isbattling:
+                marqueeprint('[TURN ' + str(turnnum) + ']')
+                battle(ourhero, ourenemy)
+                turnnum += 1
+        elif 70 < ourrand <= 90:
+            marqueeprint('[FOUND ITEM!]')
+            itemrand = random.randrange(0, 6)
+            if itemrand == 0:
+                ourhero.ourarmor = ourhero.newarmor()
+                ourhero.ourarmor.printarmorinfo()
+            elif itemrand == 1:
+                ourhero.ourweapon = ourhero.newweapon()
+                ourhero.ourweapon.printweaponinfo()
+            elif itemrand == 2:
+                ourhero.ourshield = ourhero.newshield()
+                ourhero.ourshield.printshieldinfo()
+            elif 3 <= itemrand <= 6:
+                ourhero.ouritem = ourhero.newitem()
+                ourhero.ouritem.printiteminfo()
+                ourhero.items.append(ourhero.ouritem)
+            ourhero.applyequip()
+        elif 90 < ourrand <= 95:
+            marqueeprint('A LONE TRAVELER')
+            centerprint('You find a lone traveler,')
+            centerprint('He says:')
+            print('\n')
+            with open('./quoteslist.txt', 'rb') as f:
+                quotelist = f.read().splitlines()
+                quote = random.choice(quotelist)
+                quote = quote.decode('utf-8')
+                wrapstring = textwrap.wrap(quote, width=48)
+                for line in wrapstring:
+                    centerprint(line)
+                print('\n')
+            threechoicerandom = random.randrange(0, 2)
+            if threechoicerandom == 0:
+                xpgain = int(ourhero.xp * .10)
+                ourhero.addxp(int(round(xpgain, 1)))
+            if threechoicerandom == 1:
+                goldgain = int(ourhero.gold * .10)
+                ourhero.addgold(goldgain)
+            if threechoicerandom == 2:
+                pass
+            centerprint('...you venture back to camp')
+        elif 90 < ourrand <= 95:
+            # a story event?
+            pass
+        elif 95 < ourrand <= 100:
+            marqueeprint('[RIDDLE]')
+            centerprint('The area gets quiet. The wind blows.')
+            centerprint('A torn page lands in your grasp. It reads:')
+            print('')
+            ourriddle = getriddle()
+            wrapstring = textwrap.wrap(ourriddle[0], width=48)
+            answer = str(ourriddle[1]).lower()
+            for line in wrapstring:
+                centerprint(line)
+            print('')
+            centerprint('Speak the answer to the wind...')
+            useranswer = input()
+            if useranswer == '':
+                while (useranswer == ''):
+                    centerprint('Please answer the riddle.')
+                    useranswer = input()
+                    if debugging:
+                        print(answer + ', you cheater!')
+            if similarstring(useranswer, answer) and useranswer != '':
+                centerprint('You have successfully answered the riddle')
+                centerprint('The answer was \"' + answer + '\"')
+                centerprint('I present you with this:')
+                ourhero.addgold(ourhero.level * 40)
+                ourhero.addxp(ourhero.nextlevel * .4)
+            else:
+                centerprint('You Fail! Leave this place!')
+
+    elif m == 'c':
+        print('')
+        camp(ourhero, ourenemy)
+    if not ourhero.isalive():
+        return
+
+
 # One round of a battle
 def battle(ourhero, ourenemy):
     ourhero.battlecount += 1
@@ -44,22 +212,22 @@ def battle(ourhero, ourenemy):
         ourhero.isbattling = False
         ourenemy.reset()
         marqueeprint('[VICTORY]')
-        ourhero.addxp(ourenemy.xp)
-        ourhero.addgold(ourenemy.gold)
+        ourhero.addgold(ourenemy.gold + (ourenemy.gold * ourhero.diffcurve))
+        ourhero.addxp(ourenemy.xp + (ourenemy.xp * ourhero.diffcurve))
         # 15% chance to get some health back.
+        print('')
         if random.randrange(0, 100) in range(0, 15):
-            centerprint('')
-            hpback = int(ourhero.maxhp * .2)
-            ourhero.heal(hpback)
+            ourhero.food()
     if not ourhero.isbattling:
         return
         wait = input()
 
 
+# One round of a player's turn
 def playerturn(ourhero, ourenemy, m):
     marqueeprint('[HERO TURN]')
     crit = 0
-    critrand = random.randrange(0,100)
+    critrand = random.randrange(0, 100)
     if critrand in range(ourhero.crit, critrand):
         crit = ourhero.atk * .4
     effatk = int(ourhero.atk + crit - (ourenemy.defn * ourhero.diffcurve))
@@ -113,6 +281,7 @@ def playerturn(ourhero, ourenemy, m):
         ourhero.dodge = ourhero.basedodge
 
 
+# One round of an enemy turn
 def enemyturn(ourhero, ourenemy):
     overunder = random.randrange(0, 20)
     if ourenemy.isalive:
@@ -149,6 +318,7 @@ def enemyturn(ourhero, ourenemy):
             wait = input()
 
 
+# fetch a random riddle from db
 def getriddle():
     conn.execute('SELECT * FROM riddles ORDER BY RANDOM() LIMIT 1' + ';')
     row = conn.fetchall()[0]
@@ -156,6 +326,8 @@ def getriddle():
     return riddle
     pass
 
+
+# fetch a new enemy that is at hero's level (for now...)
 def getenemy(ourhero):
     conn.execute('SELECT * FROM enemies WHERE level = ' + str(ourhero.level) + ';')
     rows = conn.fetchall()
@@ -165,48 +337,12 @@ def getenemy(ourhero):
     adjective = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
     enemyname = random.choice((rows[0][3], rows[1][3], rows[2][3], rows[3][3], rows[4][3]))
     ournewenemy = Enemy.Enemy(new_enemy[0], levelname, adjective, enemyname, new_enemy[4], new_enemy[5],
-                              (new_enemy[6] + (new_enemy[6] * ourhero.diffcurve)), new_enemy[7], new_enemy[8], new_enemy[9])
+                              (new_enemy[6] + (new_enemy[6] * ourhero.diffcurve)), new_enemy[7], new_enemy[8],
+                              new_enemy[9])
     return ournewenemy
 
 
-# TODO: make ourhero.levelup and newhero the same function
-# TODO: fix ourhero.leveluparg to work on every level
-def newhero():
-    conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
-    rows = conn.fetchall()
-    centerprint('[CHOOSE CLASS]')
-    centerprint('[w]arrior [m]age [h]unter')
-    ourclass = input()
-    if ourclass == 'w' or ourclass == '':
-        ourclass = 'warrior'
-    elif ourclass == 'm':
-        ourclass = 'mage'
-    elif ourclass == 'h':
-        ourclass = 'hunter'
-    else:
-        centerprint('Please enter a valid selection')
-    centerprint('[CHOOSE DIFFICULTY]')
-    centerprint('[1]easy [2]med [3]hard')
-    diff = input()
-    if diff == '1' or diff == '':
-        diffcurve = .4
-        diff = '1'
-    elif diff == '2':
-        diffcurve = .2
-    elif diff == '3':
-        diffcurve = .05
-    else:
-        centerprint('Please enter a valid selection')
-        diff = 1
-        diffcurve = .4
-    centerprint('Setting Difficulty to ' + str(diff))
-    new_hero_data = rows[0]
-    ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2],
-                           new_hero_data[3], new_hero_data[4], new_hero_data[5])
-    ournewhero.diffcurve = diffcurve
-    return ournewhero
-
-
+# a blacksmith who can repair or sell gear
 def blacksmith(ourhero):
     centerprint('An old Blacksmith rests at your camp')
     centerprint('He shows his wares and services:')
@@ -218,10 +354,13 @@ def blacksmith(ourhero):
         centerprint('The Blacksmith can offer repair ')
         centerprint('services for 1g/repair point')
         centerprint('Here is your gear durability:')
-        data1 = ['Slot','Name','Dur','Broken?']
-        data2 = [str(1),str(ourhero.ourweapon.name) + str(ourhero.ourweapon.type), str(ourhero.ourweapon.dur) + '/' + str(ourhero.ourweapon.maxdur), str(ourhero.ourweapon.isbroken())]
-        data3 = [str(2),str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type), str(ourhero.ourshield.dur) + '/' + str(ourhero.ourshield.maxdur), str(ourhero.ourshield.isbroken())]
-        data4 = [str(3),str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type), str(ourhero.ourarmor.dur) + '/' + str(ourhero.ourarmor.maxdur), str(ourhero.ourarmor.isbroken())]
+        data1 = ['Slot', 'Name', 'Dur', 'Broken?']
+        data2 = [str(1), str(ourhero.ourweapon.name) + str(ourhero.ourweapon.type),
+                 str(ourhero.ourweapon.dur) + '/' + str(ourhero.ourweapon.maxdur), str(ourhero.ourweapon.isbroken())]
+        data3 = [str(2), str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type),
+                 str(ourhero.ourshield.dur) + '/' + str(ourhero.ourshield.maxdur), str(ourhero.ourshield.isbroken())]
+        data4 = [str(3), str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type),
+                 str(ourhero.ourarmor.dur) + '/' + str(ourhero.ourarmor.maxdur), str(ourhero.ourarmor.isbroken())]
 
         decision = input('What do you want to repair? [a] for all')
         if decision == '1' or decision == 'a':
@@ -260,9 +399,15 @@ def blacksmith(ourhero):
         armorforsale = ourhero.newarmor()
         shieldforsale = ourhero.newshield()
         marqueeprint('[YOUR GEAR]')
-        leftprint(str(1) + ' \tName: ' + str(ourhero.ourweapon.name) + ' ' + str(ourhero.ourweapon.type) + '\tAttack: ' + str(ourhero.ourweapon.atk) + '\tCost: ' + str(ourhero.ourweapon.level * 50 * ourhero.diffcurve))
-        leftprint(str(2) + ' \tName: ' + str(ourhero.ourshield.name) + ' ' + str(ourhero.ourshield.type) + '\tDefense: ' + str(ourhero.ourshield.defn) + '\tCost: ' + str(ourhero.ourshield.level * 50 * ourhero.diffcurve))
-        leftprint(str(3) + ' \tName: ' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type) + '\tDefense: ' + str(ourhero.ourarmor.defn) + '\tCost: ' + str(ourhero.ourarmor.level * 50 * ourhero.diffcurve))
+        leftprint(
+            str(1) + ' \tName: ' + str(ourhero.ourweapon.name) + ' ' + str(ourhero.ourweapon.type) + '\tAttack: ' + str(
+                ourhero.ourweapon.atk) + '\tCost: ' + str(ourhero.ourweapon.level * 50 * ourhero.diffcurve))
+        leftprint(str(2) + ' \tName: ' + str(ourhero.ourshield.name) + ' ' + str(
+            ourhero.ourshield.type) + '\tDefense: ' + str(ourhero.ourshield.defn) + '\tCost: ' + str(
+            ourhero.ourshield.level * 50 * ourhero.diffcurve))
+        leftprint(
+            str(3) + ' \tName: ' + str(ourhero.ourarmor.name) + ' ' + str(ourhero.ourarmor.type) + '\tDefense: ' + str(
+                ourhero.ourarmor.defn) + '\tCost: ' + str(ourhero.ourarmor.level * 50 * ourhero.diffcurve))
         print('\n')
         # determine weapon coses
         wepcost = weaponforsale.level * 50 * ourhero.diffcurve
@@ -303,6 +448,7 @@ def blacksmith(ourhero):
         return
 
 
+# a camp where you regain hp after so many fights.
 def camp(ourhero, ourenemy):
     ourhero.hp = ourhero.maxhp
     marqueeprint('[CAMP]')
@@ -349,7 +495,7 @@ def camp(ourhero, ourenemy):
         centerprint('You walk back to camp')
 
 
-# TODO: Items not appearing right in inventory, but are printing name right
+# sell the hero items (will be able to buy soon)
 def peddler(ourhero):
     centerprint('An old Peddler rests at your camp.')
     centerprint('He shows his wares:')
@@ -391,7 +537,7 @@ def peddler(ourhero):
         # Tell hero a fortune, -/+ stats and -/+ luck possibility
 
 
-# pickle out to hero obj
+# pickle in to hero obj and start gameloop
 def loadgame():
     # load hero object from pickle file
     dirlist = os.listdir('./saves/')
@@ -410,7 +556,7 @@ def loadgame():
     return ourdata
 
 
-# pickle in to hero obj and start gameloop
+# pickle our hero to file
 def savegame(ourhero):
     # pickle hero object to file
     # should prompt to overwrite
@@ -436,8 +582,9 @@ def savegame(ourhero):
                 pickle.dump(gamedata, f, -1)
 
 
+# TODO: Go back from item menu without enemy turn happening
 # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
-# TODO: Items not being used currently FIX ME
+# lets hero use items
 def item_management(ourhero, ourenemy):
     invlimit = 20
     marqueeprint('[CHOOSE ITEM]')
@@ -466,138 +613,16 @@ def item_management(ourhero, ourenemy):
         weaponrepairtincture(ourhero)
 
 
-def gameloop():
-    while True:
-        marqueeprint('')
-        centerprint('MiniRPG')
-        centerprint('Colin Burke 2017')
-        marqueeprint('')
-        centerprint('[n]ew game [l]oad')
-        decision = input()
-
-        if decision == 'n' or decision == '':
-            # Make new global hero and enemy which will change over time
-            ourhero = newhero()
-            ourenemy = getenemy(ourhero)
-            centerprint('Your name, ' + str(ourhero.ourclass) + '?\n')
-            ourhero.name = input()
-            if ourhero.name == '':
-                ourhero.name = 'Sir Lazy of Flabgard'
-            ourhero.heroperks()
-            ourhero.printheroinfodetail()
-        if decision == 'l':
-            print('lOADING GAME')
-            ourhero = loadgame()
-            ourenemy = getenemy(ourhero)
-        while ourhero.isalive():
-            adventure(ourhero, ourenemy)
-
-
-def adventure(ourhero, ourenemy):
-    centerprint('[a]dventure or [c]amp')
-    m = input()
-    ourrand = random.randint(0, 100)
-    if m == 'a' or m == '':
-        if ourrand <= 70:
-            ourhero.isbattling = True
-            # Make new enemy
-            ourenemy = getenemy(ourhero)
-            marqueeprint('[BATTLE]')
-            print('')
-            # battle until one is dead
-            turnnum = 1
-            while ourhero.isalive() and ourenemy.isalive() and ourhero.isbattling:
-                marqueeprint('[TURN ' + str(turnnum) + ']')
-                battle(ourhero, ourenemy)
-                turnnum += 1
-        elif 70 < ourrand <= 90:
-            marqueeprint('[FOUND ITEM!]')
-            itemrand = random.randrange(0, 6)
-            if itemrand == 0:
-                ourhero.ourarmor = ourhero.newarmor()
-                ourhero.ourarmor.printarmorinfo()
-            elif itemrand == 1:
-                ourhero.ourweapon = ourhero.newweapon()
-                ourhero.ourweapon.printweaponinfo()
-            elif itemrand == 2:
-                ourhero.ourshield = ourhero.newshield()
-                ourhero.ourshield.printshieldinfo()
-            elif 3 <= itemrand <= 6:
-                ourhero.ouritem = ourhero.newitem()
-                ourhero.ouritem.printiteminfo()
-                ourhero.items.append(ourhero.ouritem)
-            ourhero.applyequip()
-        elif 90 < ourrand <= 95:
-            marqueeprint('A LONE TRAVELER')
-            centerprint('You find a lone traveler,')
-            centerprint('He says:')
-            print('\n')
-            with open('./quoteslist.txt', 'rb') as f:
-                quotelist = f.read().splitlines()
-                quote = random.choice(quotelist)
-                quote = quote.decode('utf-8')
-                wrapstring = textwrap.wrap(quote, width=48)
-                for line in wrapstring:
-                    centerprint(line)
-                print('\n')
-            threechoicerandom = random.randrange(0, 2)
-            if threechoicerandom == 1:
-                xpgain = int(ourhero.xp * .10)
-                ourhero.addxp(int(round(xpgain,1)))
-            if threechoicerandom == 2:
-                goldgain = int(ourhero.gold * .10)
-                ourhero.addgold(goldgain)
-
-            if threechoicerandom == 3:
-                pass
-            centerprint('...you venture back to camp')
-        elif 90 < ourrand <= 95:
-            # a story event?
-            pass
-        elif 95 < ourrand <= 100:
-            marqueeprint('[RIDDLE]')
-            centerprint('The area gets quiet. The wind blows.')
-            centerprint('A torn page lands in your grasp. It reads:')
-            print('')
-            ourriddle = getriddle()
-            wrapstring = textwrap.wrap(ourriddle[0], width=48)
-            answer = str(ourriddle[1]).lower()
-            for line in wrapstring:
-                centerprint(line)
-            print('')
-            centerprint('Speak the answer to the wind...')
-            useranswer = input()
-            if useranswer == '':
-                while(useranswer == ''):
-                    centerprint('Please answer the riddle.')
-                    useranswer = input()
-                    if debugging:
-                        print(answer + ', you cheater!')
-            if similarstring(useranswer, answer) and useranswer != '':
-                centerprint('You have successfully answered the riddle')
-                centerprint('The answer was \"' + answer + '\"')
-                centerprint('I present you with this:')
-                ourhero.addgold(ourhero.level * 40)
-                ourhero.addxp(ourhero.nextlevel * .4)
-            else:
-                centerprint('You Fail! Leave this place!')
-
-    elif m == 'c':
-        print('')
-        camp(ourhero, ourenemy)
-    if not ourhero.isalive():
-        return
-
-
+# hero uses a healing potion
 def healingpotion(ourhero):
     marqueeprint('[HEALING POTION]')
     healed = ourhero.activeitem.effect
     ourhero.heal(healed)
-    centerprint('You heal for ' + str(healed) + ' HP')
     ourhero.activeitem = 0
     return
 
 
+# hero uses an item that damages enemy
 def explosivemanavial(ourhero, ourenemy):
     marqueeprint('[EXPLOSIVE MANA BOMB]')
     centerprint('The Mana Vial EXPLODES!')
@@ -660,7 +685,10 @@ def rightprint(text):
 
 # centered print
 def centerprint(text):
-    print('{:^50}'.format(text))
+    wrapstring = textwrap.wrap(text, width=50)
+    for line in wrapstring:
+        #print(line)
+        print('{:^50}'.format(line))
 
 
 # From https://stackoverflow.com/questions/9640109/allign-left-and-right-in-python
@@ -682,14 +710,17 @@ def printtest():
     rightprint('Justified Right')
     centerprint('Center Print')
 
+
 # Print hero and enemy justified on left and right
 def printadversaries(ourhero, ourenemy):
     print(lr_justify('[HERO]', '[ENEMY]', 50))
     print(lr_justify(ourhero.name, ourenemy.name, 50))
     print(lr_justify(str('lvl: ' + str(ourhero.level)), str('lvl: ' + str(ourenemy.level)), 50))
-    print(lr_justify(str('HP: ' + str(ourhero.hp) + '/' + str(ourhero.maxhp)), str('HP: ' + str(ourenemy.hp)+ '/' + str(ourenemy.maxhp)), 50))
+    print(lr_justify(str('HP: ' + str(ourhero.hp) + '/' + str(ourhero.maxhp)),
+                     str('HP: ' + str(ourenemy.hp) + '/' + str(ourenemy.maxhp)), 50))
     print(lr_justify(str('XP: ' + str(ourhero.xp) + '/' + str(ourhero.nextlevel)), str('XP drop: ' + str(ourenemy.xp)),
                      50))
+
 
 # To be used on status screens
 def printmarqueehero(ourhero, sometext):
@@ -700,8 +731,9 @@ def printmarqueehero(ourhero, sometext):
     print(lr_justify(str('HP: ' + str(ourhero.hp) + '/' + str(ourhero.maxhp)), '', 50))
     print(lr_justify(str('XP: ' + str(ourhero.xp) + '/' + str(ourhero.nextlevel)), '', 50))
 
+
 # if string is at least 80% similar, will return true
-def similarstring(a,b):
+def similarstring(a, b):
     ourratio = SequenceMatcher(None, a, b).ratio()
     if debugging:
         print('correctness:' + str(ourratio))
@@ -710,9 +742,8 @@ def similarstring(a,b):
     else:
         return False
 
+
 if __name__ == '__main__':
-    # this is for repopulating the database with modified CSV files
-    # TODO: Make so database will not append if run more than once
     # Create all game databases (only needs to run once to make databases)
 
     firsttime = False

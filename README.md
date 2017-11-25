@@ -29,9 +29,6 @@ Check back soon for new features!
  5. Choose difficulty: [1]easy [2]med [3]hard
  6. Enter your character's name
 
-
-
-
 # Saving / loading
 If loading game run game.py, choose a class, go to camp, and select [l]oad
 
