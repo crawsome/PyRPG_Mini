@@ -1,4 +1,5 @@
 import random
+
 import Armor
 import Game
 import Item
@@ -258,7 +259,8 @@ class Hero:
     # fetches a new weapon for hero
     def newweapon(self):
         newdb = dbsetup.dbsetup()
-        newdb.conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',(str(self.level), str(self.ourclass),))
+        newdb.conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',
+                           (str(self.level), str(self.ourclass),))
         rows = newdb.conn.fetchall()
         newdb.conn.close()
         new_weapon_data = rows[0]

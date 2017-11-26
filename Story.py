@@ -1,16 +1,19 @@
 # makes a story progression with 20 or so variable checkpoints
 # each checkpoint requires decisions and talking?
 # A narrative would have to be made
-import Game
 import textwrap
+
+import Game
+
 
 class TheStory:
     def __init__(self):
         Chapter1 = Chapter(1, 'Haunted House', 'd', 'o', 'e')
         pass
 
+
 class Chapter:
-    def __init__(self,chapnum,chapname,answer1,answer2,answer3,story1,story2,story3):
+    def __init__(self, chapnum, chapname, answer1, answer2, answer3, story1, story2, story3):
         self.chapternum = chapnum
         self.chaptername = chapname
         self.ans1 = answer1
@@ -21,15 +24,15 @@ class Chapter:
         self.story3 = story3
         self.done = False
         pass
-    
+
     def story1(self):
         wrapstring = textwrap.wrap(self.story1, width=48)
         for line in wrapstring:
             Game.centerprint(line)
-    
+
     def story2(self):
         pass
-    
+
     def story3(self):
         pass
 
@@ -38,6 +41,7 @@ class Chapter:
 # 2 diff choices on entrance, 4 inside, 2 on each.
 def hauntedhouse():
     pass
+
 
 def swamp():
     pass

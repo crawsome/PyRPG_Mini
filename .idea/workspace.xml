@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc00709d-b121-444c-873b-666e1764018e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Armor.py" afterPath="$PROJECT_DIR$/Armor.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Enemy.py" afterPath="$PROJECT_DIR$/Enemy.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Game.py" afterPath="$PROJECT_DIR$/Game.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Hero.py" afterPath="$PROJECT_DIR$/Hero.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shield.py" afterPath="$PROJECT_DIR$/Shield.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Weapon.py" afterPath="$PROJECT_DIR$/Weapon.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/quoteslist.txt" afterPath="$PROJECT_DIR$/quoteslist.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Story.py" afterPath="$PROJECT_DIR$/Story.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/__init__.py" afterPath="$PROJECT_DIR$/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dbsetup.py" afterPath="$PROJECT_DIR$/dbsetup.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,16 +19,49 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/PyRPG_Mini$Riddle.coverage" NAME="Riddle Coverage Results" MODIFIED="1511540199113" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PyRPG_Mini$Enemy.coverage" NAME="Enemy Coverage Results" MODIFIED="1510725443295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PyRPG_Mini$Game.coverage" NAME="Game Coverage Results" MODIFIED="1511721799725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PyRPG_Mini$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1511723766324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PyRPG_Mini$Game.coverage" NAME="Game Coverage Results" MODIFIED="1511730324692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PyRPG_Mini$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1511730545589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="dbsetup.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dbsetup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1031">
+              <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+              <folding>
+                <marker date="1511730545402" expanded="true" signature="998:1117" ph="CREATE TABLE... armor" />
+                <marker date="1511730545402" expanded="true" signature="1461:1499" ph="INSERT INTO armor... " />
+                <marker date="1511730545402" expanded="true" signature="1561:1580" ph="SELECT * FRO... armor" />
+                <marker date="1511730545402" expanded="true" signature="1862:2035" ph="CREATE TABLE... enemies" />
+                <marker date="1511730545402" expanded="true" signature="2383:2431" ph="INSERT INTO enemies... " />
+                <marker date="1511730545402" expanded="true" signature="2493:2514" ph="SELECT * FRO... enemies" />
+                <marker date="1511730545402" expanded="true" signature="2794:2879" ph="CREATE TABLE... items" />
+                <marker date="1511730545402" expanded="true" signature="3223:3259" ph="INSERT INTO items... " />
+                <marker date="1511730545402" expanded="true" signature="3321:3340" ph="SELECT * FRO... items" />
+                <marker date="1511730545402" expanded="true" signature="3630:3731" ph="CREATE TABLE... levelnotes" />
+                <marker date="1511730545402" expanded="true" signature="4090:4133" ph="INSERT INTO levelnotes... " />
+                <marker date="1511730545402" expanded="true" signature="4195:4219" ph="SELECT * FRO... levelnotes" />
+                <marker date="1511730545402" expanded="true" signature="4503:4607" ph="CREATE TABLE... shields" />
+                <marker date="1511730545402" expanded="true" signature="4957:4997" ph="INSERT INTO shields... " />
+                <marker date="1511730545402" expanded="true" signature="5059:5080" ph="SELECT * FRO... shields" />
+                <marker date="1511730545402" expanded="true" signature="5364:5500" ph="CREATE TABLE... weapons" />
+                <marker date="1511730545402" expanded="true" signature="5850:5892" ph="INSERT INTO weapons... " />
+                <marker date="1511730545402" expanded="true" signature="5954:5975" ph="SELECT * FRO... weapons" />
+                <marker date="1511730545402" expanded="true" signature="6259:6322" ph="CREATE TABLE... weapons" />
+                <marker date="1511730545402" expanded="true" signature="6672:6704" ph="INSERT INTO weapons... " />
+                <marker date="1511730545402" expanded="true" signature="6766:6780" ph="SELECT * FRO... weapons" />
+                <marker date="1511730545402" expanded="true" signature="6766:6787" ph="SELECT * FRO... riddles" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Shield.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Shield.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state relative-caret-position="431">
+              <caret line="36" column="8" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -52,7 +81,7 @@
         <entry file="file://$PROJECT_DIR$/Weapon.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="496">
-              <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+              <caret line="19" column="23" lean-forward="false" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
               <folding>
                 <element signature="e#1366#1938#0" expanded="false" />
               </folding>
@@ -63,8 +92,8 @@
       <file leaf-file-name="riddles.csv" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/csv/riddles.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="221" column="51" lean-forward="false" selection-start-line="221" selection-start-column="51" selection-end-line="221" selection-end-column="51" />
+            <state relative-caret-position="133">
+              <caret line="347" column="93" lean-forward="false" selection-start-line="347" selection-start-column="74" selection-end-line="347" selection-end-column="93" />
               <folding />
             </state>
           </provider>
@@ -73,24 +102,24 @@
       <file leaf-file-name="Hero.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Hero.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="745">
-              <caret line="230" column="20" lean-forward="true" selection-start-line="230" selection-start-column="20" selection-end-line="230" selection-end-column="20" />
+            <state relative-caret-position="248">
+              <caret line="15" column="24" lean-forward="false" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
               <folding>
-                <marker date="1511722950170" expanded="true" signature="7319:7358" ph="SELECT * FRO... levelnotes" />
-                <marker date="1511722950170" expanded="true" signature="8091:8146" ph="SELECT * FRO... weapons" />
-                <marker date="1511722950170" expanded="true" signature="8652:8705" ph="SELECT * FRO... armor" />
-                <marker date="1511722950170" expanded="true" signature="9207:9262" ph="SELECT * FRO... shields" />
-                <marker date="1511722950170" expanded="true" signature="9774:9811" ph="SELECT * FRO... items" />
+                <marker date="1511730545371" expanded="true" signature="7320:7359" ph="SELECT * FRO... levelnotes" />
+                <marker date="1511730545371" expanded="true" signature="8092:8147" ph="SELECT * FRO... weapons" />
+                <marker date="1511730545371" expanded="true" signature="8681:8734" ph="SELECT * FRO... armor" />
+                <marker date="1511730545371" expanded="true" signature="9236:9291" ph="SELECT * FRO... shields" />
+                <marker date="1511730545371" expanded="true" signature="9803:9840" ph="SELECT * FRO... items" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="155">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -100,7 +129,7 @@
         <entry file="file://$PROJECT_DIR$/Enemy.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="575">
-              <caret line="23" column="32" lean-forward="true" selection-start-line="23" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+              <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -110,7 +139,7 @@
         <entry file="file://$PROJECT_DIR$/Armor.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="372">
-              <caret line="24" column="12" lean-forward="true" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+              <caret line="24" column="12" lean-forward="false" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -119,13 +148,90 @@
       <file leaf-file-name="Game.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="233" column="26" lean-forward="true" selection-start-line="233" selection-start-column="26" selection-end-line="233" selection-end-column="26" />
+            <state relative-caret-position="232">
+              <caret line="673" column="11" lean-forward="true" selection-start-line="673" selection-start-column="11" selection-end-line="673" selection-end-column="11" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1511723766308" expanded="true" signature="1618:1658" ph="SELECT * FRO... levelnotes" />
-                <marker date="1511723766308" expanded="true" signature="13058:13105" ph="SELECT * FRO... riddles" />
-                <marker date="1511723766308" expanded="true" signature="13334:13370" ph="SELECT * FRO... enemies" />
+                <element signature="e#233#1431#0" expanded="false" />
+                <element signature="e#685#904#0" expanded="false" />
+                <element signature="e#1090#1188#0" expanded="false" />
+                <element signature="e#1437#1500#0" expanded="false" />
+                <element signature="e#2313#2353#0" expanded="false" />
+                <element signature="e#2392#2431#0" expanded="false" />
+                <element signature="e#2470#2510#0" expanded="false" />
+                <element signature="e#2537#2718#0" expanded="false" />
+                <element signature="e#3331#4116#0" expanded="false" />
+                <element signature="e#3355#4116#0" expanded="false" />
+                <element signature="e#3623#3870#0" expanded="false" />
+                <element signature="e#3919#4035#0" expanded="false" />
+                <element signature="e#4237#8541#0" expanded="false" />
+                <element signature="e#4379#8407#0" expanded="false" />
+                <element signature="e#4413#4895#0" expanded="false" />
+                <element signature="e#4785#4895#0" expanded="false" />
+                <element signature="e#4949#5797#0" expanded="false" />
+                <element signature="e#5083#5189#0" expanded="false" />
+                <element signature="e#5246#5356#0" expanded="false" />
+                <element signature="e#5413#5523#0" expanded="false" />
+                <element signature="e#5585#5755#0" expanded="false" />
+                <element signature="e#5851#6905#0" expanded="false" />
+                <element signature="e#6086#6404#0" expanded="false" />
+                <element signature="e#6527#6624#0" expanded="false" />
+                <element signature="e#6688#6778#0" expanded="false" />
+                <element signature="e#6959#6996#0" expanded="false" />
+                <element signature="e#7051#8407#0" expanded="false" />
+                <element signature="e#7668#7907#0" expanded="false" />
+                <element signature="e#7718#7907#0" expanded="false" />
+                <element signature="e#8003#8322#0" expanded="false" />
+                <element signature="e#8444#8477#0" expanded="false" />
+                <element signature="e#8595#9741#0" expanded="false" />
+                <element signature="e#9095#9134#0" expanded="false" />
+                <element signature="e#9187#9649#0" expanded="false" />
+                <element signature="e#9702#9735#0" expanded="false" />
+                <element signature="e#10170#10508#0" expanded="false" />
+                <element signature="e#10440#10508#0" expanded="false" />
+                <element signature="e#10544#10644#0" expanded="false" />
+                <element signature="e#10680#10957#0" expanded="false" />
+                <element signature="e#10794#10892#0" expanded="false" />
+                <marker date="1511730545340" expanded="false" signature="1610:1650" ph="SELECT * FRO... levelnotes" />
+                <marker date="1511730545340" expanded="true" signature="13015:13062" ph="SELECT * FRO... riddles" />
+                <marker date="1511730545340" expanded="true" signature="13291:13327" ph="SELECT * FRO... enemies" />
+                <marker date="1511730545340" expanded="false" signature="22057:22124" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="22147:22218" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="22241:22315" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="22338:22474" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="22614:24219" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="22834:23986" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="23752:23851" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="23869:23986" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="24018:24100" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="24132:24219" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="24291:24885" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="24419:24582" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="24940:25851" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="24949:25014" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="25278:25367" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="25381:25851" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="25460:25639" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="25679:25851" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="25857:26051" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="26293:26435" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="27505:27679" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="27756:28091" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="28152:28338" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="28383:28567" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="28644:29040" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="29131:29225" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="29177:29225" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="29313:29931" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="30009:30419" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="30492:30526" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="30570:30603" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="30649:30682" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="30724:30858" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="30799:30858" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="30979:31054" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="31313:31446" ph="..." />
+                <marker date="1511730545340" expanded="false" signature="31527:31652" ph="..." />
               </folding>
             </state>
           </provider>
@@ -142,11 +248,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>choose di</find>
-      <find>camp</find>
-      <find>camp(</find>
-      <find>I am as simple as a circle</find>
-      <find>this</find>
       <find>addxp</find>
       <find>unde</find>
       <find>if debugg</find>
@@ -165,16 +266,20 @@
       <find>enemy tu</find>
       <find>marquee</find>
       <find>game.</find>
-      <find>diff</find>
-      <find>repair</find>
       <find>self.self.</find>
-      <find>Game.</find>
       <find>self.</find>
       <find>ourhero</find>
       <find>getenem</find>
+      <find>defcurve</find>
+      <find>(self.ourhero, self.ourenemy)</find>
+      <find>repair</find>
+      <find>diff</find>
+      <find>Game.</find>
+      <find>Ten men's strength</find>
+      <find>CHOOSE CLASS</find>
+      <find>ask about the price</find>
     </findStrings>
     <replaceStrings>
-      <replace>shield</replace>
       <replace>Shield</replace>
       <replace>defn</replace>
       <replace>def</replace>
@@ -202,8 +307,9 @@
       <replace>self</replace>
       <replace>&quot;</replace>
       <replace>defcurve</replace>
-      <replace>Game.Game.</replace>
       <replace>self.</replace>
+      <replace>Game.Game.</replace>
+      <replace>()</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -237,9 +343,9 @@
         <option value="$PROJECT_DIR$/Weapon.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/__init__.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Hero.py" />
         <option value="$PROJECT_DIR$/Game.py" />
-        <option value="$PROJECT_DIR$/requirements.txt" />
       </list>
     </option>
   </component>
@@ -657,23 +763,48 @@
       <option name="project" value="LOCAL" />
       <updated>1511622232034</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="created __init__.py, and refactored all of game.py to acommodate for it">
+      <created>1511723864303</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1511723864303</updated>
+    </task>
+    <task id="LOCAL-00032" summary="updates to function calls">
+      <created>1511730242572</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1511730242572</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-5" y="-5" width="2570" height="1388" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17771566" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32990506" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32948583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37579113" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="0.42484176" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="-1675" y="33" width="1252" height="1012" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.62658226" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="-1675" y="33" width="1252" height="1012" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283228" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17771566" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32753164" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32990506" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="0.45411393" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="-1675" y="33" width="1080" height="1012" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.45411393" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="-1675" y="33" width="1050" height="898" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -681,9 +812,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32753164" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32990506" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -716,8 +845,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added a Blacksmith. He repairs for gold" />
-    <MESSAGE value="general fixes for stats and leveling." />
     <MESSAGE value="reworked the math once again, added some more features" />
     <MESSAGE value="reworked the math once again, is starting to get challenging around level 5" />
     <MESSAGE value="one more committ before I restructure and condense the game.py" />
@@ -741,7 +868,9 @@
     <MESSAGE value="riddle answers can be 80% right. Riddle formatting" />
     <MESSAGE value="updated readme for improvements" />
     <MESSAGE value="commenting on all functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="commenting on all functions" />
+    <MESSAGE value="created __init__.py, and refactored all of game.py to acommodate for it" />
+    <MESSAGE value="updates to function calls" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates to function calls" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -765,11 +894,11 @@
         <state relative-caret-position="210">
           <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <marker date="1511722950170" expanded="true" signature="7319:7358" ph="SELECT * FRO... levelnotes" />
-            <marker date="1511722950170" expanded="true" signature="8091:8146" ph="SELECT * FRO... weapons" />
-            <marker date="1511722950170" expanded="true" signature="8652:8705" ph="SELECT * FRO... armor" />
-            <marker date="1511722950170" expanded="true" signature="9207:9262" ph="SELECT * FRO... shields" />
-            <marker date="1511722950170" expanded="true" signature="9774:9811" ph="SELECT * FRO... items" />
+            <marker date="1511730545371" expanded="true" signature="7320:7359" ph="SELECT * FRO... levelnotes" />
+            <marker date="1511730545371" expanded="true" signature="8092:8147" ph="SELECT * FRO... weapons" />
+            <marker date="1511730545371" expanded="true" signature="8681:8734" ph="SELECT * FRO... armor" />
+            <marker date="1511730545371" expanded="true" signature="9236:9291" ph="SELECT * FRO... shields" />
+            <marker date="1511730545371" expanded="true" signature="9803:9840" ph="SELECT * FRO... items" />
           </folding>
         </state>
       </provider>
@@ -801,11 +930,11 @@
         <state relative-caret-position="210">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <marker date="1511722950170" expanded="true" signature="7319:7358" ph="SELECT * FRO... levelnotes" />
-            <marker date="1511722950170" expanded="true" signature="8091:8146" ph="SELECT * FRO... weapons" />
-            <marker date="1511722950170" expanded="true" signature="8652:8705" ph="SELECT * FRO... armor" />
-            <marker date="1511722950170" expanded="true" signature="9207:9262" ph="SELECT * FRO... shields" />
-            <marker date="1511722950170" expanded="true" signature="9774:9811" ph="SELECT * FRO... items" />
+            <marker date="1511730545371" expanded="true" signature="7320:7359" ph="SELECT * FRO... levelnotes" />
+            <marker date="1511730545371" expanded="true" signature="8092:8147" ph="SELECT * FRO... weapons" />
+            <marker date="1511730545371" expanded="true" signature="8681:8734" ph="SELECT * FRO... armor" />
+            <marker date="1511730545371" expanded="true" signature="9236:9291" ph="SELECT * FRO... shields" />
+            <marker date="1511730545371" expanded="true" signature="9803:9840" ph="SELECT * FRO... items" />
           </folding>
         </state>
       </provider>
@@ -880,11 +1009,11 @@
         <state relative-caret-position="210">
           <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <marker date="1511722950170" expanded="true" signature="7319:7358" ph="SELECT * FRO... levelnotes" />
-            <marker date="1511722950170" expanded="true" signature="8091:8146" ph="SELECT * FRO... weapons" />
-            <marker date="1511722950170" expanded="true" signature="8652:8705" ph="SELECT * FRO... armor" />
-            <marker date="1511722950170" expanded="true" signature="9207:9262" ph="SELECT * FRO... shields" />
-            <marker date="1511722950170" expanded="true" signature="9774:9811" ph="SELECT * FRO... items" />
+            <marker date="1511730545371" expanded="true" signature="7320:7359" ph="SELECT * FRO... levelnotes" />
+            <marker date="1511730545371" expanded="true" signature="8092:8147" ph="SELECT * FRO... weapons" />
+            <marker date="1511730545371" expanded="true" signature="8681:8734" ph="SELECT * FRO... armor" />
+            <marker date="1511730545371" expanded="true" signature="9236:9291" ph="SELECT * FRO... shields" />
+            <marker date="1511730545371" expanded="true" signature="9803:9840" ph="SELECT * FRO... items" />
           </folding>
         </state>
       </provider>
@@ -991,57 +1120,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dbsetup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="940">
-          <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
-          <folding>
-            <marker date="1511622102257" expanded="true" signature="996:1115" ph="CREATE TABLE... armor" />
-            <marker date="1511622102257" expanded="true" signature="1459:1497" ph="INSERT INTO armor... " />
-            <marker date="1511622102257" expanded="true" signature="1559:1578" ph="SELECT * FRO... armor" />
-            <marker date="1511622102257" expanded="true" signature="1860:2033" ph="CREATE TABLE... enemies" />
-            <marker date="1511622102257" expanded="true" signature="2381:2429" ph="INSERT INTO enemies... " />
-            <marker date="1511622102257" expanded="true" signature="2491:2512" ph="SELECT * FRO... enemies" />
-            <marker date="1511622102257" expanded="true" signature="2792:2877" ph="CREATE TABLE... items" />
-            <marker date="1511622102257" expanded="true" signature="3221:3257" ph="INSERT INTO items... " />
-            <marker date="1511622102257" expanded="true" signature="3319:3338" ph="SELECT * FRO... items" />
-            <marker date="1511622102257" expanded="true" signature="3628:3729" ph="CREATE TABLE... levelnotes" />
-            <marker date="1511622102257" expanded="true" signature="4088:4131" ph="INSERT INTO levelnotes... " />
-            <marker date="1511622102257" expanded="true" signature="4193:4217" ph="SELECT * FRO... levelnotes" />
-            <marker date="1511622102257" expanded="true" signature="4501:4605" ph="CREATE TABLE... shields" />
-            <marker date="1511622102257" expanded="true" signature="4955:4995" ph="INSERT INTO shields... " />
-            <marker date="1511622102257" expanded="true" signature="5057:5078" ph="SELECT * FRO... shields" />
-            <marker date="1511622102257" expanded="true" signature="5362:5498" ph="CREATE TABLE... weapons" />
-            <marker date="1511622102257" expanded="true" signature="5848:5890" ph="INSERT INTO weapons... " />
-            <marker date="1511622102257" expanded="true" signature="5952:5973" ph="SELECT * FRO... weapons" />
-            <marker date="1511622102257" expanded="true" signature="6257:6320" ph="CREATE TABLE... weapons" />
-            <marker date="1511622102257" expanded="true" signature="6670:6702" ph="INSERT INTO weapons... " />
-            <marker date="1511622102257" expanded="true" signature="6764:6778" ph="SELECT * FRO... weapons" />
-            <marker date="1511622102257" expanded="true" signature="6764:6785" ph="SELECT * FRO... riddles" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/csv/levelnotes.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="372">
           <caret line="12" column="19" lean-forward="true" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitattributes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/csv/riddles.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="221" column="51" lean-forward="false" selection-start-line="221" selection-start-column="51" selection-end-line="221" selection-end-column="51" />
           <folding />
         </state>
       </provider>
@@ -1064,67 +1146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Shield.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Weapon.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-          <folding>
-            <element signature="e#1366#1938#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Enemy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="23" column="32" lean-forward="true" selection-start-line="23" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Armor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="24" column="12" lean-forward="true" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Hero.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="745">
-          <caret line="230" column="20" lean-forward="true" selection-start-line="230" selection-start-column="20" selection-end-line="230" selection-end-column="20" />
-          <folding>
-            <marker date="1511722950170" expanded="true" signature="7319:7358" ph="SELECT * FRO... levelnotes" />
-            <marker date="1511722950170" expanded="true" signature="8091:8146" ph="SELECT * FRO... weapons" />
-            <marker date="1511722950170" expanded="true" signature="8652:8705" ph="SELECT * FRO... armor" />
-            <marker date="1511722950170" expanded="true" signature="9207:9262" ph="SELECT * FRO... shields" />
-            <marker date="1511722950170" expanded="true" signature="9774:9811" ph="SELECT * FRO... items" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="233" column="26" lean-forward="true" selection-start-line="233" selection-start-column="26" selection-end-line="233" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1511723766308" expanded="true" signature="1618:1658" ph="SELECT * FRO... levelnotes" />
-            <marker date="1511723766308" expanded="true" signature="13058:13105" ph="SELECT * FRO... riddles" />
-            <marker date="1511723766308" expanded="true" signature="13334:13370" ph="SELECT * FRO... enemies" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1133,11 +1154,196 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Armor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="24" column="12" lean-forward="false" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Enemy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Hero.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="15" column="24" lean-forward="false" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding>
+            <marker date="1511730545371" expanded="true" signature="7320:7359" ph="SELECT * FRO... levelnotes" />
+            <marker date="1511730545371" expanded="true" signature="8092:8147" ph="SELECT * FRO... weapons" />
+            <marker date="1511730545371" expanded="true" signature="8681:8734" ph="SELECT * FRO... armor" />
+            <marker date="1511730545371" expanded="true" signature="9236:9291" ph="SELECT * FRO... shields" />
+            <marker date="1511730545371" expanded="true" signature="9803:9840" ph="SELECT * FRO... items" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Weapon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="19" column="23" lean-forward="false" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+          <folding>
+            <element signature="e#1366#1938#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Shield.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="36" column="8" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitattributes">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="673" column="11" lean-forward="true" selection-start-line="673" selection-start-column="11" selection-end-line="673" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#233#1431#0" expanded="false" />
+            <element signature="e#685#904#0" expanded="false" />
+            <element signature="e#1090#1188#0" expanded="false" />
+            <element signature="e#1437#1500#0" expanded="false" />
+            <element signature="e#2313#2353#0" expanded="false" />
+            <element signature="e#2392#2431#0" expanded="false" />
+            <element signature="e#2470#2510#0" expanded="false" />
+            <element signature="e#2537#2718#0" expanded="false" />
+            <element signature="e#3331#4116#0" expanded="false" />
+            <element signature="e#3355#4116#0" expanded="false" />
+            <element signature="e#3623#3870#0" expanded="false" />
+            <element signature="e#3919#4035#0" expanded="false" />
+            <element signature="e#4237#8541#0" expanded="false" />
+            <element signature="e#4379#8407#0" expanded="false" />
+            <element signature="e#4413#4895#0" expanded="false" />
+            <element signature="e#4785#4895#0" expanded="false" />
+            <element signature="e#4949#5797#0" expanded="false" />
+            <element signature="e#5083#5189#0" expanded="false" />
+            <element signature="e#5246#5356#0" expanded="false" />
+            <element signature="e#5413#5523#0" expanded="false" />
+            <element signature="e#5585#5755#0" expanded="false" />
+            <element signature="e#5851#6905#0" expanded="false" />
+            <element signature="e#6086#6404#0" expanded="false" />
+            <element signature="e#6527#6624#0" expanded="false" />
+            <element signature="e#6688#6778#0" expanded="false" />
+            <element signature="e#6959#6996#0" expanded="false" />
+            <element signature="e#7051#8407#0" expanded="false" />
+            <element signature="e#7668#7907#0" expanded="false" />
+            <element signature="e#7718#7907#0" expanded="false" />
+            <element signature="e#8003#8322#0" expanded="false" />
+            <element signature="e#8444#8477#0" expanded="false" />
+            <element signature="e#8595#9741#0" expanded="false" />
+            <element signature="e#9095#9134#0" expanded="false" />
+            <element signature="e#9187#9649#0" expanded="false" />
+            <element signature="e#9702#9735#0" expanded="false" />
+            <element signature="e#10170#10508#0" expanded="false" />
+            <element signature="e#10440#10508#0" expanded="false" />
+            <element signature="e#10544#10644#0" expanded="false" />
+            <element signature="e#10680#10957#0" expanded="false" />
+            <element signature="e#10794#10892#0" expanded="false" />
+            <marker date="1511730545340" expanded="false" signature="1610:1650" ph="SELECT * FRO... levelnotes" />
+            <marker date="1511730545340" expanded="true" signature="13015:13062" ph="SELECT * FRO... riddles" />
+            <marker date="1511730545340" expanded="true" signature="13291:13327" ph="SELECT * FRO... enemies" />
+            <marker date="1511730545340" expanded="false" signature="22057:22124" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="22147:22218" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="22241:22315" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="22338:22474" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="22614:24219" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="22834:23986" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="23752:23851" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="23869:23986" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="24018:24100" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="24132:24219" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="24291:24885" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="24419:24582" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="24940:25851" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="24949:25014" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="25278:25367" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="25381:25851" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="25460:25639" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="25679:25851" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="25857:26051" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="26293:26435" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="27505:27679" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="27756:28091" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="28152:28338" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="28383:28567" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="28644:29040" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="29131:29225" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="29177:29225" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="29313:29931" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="30009:30419" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="30492:30526" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="30570:30603" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="30649:30682" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="30724:30858" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="30799:30858" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="30979:31054" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="31313:31446" ph="..." />
+            <marker date="1511730545340" expanded="false" signature="31527:31652" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/csv/riddles.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="347" column="93" lean-forward="false" selection-start-line="347" selection-start-column="74" selection-end-line="347" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="155">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbsetup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1031">
+          <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding>
+            <marker date="1511730545402" expanded="true" signature="998:1117" ph="CREATE TABLE... armor" />
+            <marker date="1511730545402" expanded="true" signature="1461:1499" ph="INSERT INTO armor... " />
+            <marker date="1511730545402" expanded="true" signature="1561:1580" ph="SELECT * FRO... armor" />
+            <marker date="1511730545402" expanded="true" signature="1862:2035" ph="CREATE TABLE... enemies" />
+            <marker date="1511730545402" expanded="true" signature="2383:2431" ph="INSERT INTO enemies... " />
+            <marker date="1511730545402" expanded="true" signature="2493:2514" ph="SELECT * FRO... enemies" />
+            <marker date="1511730545402" expanded="true" signature="2794:2879" ph="CREATE TABLE... items" />
+            <marker date="1511730545402" expanded="true" signature="3223:3259" ph="INSERT INTO items... " />
+            <marker date="1511730545402" expanded="true" signature="3321:3340" ph="SELECT * FRO... items" />
+            <marker date="1511730545402" expanded="true" signature="3630:3731" ph="CREATE TABLE... levelnotes" />
+            <marker date="1511730545402" expanded="true" signature="4090:4133" ph="INSERT INTO levelnotes... " />
+            <marker date="1511730545402" expanded="true" signature="4195:4219" ph="SELECT * FRO... levelnotes" />
+            <marker date="1511730545402" expanded="true" signature="4503:4607" ph="CREATE TABLE... shields" />
+            <marker date="1511730545402" expanded="true" signature="4957:4997" ph="INSERT INTO shields... " />
+            <marker date="1511730545402" expanded="true" signature="5059:5080" ph="SELECT * FRO... shields" />
+            <marker date="1511730545402" expanded="true" signature="5364:5500" ph="CREATE TABLE... weapons" />
+            <marker date="1511730545402" expanded="true" signature="5850:5892" ph="INSERT INTO weapons... " />
+            <marker date="1511730545402" expanded="true" signature="5954:5975" ph="SELECT * FRO... weapons" />
+            <marker date="1511730545402" expanded="true" signature="6259:6322" ph="CREATE TABLE... weapons" />
+            <marker date="1511730545402" expanded="true" signature="6672:6704" ph="INSERT INTO weapons... " />
+            <marker date="1511730545402" expanded="true" signature="6766:6780" ph="SELECT * FRO... weapons" />
+            <marker date="1511730545402" expanded="true" signature="6766:6787" ph="SELECT * FRO... riddles" />
+          </folding>
         </state>
       </provider>
     </entry>

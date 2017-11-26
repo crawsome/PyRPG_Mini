@@ -24,7 +24,7 @@ class Game:
         self.autoattack = 0
 
         # Create all game databases (only needs to run once to make databases)
-        
+
         self.ourhero = 0
         self.ourenemy = 0
 
@@ -374,9 +374,10 @@ class Game:
                      str(self.ourhero.ourshield.dur) + '/' + str(self.ourhero.ourshield.maxdur),
                      str(self.ourhero.ourshield.isbroken())]
             data4 = [str(3), str(self.ourhero.ourarmor.name) + ' ' + str(self.ourhero.ourarmor.type),
-                     str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur), str(self.ourhero.ourarmor.isbroken())]
-            alldata = [data1,data2,data3,data4]
-            fourrowprint(alldata,"Blacksmith")
+                     str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
+                     str(self.ourhero.ourarmor.isbroken())]
+            alldata = [data1, data2, data3, data4]
+            fourrowprint(alldata, "Blacksmith")
 
             decision = input('What do you want to repair? [a] for all')
             if decision == '1' or decision == 'a':
@@ -417,15 +418,16 @@ class Game:
             marqueeprint('[YOUR GEAR]')
             leftprint(
                 str(1) + ' \tName: ' + str(self.ourhero.ourweapon.name) + ' ' + str(
-                    self.ourhero.ourweapon.type) + '\tAttack: ' + str(
-                    self.ourhero.ourweapon.atk) + '\tCost: ' + str(self.ourhero.ourweapon.level * 50 * self.ourhero.defcurve))
-            leftprint(str(2) + ' \tName: ' + str(self.ourhero.ourshield.name) + ' ' + str(
-                self.ourhero.ourshield.type) + '\tDefense: ' + str(self.ourhero.ourshield.defn) + '\tCost: ' + str(
-                self.ourhero.ourshield.level * 50 * self.ourhero.defcurve))
+                    self.ourhero.ourweapon.type) + '\tAttack: ' + str(self.ourhero.ourweapon.atk) + '\tCost: ' + str(
+                    self.ourhero.ourweapon.level * 50 * self.ourhero.defcurve))
+            leftprint(
+                str(2) + ' \tName: ' + str(self.ourhero.ourshield.name) + ' ' + str(
+                    self.ourhero.ourshield.type) + '\tDefense: ' + str(self.ourhero.ourshield.defn) + '\tCost: ' + str(
+                    self.ourhero.ourshield.level * 50 * self.ourhero.defcurve))
             leftprint(
                 str(3) + ' \tName: ' + str(self.ourhero.ourarmor.name) + ' ' + str(
-                    self.ourhero.ourarmor.type) + '\tDefense: ' + str(
-                    self.ourhero.ourarmor.defn) + '\tCost: ' + str(self.ourhero.ourarmor.level * 50 * self.ourhero.defcurve))
+                    self.ourhero.ourarmor.type) + '\tDefense: ' + str(self.ourhero.ourarmor.defn) + '\tCost: ' + str(
+                    self.ourhero.ourarmor.level * 50 * self.ourhero.defcurve))
             print('\n')
             # determine weapon coses
             wepcost = weaponforsale.level * 50 * self.ourhero.defcurve
@@ -677,7 +679,6 @@ class Game:
         if self.ourhero.ourweapon.dur > self.ourhero.ourweapon.maxdur:
             self.ourhero.ourweapon.dur = self.ourhero.ourweapon.maxdur
         self.ourhero.activeitem = 0
-
 
     # adds a little suspense to offset the monotony of text input
     def suspense(self):

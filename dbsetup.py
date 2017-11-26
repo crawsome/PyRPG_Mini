@@ -1,7 +1,9 @@
 import csv
-from sqlite3 import connect
 import os
+from sqlite3 import connect
+
 import Game
+
 
 class dbsetup():
     def __init__(self):
