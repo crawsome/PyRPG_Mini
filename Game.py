@@ -66,8 +66,8 @@ class Game:
             ourclass = 'hunter'
         else:
             centerprint('Please enter a valid selection')
-            marqueeprint('[CHOOSE DIFFICULTY]')
-            centerprint('[1]easy [2]med [3]hard')
+        marqueeprint('[CHOOSE DIFFICULTY]')
+        centerprint('[1]easy [2]med [3]hard')
         diff = input()
         # hardest difficulty you defend the least, and attack the least
         if diff == '1' or diff == '':
@@ -281,7 +281,7 @@ class Game:
             else:
                 centerprint('you can\'t run!')
         elif m == 'i':
-            self.item_management(self.ourhero, self.ourenemy)
+            self.item_management()
         elif m == 'h':
             self.ourhero.healflip()
         wait = input()
@@ -375,6 +375,8 @@ class Game:
                      str(self.ourhero.ourshield.isbroken())]
             data4 = [str(3), str(self.ourhero.ourarmor.name) + ' ' + str(self.ourhero.ourarmor.type),
                      str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur), str(self.ourhero.ourarmor.isbroken())]
+            alldata = [data1,data2,data3,data4]
+            fourrowprint(alldata,"Blacksmith")
 
             decision = input('What do you want to repair? [a] for all')
             if decision == '1' or decision == 'a':
@@ -477,7 +479,7 @@ class Game:
         m = input()
         if m == 'i':
             marqueeprint('[ITEMS]')
-            self.item_management(self.ourhero, self.ourenemy)
+            self.item_management()
             return
         elif m == 'h':
             marqueeprint('[HERO DETAIL]')
@@ -491,19 +493,19 @@ class Game:
             wait = input()
         elif m == 'a':
             return
-            # adventure(self.ourhero, self.ourenemy)
+            # adventure()
         elif m == 'l':
             marqueeprint('[LOADGAME]')
             self.ourhero = self.loadgame()
         elif m == 's':
             marqueeprint('[SAVEGAME]')
-            self.savegame(self.ourhero)
+            self.savegame()
         elif m == 'b':
             marqueeprint('[BLACKSMITH]')
-            self.blacksmith(self.ourhero)
+            self.blacksmith()
         elif m == 'p':
             marqueeprint('[PEDDLER\'S WARES]')
-            self.peddler(self.ourhero)
+            self.peddler()
         elif m == 'q':
             marqueeprint('[QUIT]')
             decision = input('Are you sure?')
@@ -602,12 +604,20 @@ class Game:
     def item_management(self):
         invlimit = 20
         marqueeprint('[CHOOSE ITEM]')
+        if not self.ourhero.items:
+            centerprint('Inventory Empty')
+            return
         for i, item in enumerate(self.ourhero.items):
             print(str(i) + ' \tName: ' + str(item.name) + '\tEffect: ' + str(item.effect))
             if i > invlimit:
                 break
         centerprint('Please enter decision')
-        itemindex = int(input())
+        itemindex = input()
+        try:
+            itemindex = int(itemindex)
+        except:
+            itemindex = 0
+
         if itemindex not in range(0, invlimit):
             centerprint('Please enter a valid choice')
             return
@@ -616,15 +626,15 @@ class Game:
         del (self.ourhero.items[int(itemindex)])
         centerprint('Using ' + str(self.ourhero.ouritem.name))
         if self.ourhero.ouritem.name == 'Healing Potion':
-            self.healingpotion(self.ourhero)
+            self.healingpotion()
         if self.ourhero.ouritem.name == 'Explosive Mana Vial':
-            self.explosivemanavial(self.ourhero, self.ourenemy)
+            self.explosivemanavial()
         if self.ourhero.ouritem.name == 'Health Regen Potion':
-            self.healthregenpotion(self.ourhero)
+            self.healthregenpotion()
         if self.ourhero.ouritem.name == 'Haste Potion':
-            self.hastepotion(self.ourhero)
+            self.hastepotion()
         if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
-            self.weaponrepairtincture(self.ourhero)
+            self.weaponrepairtincture()
 
     # hero uses a healing potion
     def healingpotion(self):

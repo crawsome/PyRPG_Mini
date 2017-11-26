@@ -67,7 +67,7 @@ class Hero:
         self.hastetimer = 0
 
         # A difficulty curve for determining lots of things
-        self.arkcurve = 0
+        self.atkcurve = 0
         self.defcurve = 0
 
         # equip objects
