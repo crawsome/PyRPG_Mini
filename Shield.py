@@ -1,6 +1,7 @@
 import Game
 
-#TODO: Make shield, armor, weapon all have similar repair methods.
+
+# TODO: Make shield, armor, weapon all have similar repair methods.
 class Shield:
     # level,class,name,type,basedef,durability
     def __init__(self, shieldlevel, shieldclass, shieldname, shieldtype, shieldbasedefn, shielddur):
@@ -43,10 +44,6 @@ class Shield:
     # this breaks the gear
     def gearbreak(self):
         self.atk = int(self.basedefn * .3)
-
-
-
-
 
     def printshieldinfo(self):
         Game.marqueeprint('SHIELD')

@@ -50,6 +50,7 @@ class Hero:
         self.defaug = 0
         self.atkaug = 0
         self.levelupaug = 0
+        self.critaug = 0
 
         # Items container and usage
         self.items = []
@@ -66,8 +67,8 @@ class Hero:
         self.hastetimer = 0
 
         # A difficulty curve for determining lots of things
-        self.diffcurve = .4
-        self.enemydefhandicap = 0.5
+        self.arkcurve = 0
+        self.defcurve = 0
 
         # equip objects
         self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
@@ -110,8 +111,10 @@ class Hero:
 
     # take damage
     def damage(self, hpdown):
-        self.hp -= hpdown
-        if self.hp < self.maxhp:
+        effatk = hpdown + (hpdown * self.defcurve)
+        self.hp -= int(effatk)
+        Game.centerprint(str(self.name) + ' takes ' + str(int(effatk)) + ' damage!')
+        if self.hp < 0:
             self.hp = 0
 
     # kills the character
@@ -125,7 +128,7 @@ class Hero:
 
     # adds XP to character, and levels up if it goes over
     def addxp(self, gainedxp):
-        gainedxp = gainedxp + (gainedxp * self.diffcurve)
+        gainedxp = gainedxp + (gainedxp * self.defcurve)
         Game.centerprint('You gained ' + str(int(gainedxp)) + ' Exp')
         self.xp += int(gainedxp)
         if self.xp >= self.nextlevel:
@@ -133,9 +136,9 @@ class Hero:
 
     # adds gold to character
     def addgold(self, gainedgold):
-        gainedgold = gainedgold + (gainedgold * self.diffcurve)
-        Game.centerprint('You gained ' + str(int(gainedgold + (gainedgold * self.diffcurve))) + ' Gold')
-        self.gold += int(gainedgold + (gainedgold * self.diffcurve))
+        gainedgold = gainedgold + (gainedgold * self.defcurve)
+        Game.centerprint('You gained ' + str(int(gainedgold + (gainedgold * self.defcurve))) + ' Gold')
+        self.gold += int(gainedgold + (gainedgold * self.defcurve))
 
     # attempt to buy an item
     def buy(self, item):
@@ -171,8 +174,10 @@ class Hero:
             self.defaug = 12
             # low atk
             self.atkaug = 2
-            # regular leveling
+            # doofus is a slow leveler
             self.levelupaug = 1
+            # mild crit chance boost
+            self.critaug = 2
         elif self.ourclass == 'mage':
             # glass cannon
             self.hpaug = 5
@@ -182,13 +187,23 @@ class Hero:
             self.defaug = 6
             # lower atk
             self.atkaug = 12
+            # smarter, levels up quicker
             self.levelupaug = .6
+            # mild crit chance boost
+            self.critaug = 2
         elif self.ourclass == 'hunter':
+            # med health
             self.hpaug = 10
+            # high dodge
             self.dodgeaug = 8
+            # med DEF
             self.defaug = 8
+            # def ATK
             self.atkaug = 6
+            # he gets by
             self.levelupaug = .8
+            # high crit chance boost
+            self.critaug = 6
         self.maxhp += self.hpaug
         self.hp += self.hpaug
         self.dodge += self.dodgeaug
@@ -236,6 +251,7 @@ class Hero:
         self.defn = self.basedef
         self.nextlevel += int(new_hero_data[4] * self.levelupaug)
         self.dodge = int(new_hero_data[5] + self.dodgeaug)
+        self.basecrit += self.critaug
         self.xp = 0
         self.printheroinfodetail()
 

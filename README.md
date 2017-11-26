@@ -1,8 +1,19 @@
 # PyRPG_Mini
 
-A text RPG written in Python 3 with many technical RPG features you'd want. 
+A text RPG written in Python 3 with many technical RPG features you'd want.
+## Requirements / Dependencies
+* Python3
+* sqlite3
+* textwrap
+* time
+* pickle
+* os
+* datetime
+* difflib
+* random
+
 ## Game Features
-* Python3, sqlite3
+
 * OOP Python RPG with simple class names, calls like *ourhero.heal()* and *ourhero.isalive()*
 * 15 levels of stats
 * 3 hero classes, each with unique gear and base stats

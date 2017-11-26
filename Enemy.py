@@ -16,15 +16,19 @@ class Enemy:
         self.defn = enemydefn
         self.effect = enemystatuseffect
 
-    # heals enemy (not used yet)
+    # Heals user up to max health
     def heal(self, hpup):
+        Game.centerprint('Enemy heals for ' + str(int(hpup)) + ' HP')
+        print('')
         self.hp += hpup
         if self.hp > self.maxhp:
             self.hp = self.maxhp
 
-    # damages enemy
-    def damage(self, hpdown):
-        self.hp -= hpdown
+    # take damage
+    def damage(self, hpdown, curve):
+        effatk = hpdown + (hpdown * curve)
+        self.hp -= int(effatk)
+        Game.centerprint(str(self.name) + ' takes ' + str(int(effatk)) + ' damage!')
         if self.hp < 0:
             self.hp = 0
 

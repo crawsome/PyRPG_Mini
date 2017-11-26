@@ -16,7 +16,7 @@ class Weapon:
 
     # damage durability, and check to see if broken
     def damagedur(self, aug, curve):
-        self.dur -= int(aug * curve)
+        self.dur -= int(aug * curve * .1)
         self.isbroken()
         pass
 
