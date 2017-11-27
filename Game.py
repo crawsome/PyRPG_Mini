@@ -172,7 +172,7 @@ class Game:
                     print('\n')
                 threechoicerandom = random.randrange(0, 2)
                 if threechoicerandom == 0:
-                    xpgain = int(self.ourhero.xp * .10)
+                    xpgain = int(self.ourhero.nextlevel * .10)
                     self.ourhero.addxp(int(round(xpgain, 1)))
                 if threechoicerandom == 1:
                     goldgain = int(self.ourhero.gold * .10)
@@ -651,8 +651,7 @@ class Game:
         marqueeprint('[EXPLOSIVE MANA BOMB]')
         centerprint('The Mana Vial EXPLODES!')
         dmg = self.ourhero.activeitem.effect
-        centerprint('Dealing ' + str(dmg) + ' damage to ' + str(self.ourenemy.name))
-        self.ourenemy.damage(self.ourhero.activeitem.effect)
+        self.ourenemy.damage(dmg, self.ourhero.atkcurve)
         self.ourhero.activeitem = 0
         return
 
