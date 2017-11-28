@@ -207,7 +207,7 @@ class Game:
                     centerprint('The answer was \"' + answer + '\"')
                     centerprint('I present you with this:')
                     self.ourhero.addgold(self.ourhero.level * 40)
-                    self.ourhero.addxp(self.ourhero.nextlevel * .4)
+                    self.ourhero.addxp(self.ourhero.nextlevel * .1)
                 else:
                     centerprint('You Fail! Leave this place!')
 
@@ -252,7 +252,7 @@ class Game:
     # One round of a player's turn
     def playerturn(self, m):
         self.ourhero.applyequip()
-        marqueeprint('[HERO ATTACK]')
+        marqueeprint('[HERO TURN]')
         crit = 0
         critrand = random.randrange(0, 100)
         if critrand in range(self.ourhero.crit, critrand):
@@ -289,7 +289,6 @@ class Game:
         # for health regen potion
         if self.ourhero.regentimer > 0:
             regen = int(self.ourhero.hp * .2)
-            centerprint('You regen ' + str(regen) + 'HP')
             self.ourhero.heal(regen)
             self.ourhero.regentimer -= 1
 
@@ -630,7 +629,11 @@ class Game:
         if self.ourhero.ouritem.name == 'Healing Potion':
             self.healingpotion()
         if self.ourhero.ouritem.name == 'Explosive Mana Vial':
-            self.explosivemanavial()
+            if self.ourhero.isbattling:
+                self.explosivemanavial()
+            else:
+                centerprint('You\'re not in battle!')
+                return False
         if self.ourhero.ouritem.name == 'Health Regen Potion':
             self.healthregenpotion()
         if self.ourhero.ouritem.name == 'Haste Potion':

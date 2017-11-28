@@ -107,7 +107,7 @@ class Hero:
     # sometimes you find food after a fight
     def food(self):
         hpback = int(self.maxhp * .2)
-        Game.centerprint('You found some food.')
+        Game.centerprint('You found some food and healed ' + str(hpback) + ' HP.')
         self.heal(hpback)
 
     # take damage
