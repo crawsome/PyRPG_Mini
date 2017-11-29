@@ -229,7 +229,9 @@ class Game:
         nextmove = input()
         # conditions to end battle
         if self.ourhero.isalive():
-            self.playerturn(nextmove)
+            turnnotused = True
+            while turnnotused:
+                turnnotused = self.playerturn(nextmove)
         if self.ourenemy.isalive():
             self.enemyturn()
         if not self.ourhero.isalive():
@@ -251,6 +253,7 @@ class Game:
 
     # One round of a player's turn
     def playerturn(self, m):
+        turndecided = False
         self.ourhero.applyequip()
         marqueeprint('[HERO TURN]')
         crit = 0
