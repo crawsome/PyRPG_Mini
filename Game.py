@@ -253,7 +253,20 @@ class Game:
 
     # One round of a player's turn
     def playerturn(self, m):
-        turndecided = False
+        # for health regen potion
+        if self.ourhero.regentimer > 0:
+            regen = int(self.ourhero.hp * .2)
+            self.ourhero.heal(regen)
+            self.ourhero.regentimer -= 1
+
+        # for haste potion for 5 turn dodge increases
+        self.ourhero.dodge = self.ourhero.basedodge
+        if self.ourhero.hastetimer > 0:
+            centerprint('Your dodge chance is elevated')
+            self.ourhero.hastetimer -= 1
+        else:
+            self.ourhero.dodge = self.ourhero.basedodge
+
         self.ourhero.applyequip()
         marqueeprint('[HERO TURN]')
         crit = 0
@@ -271,38 +284,30 @@ class Game:
             if self.ourenemy.hp < 0:
                 self.ourenemy.hp = 0
                 self.ourhero.isbattling = False
+            return False
         elif m == 'd':
             marqueeprint('[DEFENSE]')
             self.ourhero.defn += self.ourhero.defn * self.ourhero.defcurve
+            return False
         elif m == 'r':
             marqueeprint('[RUN ATTEMPT]')
             rand = random.randrange(0, 4)
             if rand == 0:
                 centerprint('you ran away')
                 self.ourhero.isbattling = False
-                return
             else:
                 centerprint('you can\'t run!')
+            return False
         elif m == 'i':
-            self.item_management()
+            itemnotchosen = True
+            while itemnotchosen:
+                itemnotchosen = self.item_management()
+            return False
         elif m == 'h':
             self.ourhero.healflip()
         wait = input()
 
-        # for health regen potion
-        if self.ourhero.regentimer > 0:
-            regen = int(self.ourhero.hp * .2)
-            self.ourhero.heal(regen)
-            self.ourhero.regentimer -= 1
 
-        # for haste potion for 5 turn dodge increases
-        self.ourhero.dodge = self.ourhero.basedodge
-        if self.ourhero.hastetimer > 0:
-            self.ourhero.dodge = self.ourhero.basedodge + 5
-            centerprint('Your dodge chance is elevated')
-            self.ourhero.hastetimer -= 1
-        else:
-            self.ourhero.dodge = self.ourhero.basedodge
 
     # One round of an enemy turn
     def enemyturn(self):
@@ -671,8 +676,8 @@ class Game:
     # dodge buff
     def hastepotion(self):
         marqueeprint('[HASTE POTION]')
-        centerprint(str(self.ourhero.hastetimer) + ' turns dodge buff')
         self.ourhero.hastetimer += 5
+        centerprint(str(self.ourhero.hastetimer) + ' turns dodge buff')
         self.ourhero.activeitem = 0
 
     # heals 60% of dur points to weapon
