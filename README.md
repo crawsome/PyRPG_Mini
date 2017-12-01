@@ -35,25 +35,25 @@ Check back soon for new features!
 
 # How to use
 
-0. For your convenience, you can skip any prompt and default [n]ew game, [w]arrior, [1] easy, [a]dventure, [a]ttack by simply pressing [enter].
+0. For your convenience, you can skip any prompt and default \[n]ew game, \[w]arrior, \[1] easy, \[a]dventure, \[a]ttack by simply pressing \[enter].
 
  1. Run game.py. If the database was deleted, it will reload the database from the CSVs in ./csv/ folder.
- 2. Press [ENTER] to play regular game. Enter [1] to go into debugging mode.
- 3. Select [n]ew game
- 4. Choose your class: [w]arrior [m]age [h]unter
- 5. Choose difficulty: [1]easy [2]med [3]hard
+ 2. Press \[ENTER] to play regular game. Enter \[1] to go into debugging mode.
+ 3. Select \[n]ew game
+ 4. Choose your class: \[w]arrior \[m]age \[h]unter
+ 5. Choose difficulty: \[1]easy \[2]med \[3]hard
  6. Enter your character's name
- 7. [a]dventure or [c]amp
- 8. [a]dventure will be a random choice of a battle, item, riddle, traveler.
- 9. [c]amp will regerate your health, and offer features like: [a]dventure, [i]tem, [h]ero, [p]eddler, [b]lacksmith, [l]oad, [s]ave, [q]uit
- 10. Battle will give you several battle commands: [a]tk, [d]ef, [r]un, [i]tem, [c]oinflip to [h]eal (100g)
+ 7. \[a]dventure or \[c]amp
+ 8. \[a]dventure will be a random choice of a battle, item, riddle, traveler.
+ 9. \[c]amp will regerate your health, and offer features like: \[a]dventure, \[i]tem, \[h]ero, \[p]eddler, \[b]lacksmith, \[l]oad, \[s]ave, \[q]uit
+ 10. Battle will give you several battle commands: \[a]tk, \[d]ef, \[r]un, \[i]tem, \[c]oinflip to \[h]eal (100g)
  11. Upon finishing a battle, you are rewarded with gold and exp.
  12. Have fun!
 
 # Saving / loading
-If loading game run game.py, choose a class, go to camp, and select [l]oad
+If loading game run game.py, and select \[l]oad when prompted.
 
-If saving, go to camp, select [s]ave, and name the save file. (The script needs permissions to write to the directory!)
+If saving, go to camp, select \[s]ave, and name the save file. (The script needs permissions to write to the directory!)
 
 # If you liked it:
 
