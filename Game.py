@@ -23,11 +23,11 @@ class Game:
         # provides a way to speed through battle (risky!)
         self.autoattack = 0
 
-        # Create all game databases (only needs to run once to make databases)
-
+        # make blank hero and enemy objects
         self.ourhero = 0
         self.ourenemy = 0
 
+        # Create all game databases (only needs to run once to make databases)
         firsttime = False
         if 'game.db' not in os.listdir('./db/'):
             centerprint('This looks like it\'s your first time playing.')
@@ -196,12 +196,12 @@ class Game:
                 print('')
                 centerprint('Speak the answer to the wind...')
                 useranswer = input()
-                if useranswer == '':
-                    while (useranswer == ''):
-                        centerprint('Please answer the riddle.')
-                        useranswer = input()
-                        if self.debugging:
-                            print(answer + ', you cheater!')
+                #if useranswer == '':
+                #    #while (useranswer == ''):
+                #        centerprint('Please answer the riddle.')
+                #        useranswer = input()
+                #        if self.debugging:
+                #            print(answer + ', you cheater!')
                 if similarstring(useranswer, answer) and useranswer != '':
                     centerprint('You have successfully answered the riddle')
                     centerprint('The answer was \"' + answer + '\"')
@@ -630,7 +630,11 @@ class Game:
         if itemindex not in range(0, invlimit):
             centerprint('Please enter a valid choice')
             return
-        self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
+        try:
+            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
+        except IndexError:
+            centerprint('Please enter a valid choice')
+            return
         self.ourhero.activeitem = self.ourhero.ouritem
         del (self.ourhero.items[int(itemindex)])
         centerprint('Using ' + str(self.ourhero.ouritem.name))
