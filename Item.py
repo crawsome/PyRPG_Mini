@@ -13,8 +13,11 @@ class Item:
     # prints all item stats
     def printiteminfo(self):
         Game.marqueeprint('Item: ')
-        print(Game.lr_justify('Level:', str(self.level), 50))
-        print(Game.lr_justify('Grade:', str(self.grade), 50))
-        print(Game.lr_justify('Name:', str(self.name), 50))
-        print(Game.lr_justify('Effect Val:', str(self.effect), 50))
-        print(Game.lr_justify('Gold Val:', str(self.val), 50))
+        print(Game.lr_justify('Level:', str(self.level), 60))
+        print(Game.lr_justify('Grade:', str(self.grade), 60))
+        print(Game.lr_justify('Name:', str(self.name), 60))
+        print(Game.lr_justify('Effect Val:', str(self.effect), 60))
+        print(Game.lr_justify('Gold Val:', str(self.val), 60))
+
+    def getitemdata(self):
+        return [str(self.level), str(self.grade), str(self.name), str(self.effect)]

@@ -5,12 +5,23 @@ import Game
 class Shield:
     # level,class,name,type,basedef,durability
     def __init__(self, shieldlevel, shieldclass, shieldname, shieldtype, shieldbasedefn, shielddur):
+        # shield level
         self.level = shieldlevel
+
+        # shield hero class type
         self.ourshieldclass = shieldclass
+
+        # shield name
         self.name = shieldname
+
+        # shield type
         self.type = shieldtype
+
+        # shield defense value
         self.basedefn = shieldbasedefn
         self.defn = self.basedefn
+
+        # shield defense value
         self.maxdur = shielddur
         self.dur = self.maxdur
 
@@ -47,9 +58,9 @@ class Shield:
 
     def printshieldinfo(self):
         Game.marqueeprint('SHIELD')
-        print(Game.lr_justify('Level:', str(self.level), 50))
-        print(Game.lr_justify('Name:', str(self.name), 50))
-        print(Game.lr_justify('Type:', str(self.type), 50))
-        print(Game.lr_justify('Defense:', str(self.defn) + '/' + str(self.basedefn), 50))
-        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 50))
-        print(Game.lr_justify('Broken?:', str(self.isbroken()), 50))
+        print(Game.lr_justify('Level:', str(self.level), 60))
+        print(Game.lr_justify('Name:', str(self.name), 60))
+        print(Game.lr_justify('Type:', str(self.type), 60))
+        print(Game.lr_justify('Defense:', str(self.defn) + '/' + str(self.basedefn), 60))
+        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
+        print(Game.lr_justify('Broken?:', str(self.isbroken()), 60))

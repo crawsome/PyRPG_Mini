@@ -4,14 +4,27 @@ import Game
 class Weapon:
     # level,class,name,type,baseattack,durability,power
     def __init__(self, weaponlevel, weaponclass, weaponname, weapontype, weaponbaseatk, weapondur, weaponpower):
+        # Weapon level
         self.level = weaponlevel
+
+        # Weapon hero class type
         self.ourclass = weaponclass
+
+        # Weapon type
         self.type = weapontype
+
+        # Weapon Name
         self.name = weaponname
+
+        # Weapon atk
         self.baseatk = weaponbaseatk
         self.atk = self.baseatk
+
+        # Weapon durability
         self.maxdur = weapondur
         self.dur = self.maxdur
+
+        # Weapon Power (Not implemented yet)
         self.power = weaponpower
 
     # damage durability, and check to see if broken
@@ -47,11 +60,11 @@ class Weapon:
     # prints all weapon stats
     def printweaponinfo(self):
         Game.marqueeprint('WEAPON')
-        print(Game.lr_justify('Level:', str(self.level), 50))
-        print(Game.lr_justify('Class:', str(self.ourclass), 50))
-        print(Game.lr_justify('Name:', str(self.name), 50))
-        print(Game.lr_justify('Type:', str(self.type), 50))
-        print(Game.lr_justify('Atk:', str(self.atk) + '/' + str(self.baseatk), 50))
-        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 50))
-        print(Game.lr_justify('Broken?:', str(self.isbroken()), 50))
-        print(Game.lr_justify('Power:', str(self.power), 50))
+        print(Game.lr_justify('Level:', str(self.level), 60))
+        print(Game.lr_justify('Class:', str(self.ourclass), 60))
+        print(Game.lr_justify('Name:', str(self.name), 60))
+        print(Game.lr_justify('Type:', str(self.type), 60))
+        print(Game.lr_justify('Atk:', str(self.atk) + '/' + str(self.baseatk), 60))
+        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
+        print(Game.lr_justify('Broken?:', str(self.isbroken()), 60))
+        print(Game.lr_justify('Power:', str(self.power), 60))

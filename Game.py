@@ -7,6 +7,7 @@ import time
 from difflib import SequenceMatcher
 from sqlite3 import connect
 
+
 import Enemy
 import Hero
 import dbsetup
@@ -196,7 +197,7 @@ class Game:
                 print('')
                 centerprint('Speak the answer to the wind...')
                 useranswer = input()
-                #if useranswer == '':
+                # if useranswer == '':
                 #    #while (useranswer == ''):
                 #        centerprint('Please answer the riddle.')
                 #        useranswer = input()
@@ -206,7 +207,7 @@ class Game:
                     centerprint('You have successfully answered the riddle')
                     centerprint('The answer was \"' + answer + '\"')
                     centerprint('I present you with this:')
-                    self.ourhero.addgold(self.ourhero.level * 40)
+                    self.ourhero.addgold(self.ourhero.level * 60)
                     self.ourhero.addxp(self.ourhero.nextlevel * .1)
                 else:
                     centerprint('You Fail! Leave this place!')
@@ -306,8 +307,6 @@ class Game:
         elif m == 'h':
             self.ourhero.healflip()
         wait = input()
-
-
 
     # One round of an enemy turn
     def enemyturn(self):
@@ -426,20 +425,20 @@ class Game:
             leftprint(
                 str(1) + ' \tName: ' + str(self.ourhero.ourweapon.name) + ' ' + str(
                     self.ourhero.ourweapon.type) + '\tAttack: ' + str(self.ourhero.ourweapon.atk) + '\tCost: ' + str(
-                    self.ourhero.ourweapon.level * 50 * self.ourhero.defcurve))
+                    self.ourhero.ourweapon.level * 60 * self.ourhero.defcurve))
             leftprint(
                 str(2) + ' \tName: ' + str(self.ourhero.ourshield.name) + ' ' + str(
                     self.ourhero.ourshield.type) + '\tDefense: ' + str(self.ourhero.ourshield.defn) + '\tCost: ' + str(
-                    self.ourhero.ourshield.level * 50 * self.ourhero.defcurve))
+                    self.ourhero.ourshield.level * 60 * self.ourhero.defcurve))
             leftprint(
                 str(3) + ' \tName: ' + str(self.ourhero.ourarmor.name) + ' ' + str(
                     self.ourhero.ourarmor.type) + '\tDefense: ' + str(self.ourhero.ourarmor.defn) + '\tCost: ' + str(
-                    self.ourhero.ourarmor.level * 50 * self.ourhero.defcurve))
+                    self.ourhero.ourarmor.level * 60 * self.ourhero.defcurve))
             print('\n')
             # determine weapon coses
-            wepcost = weaponforsale.level * 50 * self.ourhero.defcurve
-            armcost = armorforsale.level * 50 * self.ourhero.defcurve
-            shcost = shieldforsale.level * 50 * self.ourhero.defcurve
+            wepcost = weaponforsale.level * 60 * self.ourhero.defcurve
+            armcost = armorforsale.level * 60 * self.ourhero.defcurve
+            shcost = shieldforsale.level * 60 * self.ourhero.defcurve
             marqueeprint('[GEAR FOR SALE]')
             leftprint(
                 str(1) + ' \tName: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type) + '\tAttack: ' + str(
@@ -479,49 +478,52 @@ class Game:
 
     # a camp where you regain hp after so many fights.
     def camp(self):
-        self.ourhero.hp = self.ourhero.maxhp
-        marqueeprint('[CAMP]')
-        centerprint('You rest at camp. Hero HP: ' + str(self.ourhero.hp))
-        centerprint('[a]dventure [i]tem [h]ero')
-        centerprint('[p]eddler [b]lacksmith')
-        centerprint('[l]oad [s]ave [q]uit')
-        m = input()
-        if m == 'i':
-            marqueeprint('[ITEMS]')
-            self.item_management()
-            return
-        elif m == 'h':
-            marqueeprint('[HERO DETAIL]')
-            self.ourhero.printheroinfodetail()
-            wait = input()
-            self.ourhero.ourweapon.printweaponinfo()
-            wait = input()
-            self.ourhero.ourshield.printshieldinfo()
-            wait = input()
-            self.ourhero.ourarmor.printarmorinfo()
-            wait = input()
-        elif m == 'a':
-            return
-            # adventure()
-        elif m == 'l':
-            marqueeprint('[LOADGAME]')
-            self.ourhero = self.loadgame()
-        elif m == 's':
-            marqueeprint('[SAVEGAME]')
-            self.savegame()
-        elif m == 'b':
-            marqueeprint('[BLACKSMITH]')
-            self.blacksmith()
-        elif m == 'p':
-            marqueeprint('[PEDDLER\'S WARES]')
-            self.peddler()
-        elif m == 'q':
-            marqueeprint('[QUIT]')
-            decision = input('Are you sure?')
-            if decision == 'y':
-                quit()
-        else:
-            centerprint('You walk back to camp')
+        camping = True
+        while camping:
+            self.ourhero.hp = self.ourhero.maxhp
+            marqueeprint('[CAMP]')
+            centerprint('You rest at camp. Hero HP: ' + str(self.ourhero.hp))
+            centerprint('[a]dventure [i]tem [h]ero')
+            centerprint('[p]eddler [b]lacksmith')
+            centerprint('[l]oad [s]ave [q]uit')
+            m = input()
+            if m == 'i':
+                iteming = True
+                while iteming:
+                    marqueeprint('[ITEMS]')
+                    iteming = self.item_management()
+            elif m == 'h':
+                marqueeprint('[HERO DETAIL]')
+                self.ourhero.printheroinfodetail()
+                wait = input()
+                self.ourhero.ourweapon.printweaponinfo()
+                wait = input()
+                self.ourhero.ourshield.printshieldinfo()
+                wait = input()
+                self.ourhero.ourarmor.printarmorinfo()
+                wait = input()
+            elif m == 'a' or m == '':
+                return
+                # adventure()
+            elif m == 'l':
+                marqueeprint('[LOADGAME]')
+                self.ourhero = self.loadgame()
+            elif m == 's':
+                marqueeprint('[SAVEGAME]')
+                self.savegame()
+            elif m == 'b':
+                marqueeprint('[BLACKSMITH]')
+                self.blacksmith()
+            elif m == 'p':
+                marqueeprint('[PEDDLER\'S WARES]')
+                self.peddler()
+            elif m == 'q':
+                marqueeprint('[QUIT]')
+                decision = input('Are you sure?')
+                if decision == 'y':
+                    quit()
+            else:
+                centerprint('You walk back to camp')
 
     # sell the hero items (will be able to buy soon)
     def peddler(self):
@@ -613,28 +615,34 @@ class Game:
     def item_management(self):
         invlimit = 20
         marqueeprint('[CHOOSE ITEM]')
+
         if not self.ourhero.items:
             centerprint('Inventory Empty')
-            return
-        for i, item in enumerate(self.ourhero.items):
-            print(str(i) + ' \tName: ' + str(item.name) + '\tEffect: ' + str(item.effect))
-            if i > invlimit:
-                break
-        centerprint('Please enter decision')
-        itemindex = input()
+            return False
+        i = 0
+        dataarray = []
+        while i > len(self.ourhero.items):
+            dataarray.append(self.ourhero.items[i].getitemdata())
+            print(dataarray)
+            i += 1
+        fourrowprint(dataarray, "ITEMS")
+        centerprint('Please enter decision, [ENTER] to go back')
+
         try:
+            itemindex = input()
             itemindex = int(itemindex)
-        except:
-            itemindex = 0
+            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
+        except ValueError:
+            centerprint('Please enter a valid choice')
+            return False
+        except IndexError:
+            centerprint('Please enter a valid choice')
+            return False
 
         if itemindex not in range(0, invlimit):
             centerprint('Please enter a valid choice')
-            return
-        try:
-            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
-        except IndexError:
-            centerprint('Please enter a valid choice')
-            return
+            return False
+
         self.ourhero.activeitem = self.ourhero.ouritem
         del (self.ourhero.items[int(itemindex)])
         centerprint('Using ' + str(self.ourhero.ouritem.name))
@@ -652,6 +660,7 @@ class Game:
             self.hastepotion()
         if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
             self.weaponrepairtincture()
+
 
     # hero uses a healing potion
     def healingpotion(self):
@@ -703,49 +712,49 @@ class Game:
 
     # Print hero and enemy justified on left and right
     def printadversaries(self):
-        print(lr_justify('[HERO]', '[ENEMY]', 50))
-        print(lr_justify(self.ourhero.name, self.ourenemy.name, 50))
-        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), str('lvl: ' + str(self.ourenemy.level)), 50))
+        print(lr_justify('[HERO]', '[ENEMY]', 60))
+        print(lr_justify(self.ourhero.name, self.ourenemy.name, 60))
+        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), str('lvl: ' + str(self.ourenemy.level)), 60))
         print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)),
-                         str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), 50))
+                         str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), 60))
         print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
                          str('XP drop: ' + str(self.ourenemy.xp)),
-                         50))
+                         60))
 
     # To be used on status screens
     def printmarqueehero(self, sometext):
         marqueeprint(sometext)
-        print(lr_justify('[HERO]', '', 50))
-        print(lr_justify(self.ourhero.name, '', 50))
-        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', 50))
-        print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', 50))
-        print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', 50))
+        print(lr_justify('[HERO]', '', 60))
+        print(lr_justify(self.ourhero.name, '', 60))
+        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', 60))
+        print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', 60))
+        print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', 60))
 
 
 # will print something with ==text==, centered
 def marqueeprint(text):
-    print('{:=^50}'.format(text))
+    print('{:=^60}'.format(text))
 
 
 # Left-justify print
 def leftprint(text):
-    print('{:<50}'.format(text))
+    print('{:<60}'.format(text))
 
 
 # right-justify print
 def rightprint(text):
-    print('{:>50}'.format(text))
+    print('{:>60}'.format(text))
 
 
 # centered print
 def centerprint(text):
-    wrapstring = textwrap.wrap(text, width=50)
+    wrapstring = textwrap.wrap(text, width=60)
     for line in wrapstring:
         # print(line)
-        print('{:^50}'.format(line))
+        print('{:^60}'.format(line))
 
 
-# From https://stackoverflow.com/questions/9640109/allign-left-and-right-in-python
+# From https://stackoverflow.com/questions/9660109/allign-left-and-right-in-python
 def lr_justify(left, right, width):
     return '{}{}{}'.format(left, ' ' * (width - len(left + right)), right)
 
@@ -753,8 +762,8 @@ def lr_justify(left, right, width):
 # Prints 4 rows of something
 def fourrowprint(table_data, title):
     marqueeprint(title)
-    for row in table_data:
-        print("{: >12} {: >12} {: >12} {: >12}".format(*row))
+    for i, row in enumerate(table_data):
+        print(str(i) + " {: >14} {: >14} {: >14} {: >14}".format(*row))
 
 
 # for debugging and margin adjustments for user to zoom in
@@ -765,7 +774,7 @@ def printtest():
     centerprint('Center Print')
 
 
-# if string is at least 80% similar, will return true
+# if string is at least 60% similar, will return true
 def similarstring(a, b):
     ourratio = SequenceMatcher(None, a, b).ratio()
     if ourratio >= .8:

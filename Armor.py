@@ -6,15 +6,19 @@ class Armor:
     def __init__(self, armorlevel, armorclasstype, armorname, armortype, armorbasedef, armordur):
         # level
         self.level = armorlevel
+
         # hero Class
         self.classtype = armorclasstype
+
         # hero Class
         self.type = armortype
         self.name = armorname
 
+        # defense values
         self.basedefn = armorbasedef
         self.defn = self.basedefn
 
+        # durability values
         self.maxdur = armordur
         self.dur = self.maxdur
 
@@ -52,9 +56,9 @@ class Armor:
     # prints all armor info
     def printarmorinfo(self):
         Game.marqueeprint('ARMOR')
-        print(Game.lr_justify('Level:', str(self.level), 50))
-        print(Game.lr_justify('Name:', str(self.name), 50))
-        print(Game.lr_justify('Type:', str(self.type), 50))
-        print(Game.lr_justify('Defense:', str(self.defn) + '/' + str(self.basedefn), 50))
-        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 50))
-        print(Game.lr_justify('Broken?:', str(self.isbroken()), 50))
+        print(Game.lr_justify('Level:', str(self.level), 60))
+        print(Game.lr_justify('Name:', str(self.name), 60))
+        print(Game.lr_justify('Type:', str(self.type), 60))
+        print(Game.lr_justify('Defense:', str(self.defn) + '/' + str(self.basedefn), 60))
+        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
+        print(Game.lr_justify('Broken?:', str(self.isbroken()), 60))

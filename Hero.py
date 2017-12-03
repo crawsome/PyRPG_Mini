@@ -217,16 +217,16 @@ class Hero:
     # prints all hero stat info
     def printheroinfodetail(self):
         Game.marqueeprint('[HERO DATA]')
-        print(Game.lr_justify('Class:', str(self.ourclass), 50))
-        print(Game.lr_justify('Name:', str(self.name), 50))
-        print(Game.lr_justify('Level:', str(self.level), 50))
-        print(Game.lr_justify('XP:', str(self.xp) + '/' + str(self.nextlevel), 50))
-        print(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp), 50))
-        print(Game.lr_justify('Gold:', str(self.gold), 50))
-        print(Game.lr_justify('Atk:', str(self.atk), 50))
-        print(Game.lr_justify('Defense:', str(self.defn), 50))
-        print(Game.lr_justify('Dodge:', str(self.dodge), 50))
-        print(Game.lr_justify('battles fought', str(self.battlecount), 50))
+        print(Game.lr_justify('Class:', str(self.ourclass), 60))
+        print(Game.lr_justify('Name:', str(self.name), 60))
+        print(Game.lr_justify('Level:', str(self.level), 60))
+        print(Game.lr_justify('XP:', str(self.xp) + '/' + str(self.nextlevel), 60))
+        print(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp), 60))
+        print(Game.lr_justify('Gold:', str(self.gold), 60))
+        print(Game.lr_justify('Atk:', str(self.atk), 60))
+        print(Game.lr_justify('Defense:', str(self.defn), 60))
+        print(Game.lr_justify('Dodge:', str(self.dodge), 60))
+        print(Game.lr_justify('battles fought', str(self.battlecount), 60))
         print('')
 
     # levels up hero
