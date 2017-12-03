@@ -372,18 +372,19 @@ class Game:
             centerprint('The Blacksmith can offer repair ')
             centerprint('services for 1g/repair point')
             centerprint('Here is your gear durability:')
-            data1 = ['Slot', 'Name', 'Dur', 'Broken?']
-            data2 = [str(1), str(self.ourhero.ourweapon.name) + str(self.ourhero.ourweapon.type),
+            headerdata = ['Slot', 'Name', 'Dur', 'Broken?']
+            data2 = [str(self.ourhero.ourweapon.name), str(self.ourhero.ourweapon.type),
                      str(self.ourhero.ourweapon.dur) + '/' + str(self.ourhero.ourweapon.maxdur),
                      str(self.ourhero.ourweapon.isbroken())]
-            data3 = [str(2), str(self.ourhero.ourshield.name) + ' ' + str(self.ourhero.ourshield.type),
+            data3 = [str(self.ourhero.ourshield.name), str(self.ourhero.ourshield.type),
                      str(self.ourhero.ourshield.dur) + '/' + str(self.ourhero.ourshield.maxdur),
                      str(self.ourhero.ourshield.isbroken())]
-            data4 = [str(3), str(self.ourhero.ourarmor.name) + ' ' + str(self.ourhero.ourarmor.type),
+            data4 = [str(self.ourhero.ourarmor.name) , str(self.ourhero.ourarmor.type),
                      str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
                      str(self.ourhero.ourarmor.isbroken())]
-            alldata = [data1, data2, data3, data4]
-            fourrowprint(alldata, "Blacksmith")
+            alldata = [headerdata, data2, data3, data4]
+            headerdata = ['Slot', 'Type', 'Name', 'Dur', 'Broken?']
+            fiverowprintoptions(headerdata, alldata, "Blacksmith")
 
             decision = input('What do you want to repair? [a] for all')
             if decision == '1' or decision == 'a':
@@ -621,11 +622,11 @@ class Game:
             return False
         i = 0
         dataarray = []
-        while i > len(self.ourhero.items):
+        while i < len(self.ourhero.items):
             dataarray.append(self.ourhero.items[i].getitemdata())
-            print(dataarray)
             i += 1
-        fourrowprint(dataarray, "ITEMS")
+        dataheader = ['Slot', 'Level', 'quality', 'Name', 'Value']
+        fiverowprintoptions(dataheader, dataarray, "ITEMS")
         centerprint('Please enter decision, [ENTER] to go back')
 
         try:
@@ -760,10 +761,12 @@ def lr_justify(left, right, width):
 
 
 # Prints 4 rows of something
-def fourrowprint(table_data, title):
+def fiverowprintoptions(dataheader, table_data, title):
     marqueeprint(title)
+    print(" {: <5} {: <5} {: >5} {: >10} {: >10}".format(*dataheader))
     for i, row in enumerate(table_data):
-        print(str(i) + " {: >14} {: >14} {: >14} {: >14}".format(*row))
+        row.insert(0, i)
+        print(" {: <5} {: <5} {: >5} {: >10} {: >10}".format(*row))
 
 
 # for debugging and margin adjustments for user to zoom in
