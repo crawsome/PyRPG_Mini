@@ -372,22 +372,23 @@ class Game:
             centerprint('The Blacksmith can offer repair ')
             centerprint('services for 1g/repair point')
             centerprint('Here is your gear durability:')
-            headerdata = ['Slot', 'Name', 'Dur', 'Broken?']
-            data2 = [str(self.ourhero.ourweapon.name), str(self.ourhero.ourweapon.type),
+
+            data1 = [str(self.ourhero.ourweapon.name), str(self.ourhero.ourweapon.type),
                      str(self.ourhero.ourweapon.dur) + '/' + str(self.ourhero.ourweapon.maxdur),
                      str(self.ourhero.ourweapon.isbroken())]
-            data3 = [str(self.ourhero.ourshield.name), str(self.ourhero.ourshield.type),
+            data2 = [str(self.ourhero.ourshield.name), str(self.ourhero.ourshield.type),
                      str(self.ourhero.ourshield.dur) + '/' + str(self.ourhero.ourshield.maxdur),
                      str(self.ourhero.ourshield.isbroken())]
-            data4 = [str(self.ourhero.ourarmor.name) , str(self.ourhero.ourarmor.type),
+            data3 = [str(self.ourhero.ourarmor.name) , str(self.ourhero.ourarmor.type),
                      str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
                      str(self.ourhero.ourarmor.isbroken())]
-            alldata = [headerdata, data2, data3, data4]
-            headerdata = ['Slot', 'Type', 'Name', 'Dur', 'Broken?']
-            fiverowprintoptions(headerdata, alldata, "Blacksmith")
+
+            headerdata = ['Type', 'Name', 'Dur', 'Broken?']
+            alldata = [data1, data2, data3]
+            fiverowprintoptions(headerdata, alldata, "[Blacksmith]")
 
             decision = input('What do you want to repair? [a] for all')
-            if decision == '1' or decision == 'a':
+            if decision == '0' or decision == 'a':
                 repaircost = self.ourhero.ourweapon.maxdur - self.ourhero.ourweapon.dur
                 centerprint('Repair Your weapon?')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
@@ -397,7 +398,7 @@ class Game:
                     self.ourhero.gold -= repaircost
                     self.ourhero.ourweapon.dur = self.ourhero.ourweapon.maxdur
                     centerprint('Repair Success.')
-            if decision == '2' or decision == 'a':
+            if decision == '1' or decision == 'a':
                 repaircost = self.ourhero.ourshield.maxdur - self.ourhero.ourshield.dur
                 centerprint('Repair Your shield?')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
@@ -407,7 +408,7 @@ class Game:
                     self.ourhero.gold -= repaircost
                     self.ourhero.ourshield.dur = self.ourhero.ourshield.maxdur
                     centerprint('Repair Success.')
-            if decision == '3' or decision == 'a':
+            if decision == '2' or decision == 'a':
                 repaircost = self.ourhero.ourarmor.maxdur - self.ourhero.ourarmor.dur
                 centerprint('Repair Your armor?)')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
@@ -422,34 +423,37 @@ class Game:
             weaponforsale = self.ourhero.newweapon()
             armorforsale = self.ourhero.newarmor()
             shieldforsale = self.ourhero.newshield()
-            marqueeprint('[YOUR GEAR]')
-            leftprint(
-                str(1) + ' \tName: ' + str(self.ourhero.ourweapon.name) + ' ' + str(
-                    self.ourhero.ourweapon.type) + '\tAttack: ' + str(self.ourhero.ourweapon.atk) + '\tCost: ' + str(
-                    self.ourhero.ourweapon.level * 60 * self.ourhero.defcurve))
-            leftprint(
-                str(2) + ' \tName: ' + str(self.ourhero.ourshield.name) + ' ' + str(
-                    self.ourhero.ourshield.type) + '\tDefense: ' + str(self.ourhero.ourshield.defn) + '\tCost: ' + str(
-                    self.ourhero.ourshield.level * 60 * self.ourhero.defcurve))
-            leftprint(
-                str(3) + ' \tName: ' + str(self.ourhero.ourarmor.name) + ' ' + str(
-                    self.ourhero.ourarmor.type) + '\tDefense: ' + str(self.ourhero.ourarmor.defn) + '\tCost: ' + str(
-                    self.ourhero.ourarmor.level * 60 * self.ourhero.defcurve))
+            dataheader = ['Name', 'Type', 'Dur', 'Broken']
+            title = ('[YOUR GEAR]')
+            data1 = [str(self.ourhero.ourweapon.name), str(self.ourhero.ourweapon.type),
+                     str(self.ourhero.ourweapon.dur) + '/' + str(self.ourhero.ourweapon.maxdur),
+                     str(self.ourhero.ourweapon.isbroken())]
+            data2 = [str(self.ourhero.ourshield.name), str(self.ourhero.ourshield.type),
+                     str(self.ourhero.ourshield.dur) + '/' + str(self.ourhero.ourshield.maxdur),
+                     str(self.ourhero.ourshield.isbroken())]
+            data3 = [str(self.ourhero.ourarmor.name) , str(self.ourhero.ourarmor.type),
+                     str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
+                     str(self.ourhero.ourarmor.isbroken())]
+            alldata = [data1, data2, data3]
+            fiverowprintoptions(dataheader,alldata,title)
             print('\n')
             # determine weapon coses
             wepcost = weaponforsale.level * 60 * self.ourhero.defcurve
             armcost = armorforsale.level * 60 * self.ourhero.defcurve
             shcost = shieldforsale.level * 60 * self.ourhero.defcurve
-            marqueeprint('[GEAR FOR SALE]')
-            leftprint(
-                str(1) + ' \tName: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type) + '\tAttack: ' + str(
-                    weaponforsale.atk) + '\tCost: ' + str(wepcost))
-            leftprint(
-                str(2) + ' \tName: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type) + '\tDefense: ' + str(
-                    shieldforsale.defn) + '\tCost: ' + str(shcost))
-            leftprint(
-                str(3) + ' \tName: ' + str(armorforsale.name) + ' ' + str(armorforsale.type) + '\tDefense: ' + str(
-                    armorforsale.defn) + '\tCost: ' + str(armcost))
+            dataheader = ['Name', 'Type', 'Dur', 'Cost']
+            title = ('[GEAR FOR SALE]')
+            data1 = [str(weaponforsale.name), str(weaponforsale.type),
+                     str(weaponforsale.dur) + '/' + str(weaponforsale.maxdur),
+                     str(wepcost)]
+            data2 = [str(shieldforsale.name), str(shieldforsale.type),
+                     str(shieldforsale.dur) + '/' + str(shieldforsale.maxdur),
+                     str(shcost)]
+            data3 = [str(armorforsale.name) , str(armorforsale.type),
+                     str(armorforsale.dur) + '/' + str(armorforsale.maxdur),
+                     str(armcost)]
+            alldata = [data1, data2, data3]
+            fiverowprintoptions(dataheader,alldata,title)
             centerprint('Please enter decision')
             itemindex = input()
             if itemindex not in ['1', '2', '3']:
@@ -615,8 +619,6 @@ class Game:
     # lets hero use items
     def item_management(self):
         invlimit = 20
-        marqueeprint('[CHOOSE ITEM]')
-
         if not self.ourhero.items:
             centerprint('Inventory Empty')
             return False
@@ -625,8 +627,8 @@ class Game:
         while i < len(self.ourhero.items):
             dataarray.append(self.ourhero.items[i].getitemdata())
             i += 1
-        dataheader = ['Slot', 'Level', 'quality', 'Name', 'Value']
-        fiverowprintoptions(dataheader, dataarray, "ITEMS")
+        dataheader = ['Level', 'Quality', 'Name', 'Effect']
+        fiverowprintoptions(dataheader, dataarray, "[ITEMS]")
         centerprint('Please enter decision, [ENTER] to go back')
 
         try:
@@ -763,10 +765,11 @@ def lr_justify(left, right, width):
 # Prints 4 rows of something
 def fiverowprintoptions(dataheader, table_data, title):
     marqueeprint(title)
-    print(" {: <5} {: <5} {: >5} {: >10} {: >10}".format(*dataheader))
+    dataheader.insert(0, '#')
+    print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*dataheader))
     for i, row in enumerate(table_data):
         row.insert(0, i)
-        print(" {: <5} {: <5} {: >5} {: >10} {: >10}".format(*row))
+        print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*row))
 
 
 # for debugging and margin adjustments for user to zoom in
