@@ -388,7 +388,8 @@ class Game:
             fiverowprintoptions(headerdata, alldata, "[Blacksmith]")
 
             decision = input('What do you want to repair? [a] for all')
-            if decision == '0' or decision == 'a':
+
+            if decision == '1' or decision == 'a':
                 repaircost = self.ourhero.ourweapon.maxdur - self.ourhero.ourweapon.dur
                 centerprint('Repair Your weapon?')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
@@ -398,7 +399,7 @@ class Game:
                     self.ourhero.gold -= repaircost
                     self.ourhero.ourweapon.dur = self.ourhero.ourweapon.maxdur
                     centerprint('Repair Success.')
-            if decision == '1' or decision == 'a':
+            if decision == '2' or decision == 'a':
                 repaircost = self.ourhero.ourshield.maxdur - self.ourhero.ourshield.dur
                 centerprint('Repair Your shield?')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
@@ -408,7 +409,7 @@ class Game:
                     self.ourhero.gold -= repaircost
                     self.ourhero.ourshield.dur = self.ourhero.ourshield.maxdur
                     centerprint('Repair Success.')
-            if decision == '2' or decision == 'a':
+            if decision == '3' or decision == 'a':
                 repaircost = self.ourhero.ourarmor.maxdur - self.ourhero.ourarmor.dur
                 centerprint('Repair Your armor?)')
                 centerprint('Cost: ' + str(repaircost) + ' gold')
@@ -418,13 +419,13 @@ class Game:
                     self.ourhero.gold -= repaircost
                     self.ourhero.ourarmor.dur = self.ourhero.ourarmor.maxdur
                     centerprint('Repair Success')
+
         # offer random choice of weapon, armor, or shield at 1.5x value price
         elif nextdecision == 'b':
             weaponforsale = self.ourhero.newweapon()
             armorforsale = self.ourhero.newarmor()
             shieldforsale = self.ourhero.newshield()
-            dataheader = ['Name', 'Type', 'Dur', 'Broken']
-            title = ('[YOUR GEAR]')
+
             data1 = [str(self.ourhero.ourweapon.name), str(self.ourhero.ourweapon.type),
                      str(self.ourhero.ourweapon.dur) + '/' + str(self.ourhero.ourweapon.maxdur),
                      str(self.ourhero.ourweapon.isbroken())]
@@ -434,15 +435,17 @@ class Game:
             data3 = [str(self.ourhero.ourarmor.name) , str(self.ourhero.ourarmor.type),
                      str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
                      str(self.ourhero.ourarmor.isbroken())]
+            dataheader = ['Name', 'Type', 'Dur', 'Broken']
+            title = ('[YOUR GEAR]')
+
             alldata = [data1, data2, data3]
-            fiverowprintoptions(dataheader,alldata,title)
-            print('\n')
+
+            fiverowprintoptions(dataheader, alldata, title)
             # determine weapon coses
             wepcost = weaponforsale.level * 60 * self.ourhero.defcurve
             armcost = armorforsale.level * 60 * self.ourhero.defcurve
             shcost = shieldforsale.level * 60 * self.ourhero.defcurve
-            dataheader = ['Name', 'Type', 'Dur', 'Cost']
-            title = ('[GEAR FOR SALE]')
+
             data1 = [str(weaponforsale.name), str(weaponforsale.type),
                      str(weaponforsale.dur) + '/' + str(weaponforsale.maxdur),
                      str(wepcost)]
@@ -452,8 +455,12 @@ class Game:
             data3 = [str(armorforsale.name) , str(armorforsale.type),
                      str(armorforsale.dur) + '/' + str(armorforsale.maxdur),
                      str(armcost)]
+
+            dataheader = ['Name', 'Type', 'Dur', 'Cost']
+            title = ('[GEAR FOR SALE]')
             alldata = [data1, data2, data3]
-            fiverowprintoptions(dataheader,alldata,title)
+            fiverowprintoptions(dataheader, alldata, title)
+
             centerprint('Please enter decision')
             itemindex = input()
             if itemindex not in ['1', '2', '3']:
@@ -622,7 +629,7 @@ class Game:
         if not self.ourhero.items:
             centerprint('Inventory Empty')
             return False
-        i = 0
+        i = 1
         dataarray = []
         while i < len(self.ourhero.items):
             dataarray.append(self.ourhero.items[i].getitemdata())
@@ -634,7 +641,7 @@ class Game:
         try:
             itemindex = input()
             itemindex = int(itemindex)
-            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
+            self.ourhero.ouritem = self.ourhero.items[int(itemindex-1)]
         except ValueError:
             centerprint('Please enter a valid choice')
             return False
@@ -642,12 +649,10 @@ class Game:
             centerprint('Please enter a valid choice')
             return False
 
-        if itemindex not in range(0, invlimit):
+        if itemindex not in range(1, invlimit):
             centerprint('Please enter a valid choice')
             return False
-
         self.ourhero.activeitem = self.ourhero.ouritem
-        del (self.ourhero.items[int(itemindex)])
         centerprint('Using ' + str(self.ourhero.ouritem.name))
         if self.ourhero.ouritem.name == 'Healing Potion':
             self.healingpotion()
@@ -663,6 +668,7 @@ class Game:
             self.hastepotion()
         if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
             self.weaponrepairtincture()
+        del (self.ourhero.items[int(itemindex)])
 
 
     # hero uses a healing potion
@@ -768,7 +774,7 @@ def fiverowprintoptions(dataheader, table_data, title):
     dataheader.insert(0, '#')
     print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*dataheader))
     for i, row in enumerate(table_data):
-        row.insert(0, i)
+        row.insert(0, i+1)
         print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*row))
 
 
