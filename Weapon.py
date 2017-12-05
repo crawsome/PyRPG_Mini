@@ -68,3 +68,12 @@ class Weapon:
         print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
         print(Game.lr_justify('Broken?:', str(self.isbroken()), 60))
         print(Game.lr_justify('Power:', str(self.power), 60))
+
+    #[title,Data header,data]
+    def dataarray(self):
+
+        return [['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power'],
+                [str(self.level), str(self.name),
+                 str(self.type), str(self.atk),
+                 str(self.dur) + '/' + str(self.maxdur),
+                 str(self.isbroken()), str(self.power)]]

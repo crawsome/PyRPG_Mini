@@ -383,9 +383,12 @@ class Game:
                      str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
                      str(self.ourhero.ourarmor.isbroken())]
 
-            headerdata = ['Type', 'Name', 'Dur', 'Broken?']
-            alldata = [data1, data2, data3]
-            fiverowprintoptions(headerdata, alldata, "[Blacksmith]")
+            #headerdata = ['Type', 'Name', 'Dur', 'Broken?']
+            headerdata = ['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power']
+            #alldata = [data1, data2, data3]
+            alldata = [self.ourhero.ourweapon.dataarray()]
+            #fiverowprintoptions(headerdata, alldata, "[Blacksmith]")
+            gridoutput("[Blacksmith]", headerdata, alldata)
 
             decision = input('What do you want to repair? [a] for all')
 
@@ -447,23 +450,23 @@ class Game:
             shcost = shieldforsale.level * 60 * self.ourhero.defcurve
 
             data1 = [str(weaponforsale.name), str(weaponforsale.type),
-                     str(weaponforsale.dur) + '/' + str(weaponforsale.maxdur),
+                     str(weaponforsale.baseatk),
                      str(wepcost)]
             data2 = [str(shieldforsale.name), str(shieldforsale.type),
-                     str(shieldforsale.dur) + '/' + str(shieldforsale.maxdur),
+                     str(shieldforsale.basedefn),
                      str(shcost)]
             data3 = [str(armorforsale.name) , str(armorforsale.type),
-                     str(armorforsale.dur) + '/' + str(armorforsale.maxdur),
+                     str(armorforsale.basedefn),
                      str(armcost)]
 
-            dataheader = ['Name', 'Type', 'Dur', 'Cost']
             title = ('[GEAR FOR SALE]')
+            dataheader = ['Name', 'Type', 'Atk/Def', 'Cost']
             alldata = [data1, data2, data3]
             fiverowprintoptions(dataheader, alldata, title)
 
-            centerprint('Please enter decision')
+            centerprint('Please enter decision [ENTER] to go back')
             itemindex = input()
-            if itemindex not in ['1', '2', '3']:
+            if itemindex not in ['1', '2', '3', '']:
                 centerprint('Please enter a valid choice')
             elif itemindex == '1':
                 self.ourhero.ourweapon = weaponforsale
@@ -502,7 +505,6 @@ class Game:
             if m == 'i':
                 iteming = True
                 while iteming:
-                    marqueeprint('[ITEMS]')
                     iteming = self.item_management()
             elif m == 'h':
                 marqueeprint('[HERO DETAIL]')
@@ -629,7 +631,7 @@ class Game:
         if not self.ourhero.items:
             centerprint('Inventory Empty')
             return False
-        i = 1
+        i = 0
         dataarray = []
         while i < len(self.ourhero.items):
             dataarray.append(self.ourhero.items[i].getitemdata())
@@ -641,15 +643,13 @@ class Game:
         try:
             itemindex = input()
             itemindex = int(itemindex)
-            self.ourhero.ouritem = self.ourhero.items[int(itemindex-1)]
+            itemindex -= 1
+            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
+            del (self.ourhero.items[int(itemindex)])
         except ValueError:
             centerprint('Please enter a valid choice')
             return False
         except IndexError:
-            centerprint('Please enter a valid choice')
-            return False
-
-        if itemindex not in range(1, invlimit):
             centerprint('Please enter a valid choice')
             return False
         self.ourhero.activeitem = self.ourhero.ouritem
@@ -668,7 +668,7 @@ class Game:
             self.hastepotion()
         if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
             self.weaponrepairtincture()
-        del (self.ourhero.items[int(itemindex)])
+
 
 
     # hero uses a healing potion
@@ -776,6 +776,38 @@ def fiverowprintoptions(dataheader, table_data, title):
     for i, row in enumerate(table_data):
         row.insert(0, i+1)
         print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*row))
+
+#dynamic sized row-at-a-time output.
+def gridoutput(title, dataheader, table_data):
+    marqueeprint(title)
+    dataheader.insert(0, '#')
+    basestring = '{: <'
+    cap = '} '
+    rowformat = ''
+    # this creates a dynamic-sized
+    columwidth = []
+
+    # fills array with ints of each columns width
+    for i, column in enumerate(table_data):
+        columwidth.append(max(column[i]))
+
+    print(columwidth)
+    for i, headeritem in enumerate(dataheader):
+        rowformat += basestring
+        rowformat += str(columwidth[i])
+        rowformat += cap
+    print(rowformat.format(*dataheader))
+
+    rowformat = ''
+    for rowitem in table_data:
+        rowformat += basestring
+        rowformat += str(len(str(rowitem)))
+        rowformat += cap
+    print(rowformat.format(*dataheader))
+
+
+
+
 
 
 # for debugging and margin adjustments for user to zoom in
