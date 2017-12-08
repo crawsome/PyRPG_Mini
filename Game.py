@@ -6,12 +6,9 @@ import textwrap
 import time
 from difflib import SequenceMatcher
 from sqlite3 import connect
-
-
 import Enemy
 import Hero
 import dbsetup
-
 
 class Game:
     def __init__(self):
