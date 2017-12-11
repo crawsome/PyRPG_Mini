@@ -1,5 +1,4 @@
-import Game
-
+from texttools import *
 
 class Weapon:
     # level,class,name,type,baseattack,durability,power
@@ -59,21 +58,24 @@ class Weapon:
 
     # prints all weapon stats
     def printweaponinfo(self):
-        Game.marqueeprint('WEAPON')
-        print(Game.lr_justify('Level:', str(self.level), 60))
-        print(Game.lr_justify('Class:', str(self.ourclass), 60))
-        print(Game.lr_justify('Name:', str(self.name), 60))
-        print(Game.lr_justify('Type:', str(self.type), 60))
-        print(Game.lr_justify('Atk:', str(self.atk) + '/' + str(self.baseatk), 60))
-        print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
-        print(Game.lr_justify('Broken?:', str(self.isbroken()), 60))
-        print(Game.lr_justify('Power:', str(self.power), 60))
+        marqueeprint('WEAPON')
+        print(lr_justify('Level:', str(self.level), 60))
+        print(lr_justify('Class:', str(self.ourclass), 60))
+        print(lr_justify('Name:', str(self.name), 60))
+        print(lr_justify('Type:', str(self.type), 60))
+        print(lr_justify('Atk:', str(self.atk) + '/' + str(self.baseatk), 60))
+        print(lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
+        print(lr_justify('Broken?:', str(self.isbroken()), 60))
+        print(lr_justify('Power:', str(self.power), 60))
 
-    #[title,Data header,data]
-    def dataarray(self):
-
-        return [['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power'],
-                [str(self.level), str(self.name),
-                 str(self.type), str(self.atk),
-                 str(self.dur) + '/' + str(self.maxdur),
-                 str(self.isbroken()), str(self.power)]]
+    # ['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power']
+    def datadict(self):
+        return {'Level': str(self.level),
+                'Name': str(self.name),
+                'Type': str(self.type),
+                'Atk': str(self.atk),
+                'Dur': str(self.dur) + '/' + str(self.maxdur),
+                'Broken?': str(self.isbroken()),
+                'Repair Cost': str(self.maxdur - self.dur) + ' gold',
+                'Power': str(self.power)
+                }

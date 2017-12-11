@@ -2,20 +2,22 @@ import datetime
 import os
 import pickle
 import random
-import textwrap
 import time
-from difflib import SequenceMatcher
 from sqlite3 import connect
 import Enemy
 import Hero
 import dbsetup
+from texttools import *
+
 
 class Game:
     def __init__(self):
         # adds a little suspense
+        # TODO: add suspense option to some printing methods?
         self.suspensemode = 0
 
         # provides inner workings of game, some live-comments
+        # TODO: add more comments and stats as game goes on
         self.debugging = 0
 
         # provides a way to speed through battle (risky!)
@@ -24,6 +26,9 @@ class Game:
         # make blank hero and enemy objects
         self.ourhero = 0
         self.ourenemy = 0
+
+        # global text width
+        textwidth = 60
 
         # Create all game databases (only needs to run once to make databases)
         firsttime = False
@@ -220,7 +225,7 @@ class Game:
         self.ourhero.battlecount += 1
         self.printadversaries()
         print('')
-        marqueeprint('[CHOOSE ACTION]')
+        marqueeprint('[CHOOSE ACTION]');
         centerprint('[a]tk  [d]ef [r]un [i]tem')
         centerprint('Coinflip to [h]eal (100g)')
         centerprint('Action?')
@@ -369,23 +374,9 @@ class Game:
             centerprint('The Blacksmith can offer repair ')
             centerprint('services for 1g/repair point')
             centerprint('Here is your gear durability:')
-
-            data1 = [str(self.ourhero.ourweapon.name), str(self.ourhero.ourweapon.type),
-                     str(self.ourhero.ourweapon.dur) + '/' + str(self.ourhero.ourweapon.maxdur),
-                     str(self.ourhero.ourweapon.isbroken())]
-            data2 = [str(self.ourhero.ourshield.name), str(self.ourhero.ourshield.type),
-                     str(self.ourhero.ourshield.dur) + '/' + str(self.ourhero.ourshield.maxdur),
-                     str(self.ourhero.ourshield.isbroken())]
-            data3 = [str(self.ourhero.ourarmor.name) , str(self.ourhero.ourarmor.type),
-                     str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
-                     str(self.ourhero.ourarmor.isbroken())]
-
-            #headerdata = ['Type', 'Name', 'Dur', 'Broken?']
-            headerdata = ['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power']
-            #alldata = [data1, data2, data3]
-            alldata = [self.ourhero.ourweapon.dataarray()]
-            #fiverowprintoptions(headerdata, alldata, "[Blacksmith]")
-            gridoutput("[Blacksmith]", headerdata, alldata)
+            gridoutput(self.ourhero.ourweapon.datadict())
+            gridoutput(self.ourhero.ourshield.datadict())
+            gridoutput(self.ourhero.ourarmor.datadict())
 
             decision = input('What do you want to repair? [a] for all')
 
@@ -432,7 +423,7 @@ class Game:
             data2 = [str(self.ourhero.ourshield.name), str(self.ourhero.ourshield.type),
                      str(self.ourhero.ourshield.dur) + '/' + str(self.ourhero.ourshield.maxdur),
                      str(self.ourhero.ourshield.isbroken())]
-            data3 = [str(self.ourhero.ourarmor.name) , str(self.ourhero.ourarmor.type),
+            data3 = [str(self.ourhero.ourarmor.name), str(self.ourhero.ourarmor.type),
                      str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
                      str(self.ourhero.ourarmor.isbroken())]
             dataheader = ['Name', 'Type', 'Dur', 'Broken']
@@ -452,7 +443,7 @@ class Game:
             data2 = [str(shieldforsale.name), str(shieldforsale.type),
                      str(shieldforsale.basedefn),
                      str(shcost)]
-            data3 = [str(armorforsale.name) , str(armorforsale.type),
+            data3 = [str(armorforsale.name), str(armorforsale.type),
                      str(armorforsale.basedefn),
                      str(armcost)]
 
@@ -631,7 +622,7 @@ class Game:
         i = 0
         dataarray = []
         while i < len(self.ourhero.items):
-            dataarray.append(self.ourhero.items[i].getitemdata())
+            dataarray.append(self.ourhero.items[i].dataarray())
             i += 1
         dataheader = ['Level', 'Quality', 'Name', 'Effect']
         fiverowprintoptions(dataheader, dataarray, "[ITEMS]")
@@ -665,8 +656,6 @@ class Game:
             self.hastepotion()
         if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
             self.weaponrepairtincture()
-
-
 
     # hero uses a healing potion
     def healingpotion(self):
@@ -737,88 +726,3 @@ class Game:
         print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', 60))
 
 
-# will print something with ==text==, centered
-def marqueeprint(text):
-    print('{:=^60}'.format(text))
-
-
-# Left-justify print
-def leftprint(text):
-    print('{:<60}'.format(text))
-
-
-# right-justify print
-def rightprint(text):
-    print('{:>60}'.format(text))
-
-
-# centered print
-def centerprint(text):
-    wrapstring = textwrap.wrap(text, width=60)
-    for line in wrapstring:
-        # print(line)
-        print('{:^60}'.format(line))
-
-
-# From https://stackoverflow.com/questions/9660109/allign-left-and-right-in-python
-def lr_justify(left, right, width):
-    return '{}{}{}'.format(left, ' ' * (width - len(left + right)), right)
-
-
-# Prints 4 rows of something
-def fiverowprintoptions(dataheader, table_data, title):
-    marqueeprint(title)
-    dataheader.insert(0, '#')
-    print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*dataheader))
-    for i, row in enumerate(table_data):
-        row.insert(0, i+1)
-        print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*row))
-
-#dynamic sized row-at-a-time output.
-def gridoutput(title, dataheader, table_data):
-    marqueeprint(title)
-    dataheader.insert(0, '#')
-    basestring = '{: <'
-    cap = '} '
-    rowformat = ''
-    # this creates a dynamic-sized
-    columwidth = []
-
-    # fills array with ints of each columns width
-    for i, column in enumerate(table_data):
-        columwidth.append(max(column[i]))
-
-    print(columwidth)
-    for i, headeritem in enumerate(dataheader):
-        rowformat += basestring
-        rowformat += str(columwidth[i])
-        rowformat += cap
-    print(rowformat.format(*dataheader))
-
-    rowformat = ''
-    for rowitem in table_data:
-        rowformat += basestring
-        rowformat += str(len(str(rowitem)))
-        rowformat += cap
-    print(rowformat.format(*dataheader))
-
-
-
-
-
-
-# for debugging and margin adjustments for user to zoom in
-def printtest():
-    marqueeprint("[[PRINT TEST]]")
-    leftprint('Justified Left')
-    rightprint('Justified Right')
-    centerprint('Center Print')
-
-
-# if string is at least 60% similar, will return true
-def similarstring(a, b):
-    ourratio = SequenceMatcher(None, a, b).ratio()
-    if ourratio >= .8:
-        return True
-    else:
-        return False
