@@ -6,6 +6,7 @@ import Item
 import Shield
 import Weapon
 import dbsetup
+from texttools import *
 
 
 class Hero:
@@ -228,6 +229,20 @@ class Hero:
         print(Game.lr_justify('Dodge:', str(self.dodge), 60))
         print(Game.lr_justify('battles fought', str(self.battlecount), 60))
         print('')
+        
+    def datadict(self):
+        return {
+            'Class': str(self.ourclass),
+            'Name': str(self.name),
+            'Level': str(self.level),
+            'XP': str(str(self.xp) + '/' + str(self.nextlevel)),
+            'HP': str(str(self.hp) + '/' + str(self.maxhp)),
+            'Gold': str(self.gold),
+            'Atk': str(self.atk),
+            'Def': str(self.defn),
+            'Dodge': str(self.dodge),
+            'battles': str(self.battlecount)
+        }
 
     # levels up hero
     def levelup(self):
@@ -239,7 +254,7 @@ class Hero:
         if self.level > 15:
             Game.marqueeprint('MAX LEVEL! YOU WIN!')
             Game.marqueeprint('THANKS FOR PLAYING')
-            self.printheroinfodetail()
+            gridoutput(self.ourhero.datadict())
             quit()
         newdb.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
         rows = newdb.conn.fetchall()

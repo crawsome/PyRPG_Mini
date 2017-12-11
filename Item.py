@@ -1,5 +1,6 @@
 from texttools import *
 
+
 class Item:
     # grade,name,effect,value
     def __init__(self, itemlevel, itemgrade, itemname, itemeffect, itemvalue):

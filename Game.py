@@ -4,6 +4,7 @@ import pickle
 import random
 import time
 from sqlite3 import connect
+
 import Enemy
 import Hero
 import dbsetup
@@ -98,7 +99,7 @@ class Game:
         centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
         ournewhero.name = input()
         if ournewhero.name == '':
-            ournewhero.name = 'Sir Lazy of Flabgard'
+            ournewhero.name = 'Sir Lazy'
         return ournewhero
 
     # brings game back after death.
@@ -117,7 +118,7 @@ class Game:
                 self.ourenemy = self.getenemy()
 
                 self.ourhero.heroperks()
-                self.ourhero.printheroinfodetail()
+                gridoutput(self.ourhero.datadict())
             if decision == 'l':
                 print('lOADING GAME')
                 self.ourhero = self.loadgame()
@@ -144,20 +145,20 @@ class Game:
                     self.battle()
                     turnnum += 1
             elif 70 < ourrand <= 90:
-                marqueeprint('[FOUND ITEM!]')
+                marqueeprint('[FOUND ITEM]')
                 itemrand = random.randrange(0, 6)
                 if itemrand == 0:
                     self.ourhero.ourarmor = self.ourhero.newarmor()
-                    self.ourhero.ourarmor.printarmorinfo()
+                    gridoutput(self.ourhero.ourarmor.datadict())
                 elif itemrand == 1:
                     self.ourhero.ourweapon = self.ourhero.newweapon()
-                    self.ourhero.ourweapon.printweaponinfo()
+                    gridoutput(self.ourhero.ourweapon.datadict())
                 elif itemrand == 2:
                     self.ourhero.ourshield = self.ourhero.newshield()
-                    self.ourhero.ourshield.printshieldinfo()
+                    gridoutput(self.ourhero.ourshield.datadict())
                 elif 3 <= itemrand <= 6:
                     self.ourhero.ouritem = self.ourhero.newitem()
-                    self.ourhero.ouritem.printiteminfo()
+                    gridoutput(self.ourhero.ouritem.datadict())
                     self.ourhero.items.append(self.ourhero.ouritem)
                 self.ourhero.applyequip()
             elif 90 < ourrand <= 95:
@@ -417,17 +418,13 @@ class Game:
             armorforsale = self.ourhero.newarmor()
             shieldforsale = self.ourhero.newshield()
 
-            data1 = [str(self.ourhero.ourweapon.name), str(self.ourhero.ourweapon.type),
-                     str(self.ourhero.ourweapon.dur) + '/' + str(self.ourhero.ourweapon.maxdur),
-                     str(self.ourhero.ourweapon.isbroken())]
-            data2 = [str(self.ourhero.ourshield.name), str(self.ourhero.ourshield.type),
-                     str(self.ourhero.ourshield.dur) + '/' + str(self.ourhero.ourshield.maxdur),
-                     str(self.ourhero.ourshield.isbroken())]
-            data3 = [str(self.ourhero.ourarmor.name), str(self.ourhero.ourarmor.type),
-                     str(self.ourhero.ourarmor.dur) + '/' + str(self.ourhero.ourarmor.maxdur),
-                     str(self.ourhero.ourarmor.isbroken())]
+            marqueeprint('[YOUR GEAR]')
+            gridoutput(self.ourhero.ourweapon.datadict())
+            gridoutput(self.ourhero.ourshield.datadict())
+            gridoutput(self.ourhero.ourarmor.datadict())
+
             dataheader = ['Name', 'Type', 'Dur', 'Broken']
-            title = ('[YOUR GEAR]')
+
 
             alldata = [data1, data2, data3]
 
@@ -451,7 +448,7 @@ class Game:
             dataheader = ['Name', 'Type', 'Atk/Def', 'Cost']
             alldata = [data1, data2, data3]
             fiverowprintoptions(dataheader, alldata, title)
-
+            print('\n')
             centerprint('Please enter decision [ENTER] to go back')
             itemindex = input()
             if itemindex not in ['1', '2', '3', '']:
@@ -496,7 +493,7 @@ class Game:
                     iteming = self.item_management()
             elif m == 'h':
                 marqueeprint('[HERO DETAIL]')
-                self.ourhero.printheroinfodetail()
+                gridoutput(self.ourhero.datadict())
                 wait = input()
                 self.ourhero.ourweapon.printweaponinfo()
                 wait = input()
@@ -722,5 +719,3 @@ class Game:
         print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', 60))
         print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', 60))
         print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', 60))
-
-

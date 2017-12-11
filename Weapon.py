@@ -1,5 +1,6 @@
 from texttools import *
 
+
 class Weapon:
     # level,class,name,type,baseattack,durability,power
     def __init__(self, weaponlevel, weaponclass, weaponname, weapontype, weaponbaseatk, weapondur, weaponpower):

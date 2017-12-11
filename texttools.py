@@ -3,7 +3,7 @@ from difflib import SequenceMatcher
 
 
 def marqueeprint(text):
-    print('{:=^60}'.format(text))
+    print('{:=^60}'.format(text.upper()))
 
 
 # Left-justify print
@@ -42,22 +42,42 @@ def fiverowprintoptions(dataheader, table_data, title):
 # dynamic sized row-at-a-time output. Will appropriately size the margins
 # of any dict passed to it and print it out all pretty-like.
 def gridoutput(table_data):
-    basestring = '{: <'
+    basestring = '{: ^'
     cap = '} '
     rowformat = ''
     columwidth, thedata, dataheader = [], [], []
     for key, value in table_data.items():
         dataheader.append(key)
         thedata.append(value)
-        columwidth.append(len(max(key, value)) + 3)
-    for i, headeritem in enumerate(dataheader):
+        columwidth.append(len(max([str(key), str(value)], key=len)))
+    for widthsize in columwidth:
+        rowformat += basestring
+        rowformat += str(widthsize)
+        rowformat += cap
+    marqueeprint(('[' + table_data['Name'] + ']').upper())
+    centerprint(rowformat.format(*dataheader))
+    centerprint(rowformat.format(*thedata))
+
+
+def gridoutputmultiple(title, table_data):
+    marqueeprint(title)
+    basestring = '{: <'
+    cap = '} '
+    rowformat = ''
+    columwidth, thedata, dataheader = [], [], []
+
+    for key, value in table_data.items():
+        dataheader.append(key)
+        thedata.append(value)
+        columwidth.append(len(max(key, value)))
+
+    for i, maxstringlen in enumerate(columwidth):
         rowformat += basestring
         rowformat += str(columwidth[i])
         rowformat += cap
-    marqueeprint(('[' + table_data['Name'] + ']').upper())
+
     print(rowformat.format(*dataheader))
     print(rowformat.format(*thedata))
-
 
 
 # for debugging and margin adjustments for user to zoom in

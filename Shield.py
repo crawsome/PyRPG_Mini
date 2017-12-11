@@ -56,6 +56,7 @@ class Shield:
     def gearbreak(self):
         self.atk = int(self.basedefn * .3)
 
+    # prints all info about the shield
     def printshieldinfo(self):
         Game.marqueeprint('SHIELD')
         print(Game.lr_justify('Level:', str(self.level), 60))
