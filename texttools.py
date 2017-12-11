@@ -3,25 +3,25 @@ from difflib import SequenceMatcher
 
 
 def marqueeprint(text):
-    print('{:=^60}'.format(text.upper()))
+    print('{:=^70}'.format(text.upper()))
 
 
 # Left-justify print
 def leftprint(text):
-    print('{:<60}'.format(text))
+    print('{:<70}'.format(text))
 
 
 # right-justify print
 def rightprint(text):
-    print('{:>60}'.format(text))
+    print('{:>70}'.format(text))
 
 
 # centered print
 def centerprint(text):
-    wrapstring = textwrap.wrap(text, width=60)
+    wrapstring = textwrap.wrap(text, width=70)
     for line in wrapstring:
         # print(line)
-        print('{:^60}'.format(line))
+        print('{:^70}'.format(line))
 
 
 # From https://stackoverflow.com/questions/9660109/allign-left-and-right-in-python
@@ -61,23 +61,22 @@ def gridoutput(table_data):
 
 def gridoutputmultiple(title, table_data):
     marqueeprint(title)
-    basestring = '{: <'
-    cap = '} '
-    rowformat = ''
-    columwidth, thedata, dataheader = [], [], []
-
-    for key, value in table_data.items():
-        dataheader.append(key)
-        thedata.append(value)
-        columwidth.append(len(max(key, value)))
-
-    for i, maxstringlen in enumerate(columwidth):
-        rowformat += basestring
-        rowformat += str(columwidth[i])
-        rowformat += cap
-
-    print(rowformat.format(*dataheader))
-    print(rowformat.format(*thedata))
+    for data in table_data:
+        basestring = '{: ^'
+        cap = '} '
+        rowformat = ''
+        columwidth, thedata, dataheader = [], [], []
+        for key, value in data.items():
+            dataheader.append(key)
+            thedata.append(value)
+            columwidth.append(len(max([str(key), str(value)], key=len)))
+        for widthsize in columwidth:
+            rowformat += basestring
+            rowformat += str(widthsize)
+            rowformat += cap
+        marqueeprint(('[' + table_data['Name'] + ']').upper())
+        centerprint(rowformat.format(*dataheader))
+        centerprint(rowformat.format(*thedata))
 
 
 # for debugging and margin adjustments for user to zoom in

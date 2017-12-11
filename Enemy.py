@@ -66,3 +66,12 @@ class Enemy:
         print('\tGold:\t' + str(self.gold))
         print('\tMaxHP:\t' + str(self.maxhp))
         print('\tHP:\t\t' + str(self.hp))
+
+    def datadict(self):
+        return {'Level': str(self.level),
+                'Attack': str(self.atk),
+                'XP': str(self.xp),
+                'Gold': str(self.gold),
+                'MaxHP': str(self.maxhp),
+                'HP': str(self.hp)
+                }

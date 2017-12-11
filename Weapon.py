@@ -60,21 +60,22 @@ class Weapon:
     # prints all weapon stats
     def printweaponinfo(self):
         marqueeprint('WEAPON')
-        print(lr_justify('Level:', str(self.level), 60))
-        print(lr_justify('Class:', str(self.ourclass), 60))
-        print(lr_justify('Name:', str(self.name), 60))
-        print(lr_justify('Type:', str(self.type), 60))
-        print(lr_justify('Atk:', str(self.atk) + '/' + str(self.baseatk), 60))
-        print(lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
-        print(lr_justify('Broken?:', str(self.isbroken()), 60))
-        print(lr_justify('Power:', str(self.power), 60))
+        print(lr_justify('Level:', str(self.level), 70))
+        print(lr_justify('Class:', str(self.ourclass), 70))
+        print(lr_justify('Name:', str(self.name), 70))
+        print(lr_justify('Type:', str(self.type), 70))
+        print(lr_justify('Atk:', str(self.atk) + '/' + str(self.baseatk), 70))
+        print(lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 70))
+        print(lr_justify('Broken?:', str(self.isbroken()), 70))
+        print(lr_justify('Power:', str(self.power), 70))
 
     # ['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power']
     def datadict(self):
+
         return {'Level': str(self.level),
-                'Name': str(self.name) + ' ' + str(self.type),
+                'Name': (str(self.name) + ' ' + str(self.type)),
                 'Atk': str(self.atk),
-                'Dur': str(self.dur) + '/' + str(self.maxdur),
+                'Dur': (str(self.dur) + '/' + str(self.maxdur)),
                 'Broken?': str(self.isbroken()),
                 'Repair Cost': str(self.maxdur - self.dur) + ' gold',
                 'Power': str(self.power)

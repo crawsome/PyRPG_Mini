@@ -29,7 +29,7 @@ class Game:
         self.ourenemy = 0
 
         # global text width
-        textwidth = 60
+        self.textwidth = 60
 
         # Create all game databases (only needs to run once to make databases)
         firsttime = False
@@ -137,7 +137,7 @@ class Game:
                 # Make new enemy
                 self.ourenemy = self.getenemy()
                 marqueeprint('[BATTLE]')
-                print('')
+                
                 # battle until one is dead
                 turnnum = 1
                 while self.ourhero.isalive() and self.ourenemy.isalive() and self.ourhero.isbattling:
@@ -191,13 +191,13 @@ class Game:
                 marqueeprint('[RIDDLE]')
                 centerprint('The area gets quiet. The wind blows.')
                 centerprint('A torn page lands in your grasp. It reads:')
-                print('')
+                
                 ourriddle = self.getriddle()
                 wrapstring = textwrap.wrap(ourriddle[0], width=48)
                 answer = str(ourriddle[1]).lower()
                 for line in wrapstring:
                     centerprint(line)
-                print('')
+                
                 centerprint('Speak the answer to the wind...')
                 useranswer = input()
                 # if useranswer == '':
@@ -214,9 +214,8 @@ class Game:
                     self.ourhero.addxp(self.ourhero.nextlevel * .1)
                 else:
                     centerprint('You Fail! Leave this place!')
-
         elif m == 'c':
-            print('')
+            
             self.camp()
         if not self.ourhero.isalive():
             return
@@ -225,7 +224,7 @@ class Game:
     def battle(self):
         self.ourhero.battlecount += 1
         self.printadversaries()
-        print('')
+        
         marqueeprint('[CHOOSE ACTION]');
         centerprint('[a]tk  [d]ef [r]un [i]tem')
         centerprint('Coinflip to [h]eal (100g)')
@@ -236,8 +235,10 @@ class Game:
             turnnotused = True
             while turnnotused:
                 turnnotused = self.playerturn(nextmove)
+                wait = input()
         if self.ourenemy.isalive():
             self.enemyturn()
+            wait = input()
         if not self.ourhero.isalive():
             self.ourhero.death()
             return
@@ -248,7 +249,7 @@ class Game:
             self.ourhero.addgold(self.ourenemy.gold + (self.ourenemy.gold * self.ourhero.defcurve))
             self.ourhero.addxp(self.ourenemy.xp + (self.ourenemy.xp * self.ourhero.defcurve))
             # 15% chance to get some health back.
-            print('')
+            
             if random.randrange(0, 100) in range(0, 15):
                 self.ourhero.food()
         if not self.ourhero.isbattling:
@@ -318,19 +319,15 @@ class Game:
             marqueeprint('[ENEMY ATTACK]')
             if overunder == 0:
                 self.ourenemy.anger()
-                wait = input()
             elif overunder == 1:
                 self.ourenemy.weaker()
-                wait = input()
             elif overunder == 2:
                 centerprint(str(self.ourenemy.name) + ' ran away!')
                 self.ourenemy.hp = 0
                 self.ourhero.isbattling = False
-                wait = input()
                 return
             if overunder in range(3, self.ourhero.dodge):
                 centerprint(str(self.ourenemy.name) + ' swings and misses!')
-                wait = input()
                 return
             if self.ourhero.isbattling:
                 effatk = int(self.ourenemy.atk)
@@ -339,7 +336,6 @@ class Game:
                 self.ourhero.ourarmor.damagedur(effatk, self.ourhero.defcurve)
                 self.ourhero.ourshield.damagedur(effatk, self.ourhero.defcurve)
                 self.ourhero.damage(effatk)
-                wait = input()
 
     # fetch a random riddle from db
     def getriddle(self):
@@ -423,13 +419,7 @@ class Game:
             gridoutput(self.ourhero.ourshield.datadict())
             gridoutput(self.ourhero.ourarmor.datadict())
 
-            dataheader = ['Name', 'Type', 'Dur', 'Broken']
-
-
-            alldata = [data1, data2, data3]
-
-            fiverowprintoptions(dataheader, alldata, title)
-            # determine weapon coses
+            # determine weapon costs
             wepcost = weaponforsale.level * 60 * self.ourhero.defcurve
             armcost = armorforsale.level * 60 * self.ourhero.defcurve
             shcost = shieldforsale.level * 60 * self.ourhero.defcurve
@@ -495,20 +485,20 @@ class Game:
                 marqueeprint('[HERO DETAIL]')
                 gridoutput(self.ourhero.datadict())
                 wait = input()
-                self.ourhero.ourweapon.printweaponinfo()
+                gridoutput(self.ourhero.ourweapon.datadict())
                 wait = input()
-                self.ourhero.ourshield.printshieldinfo()
+                gridoutput(self.ourhero.ourshield.datadict())
                 wait = input()
-                self.ourhero.ourarmor.printarmorinfo()
+                gridoutput(self.ourhero.ourarmor.datadict())
                 wait = input()
             elif m == 'a' or m == '':
                 return
                 # adventure()
             elif m == 'l':
-                marqueeprint('[LOADGAME]')
+                marqueeprint('[LOAD GAME]')
                 self.ourhero = self.loadgame()
             elif m == 's':
-                marqueeprint('[SAVEGAME]')
+                marqueeprint('[SAVE GAME]')
                 self.savegame()
             elif m == 'b':
                 marqueeprint('[BLACKSMITH]')
@@ -702,20 +692,20 @@ class Game:
 
     # Print hero and enemy justified on left and right
     def printadversaries(self):
-        print(lr_justify('[HERO]', '[ENEMY]', 60))
-        print(lr_justify(self.ourhero.name, self.ourenemy.name, 60))
-        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), str('lvl: ' + str(self.ourenemy.level)), 60))
+        print(lr_justify('[HERO]', '[ENEMY]', self.textwidth))
+        print(lr_justify(self.ourhero.name, self.ourenemy.name, self.textwidth))
+        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), str('lvl: ' + str(self.ourenemy.level)), self.textwidth))
         print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)),
-                         str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), 60))
+                         str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), self.textwidth))
         print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
                          str('XP drop: ' + str(self.ourenemy.xp)),
-                         60))
+                         self.textwidth))
 
     # To be used on status screens
     def printmarqueehero(self, sometext):
         marqueeprint(sometext)
-        print(lr_justify('[HERO]', '', 60))
-        print(lr_justify(self.ourhero.name, '', 60))
-        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', 60))
-        print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', 60))
-        print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', 60))
+        print(lr_justify('[HERO]', '', self.textwidth))
+        print(lr_justify(self.ourhero.name, '', self.textwidth))
+        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', self.textwidth))
+        print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', self.textwidth))
+        print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', self.textwidth))

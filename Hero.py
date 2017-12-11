@@ -126,7 +126,7 @@ class Hero:
         Game.marqueeprint('')
         Game.marqueeprint('[GAME OVER]')
         Game.marqueeprint('')
-        self.printheroinfodetail()
+        gridoutput(self.datadict())
 
     # adds XP to character, and levels up if it goes over
     def addxp(self, gainedxp):
@@ -229,7 +229,7 @@ class Hero:
         print(Game.lr_justify('Dodge:', str(self.dodge), 60))
         print(Game.lr_justify('battles fought', str(self.battlecount), 60))
         print('')
-        
+
     def datadict(self):
         return {
             'Class': str(self.ourclass),
@@ -249,12 +249,11 @@ class Hero:
         newdb = dbsetup.dbsetup()
         Game.marqueeprint('LEVEL UP!')
         self.xp -= self.nextlevel
-        print('\n')
         self.level += 1
         if self.level > 15:
             Game.marqueeprint('MAX LEVEL! YOU WIN!')
             Game.marqueeprint('THANKS FOR PLAYING')
-            gridoutput(self.ourhero.datadict())
+            gridoutput(self.datadict())
             quit()
         newdb.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
         rows = newdb.conn.fetchall()
@@ -269,8 +268,7 @@ class Hero:
         self.nextlevel += int(new_hero_data[4] * self.levelupaug)
         self.dodge = int(new_hero_data[5] + self.dodgeaug)
         self.basecrit += self.critaug
-
-        self.printheroinfodetail()
+        gridoutput(self.datadict())
 
     # fetches a new weapon for hero
     def newweapon(self):
