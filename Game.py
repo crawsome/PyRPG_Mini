@@ -615,17 +615,15 @@ class Game:
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
     def item_management(self):
-        invlimit = 20
+        invlimit = 5
         if not self.ourhero.items:
             centerprint('Inventory Empty')
             return False
         i = 0
         dataarray = []
         while i < len(self.ourhero.items):
-            dataarray.append(self.ourhero.items[i].dataarray())
+            gridoutput(self.ourhero.items[i].datadict())
             i += 1
-        dataheader = ['Level', 'Quality', 'Name', 'Effect']
-        fiverowprintoptions(dataheader, dataarray, "[ITEMS]")
         centerprint('Please enter decision, [ENTER] to go back')
 
         try:

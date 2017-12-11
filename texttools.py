@@ -29,7 +29,7 @@ def lr_justify(left, right, width):
     return '{}{}{}'.format(left, ' ' * (width - len(left + right)), right)
 
 
-# Prints 4 rows of something
+# Prints 4 rows of something with numeric options on left
 def fiverowprintoptions(dataheader, table_data, title):
     marqueeprint(title)
     dataheader.insert(0, '#')
@@ -39,37 +39,25 @@ def fiverowprintoptions(dataheader, table_data, title):
         print("{: <2} {: <10} {: <15} {: <22} {: <6}".format(*row))
 
 
-# dynamic sized row-at-a-time output.
+# dynamic sized row-at-a-time output. Will appropriately size the margins
+# of any dict passed to it and print it out all pretty-like.
 def gridoutput(table_data):
-    print(table_data)
-
     basestring = '{: <'
     cap = '} '
     rowformat = ''
-
-    columwidth = []
-    dataheader = table_data.keys()
-    dataheader.insert(0, '#')
-    print(dataheader)
-    # fills array with ints of each columns width
-    for i, column in enumerate(table_data):
-        print(column)
-        columwidth.append(len(max(column.values)))
-    print(columwidth)
-
+    columwidth, thedata, dataheader = [], [], []
+    for key, value in table_data.items():
+        dataheader.append(key)
+        thedata.append(value)
+        columwidth.append(len(max(key, value)) + 3)
     for i, headeritem in enumerate(dataheader):
         rowformat += basestring
         rowformat += str(columwidth[i])
         rowformat += cap
-    print(rowformat)
+    marqueeprint(('[' + table_data['Name'] + ']').upper())
     print(rowformat.format(*dataheader))
+    print(rowformat.format(*thedata))
 
-    rowformat = ''
-    for rowitem in table_data:
-        rowformat += basestring
-        rowformat += str(len(str(rowitem)))
-        rowformat += cap
-    print(rowformat.format(*dataheader))
 
 
 # for debugging and margin adjustments for user to zoom in

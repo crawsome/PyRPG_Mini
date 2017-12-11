@@ -63,13 +63,11 @@ class Armor:
         print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
         print(Game.lr_justify('Broken?:', str(self.isbroken()), 60))
 
-        # ['Level', 'Name', 'Type', 'Defense', 'Dur', 'Broken?', 'Power']
-
+    # ['Level', 'Name', 'Type', 'Defense', 'Dur', 'Broken?', 'Power']
     def datadict(self):
         return {'Level': str(self.level),
-                'Name': str(self.name),
-                'Type': str(self.type),
-                'Defense': str(self.defn),
+                'Name': str(self.name) + ' ' + str(self.type),
+                'Def': str(self.defn),
                 'Dur': str(self.dur) + '/' + str(self.maxdur),
                 'Broken?': str(self.isbroken()),
                 'Repair Cost': str(self.maxdur - self.dur) + ' gold'

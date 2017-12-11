@@ -71,8 +71,7 @@ class Weapon:
     # ['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power']
     def datadict(self):
         return {'Level': str(self.level),
-                'Name': str(self.name),
-                'Type': str(self.type),
+                'Name': str(self.name) + ' ' + str(self.type),
                 'Atk': str(self.atk),
                 'Dur': str(self.dur) + '/' + str(self.maxdur),
                 'Broken?': str(self.isbroken()),

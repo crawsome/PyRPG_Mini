@@ -21,7 +21,7 @@ class Item:
     # ['Level', 'Quality', 'Name', 'Effect']
     def datadict(self):
         return {'Level': str(self.level),
-                'Quality': str(self.grade),
-                'Name': str(self.name),
-                'Effect': str(self.effect)
+                'Name': str(self.grade) + ' ' + str(self.name),
+                'Effect': str(self.effect),
+                'Value': str(self.val)
                 }
