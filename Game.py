@@ -113,7 +113,7 @@ class Game:
                                new_hero_data[4], new_hero_data[5])
         ournewhero.defcurve = defcurve
         ournewhero.atkcurve = atkcurve
-        marqueeprint('ENTER NAME')
+        marqueeprint('[ENTER NAME]')
         centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
         ournewhero.name = input()
         if ournewhero.name == '':
@@ -626,7 +626,7 @@ class Game:
             return False
         # print all the item's info
         for i, item in enumerate(self.ourhero.items):
-            leftprint(i)
+            leftprint('ITEM: ' + str(i+1))
             gridoutput(self.ourhero.items[i].datadict())
         centerprint('Please enter decision, [ENTER] to go back')
         try:
@@ -717,6 +717,7 @@ class Game:
                          str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), self.textwidth))
         centerprint(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
                          str('XP drop: ' + str(self.ourenemy.xp)),self.textwidth))
+        wait = input()
 
     # To be used on status screens
     def printmarqueehero(self, sometext):
