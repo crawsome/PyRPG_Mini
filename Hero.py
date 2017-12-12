@@ -77,8 +77,10 @@ class Hero:
         self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10)
         self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20)
         self.ouritem = Item.Item(0, 0, 0, 0, 0)
-
         self.isbattling = False
+
+        # width of centered data in screencenter
+        self.datawidth = 40
 
     # Heals user up to max health
     def heal(self, hpup):
@@ -126,6 +128,7 @@ class Hero:
         Game.marqueeprint('')
         Game.marqueeprint('[GAME OVER]')
         Game.marqueeprint('')
+        print('')
         gridoutput(self.datadict())
 
     # adds XP to character, and levels up if it goes over
@@ -218,16 +221,16 @@ class Hero:
     # prints all hero stat info
     def printheroinfodetail(self):
         Game.marqueeprint('[HERO DATA]')
-        print(Game.lr_justify('Class:', str(self.ourclass), 60))
-        print(Game.lr_justify('Name:', str(self.name), 60))
-        print(Game.lr_justify('Level:', str(self.level), 60))
-        print(Game.lr_justify('XP:', str(self.xp) + '/' + str(self.nextlevel), 60))
-        print(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp), 60))
-        print(Game.lr_justify('Gold:', str(self.gold), 60))
-        print(Game.lr_justify('Atk:', str(self.atk), 60))
-        print(Game.lr_justify('Defense:', str(self.defn), 60))
-        print(Game.lr_justify('Dodge:', str(self.dodge), 60))
-        print(Game.lr_justify('battles fought', str(self.battlecount), 60))
+        centerprint(Game.lr_justify('Class:', str(self.ourclass), self.datawidth))
+        centerprint(Game.lr_justify('Name:', str(self.name), self.datawidth))
+        centerprint(Game.lr_justify('Level:', str(self.level), self.datawidth))
+        centerprint(Game.lr_justify('XP:', str(self.xp) + '/' + str(self.nextlevel), self.datawidth))
+        centerprint(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp), self.datawidth))
+        centerprint(Game.lr_justify('Gold:', str(self.gold), self.datawidth))
+        centerprint(Game.lr_justify('Atk:', str(self.atk), self.datawidth))
+        centerprint(Game.lr_justify('Defense:', str(self.defn), self.datawidth))
+        centerprint(Game.lr_justify('Dodge:', str(self.dodge), self.datawidth))
+        centerprint(Game.lr_justify('battles fought', str(self.battlecount), self.datawidth))
         print('')
 
     def datadict(self):

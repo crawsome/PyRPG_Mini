@@ -4,7 +4,6 @@ import pickle
 import random
 import time
 from sqlite3 import connect
-
 import Enemy
 import Hero
 import dbsetup
@@ -20,6 +19,14 @@ class Game:
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
         self.debugging = 0
+        centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
+        self.debugging = input()
+
+        # riddle mode 0 - optional, 1 - mandatory
+        centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
+        self.riddlemode = input()
+        if self.riddlemode == '':
+            self.riddlemode = 0
 
         # provides a way to speed through battle (risky!)
         self.autoattack = 0
@@ -29,29 +36,33 @@ class Game:
         self.ourenemy = 0
 
         # global text width
-        self.textwidth = 60
+        self.textwidth = 70
+
+        # width of data, so it's not so spaced-out
+        self.datawidth = 55
 
         # Create all game databases (only needs to run once to make databases)
         firsttime = False
         if 'game.db' not in os.listdir('./db/'):
             centerprint('This looks like it\'s your first time playing.')
             centerprint('We must load the database first')
-            centerprint('This will only take a couple of seconds...')
+            centerprint('This will only take a moment...')
             firsttime = True
 
-        debugging = input('Enter Debugging Mode?\n[1] for yes\nENTER for no\n')
         # re-creates the database, in case you change values1
-        if firsttime == True:
+        if firsttime:
             print('Loading Database:')
             oursetup = dbsetup.dbsetup()
             oursetup.setupdb()
-        if debugging:
+        if self.debugging:
             printtest()
         # our database path
         self.dbpath = './db/game.db'
         # import and create our player database
         self.gamedb = connect(self.dbpath)
         self.conn = self.gamedb.cursor()
+        # width of centered data in screencenter
+        self.datawidth = 55
 
     # TODO: make self.ourhero.levelup and newhero the same function
 
@@ -91,8 +102,10 @@ class Game:
             centerprint('Setting Difficulty to ' + str(diff))
 
         new_hero_data = rows[0]
-        ournewhero = Hero.Hero(ourclass, new_hero_data[0], new_hero_data[1], new_hero_data[2],
-                               new_hero_data[3], new_hero_data[4], new_hero_data[5])
+        ournewhero = Hero.Hero(ourclass,
+                               new_hero_data[0], new_hero_data[1],
+                               new_hero_data[2], new_hero_data[3],
+                               new_hero_data[4], new_hero_data[5])
         ournewhero.defcurve = defcurve
         ournewhero.atkcurve = atkcurve
         marqueeprint('ENTER NAME')
@@ -111,12 +124,10 @@ class Game:
             marqueeprint('')
             centerprint('[n]ew game [l]oad')
             decision = input()
-
             if decision == 'n' or decision == '':
                 # Make new global hero and enemy which will change over time
                 self.ourhero = self.newhero()
                 self.ourenemy = self.getenemy()
-
                 self.ourhero.heroperks()
                 gridoutput(self.ourhero.datadict())
             if decision == 'l':
@@ -131,13 +142,13 @@ class Game:
         centerprint('[a]dventure or [c]amp')
         m = input()
         ourrand = random.randint(0, 100)
+        self.ourhero.hp = self.ourhero.maxhp
         if m == 'a' or m == '':
             if ourrand <= 70:
                 self.ourhero.isbattling = True
                 # Make new enemy
                 self.ourenemy = self.getenemy()
                 marqueeprint('[BATTLE]')
-                
                 # battle until one is dead
                 turnnum = 1
                 while self.ourhero.isalive() and self.ourenemy.isalive() and self.ourhero.isbattling:
@@ -170,7 +181,7 @@ class Game:
                     quotelist = f.read().splitlines()
                     quote = random.choice(quotelist)
                     quote = quote.decode('utf-8')
-                    wrapstring = textwrap.wrap(quote, width=48)
+                    wrapstring = textwrap.wrap(quote, width=self.datawidth)
                     for line in wrapstring:
                         centerprint(line)
                     print('\n')
@@ -191,31 +202,28 @@ class Game:
                 marqueeprint('[RIDDLE]')
                 centerprint('The area gets quiet. The wind blows.')
                 centerprint('A torn page lands in your grasp. It reads:')
-                
                 ourriddle = self.getriddle()
-                wrapstring = textwrap.wrap(ourriddle[0], width=48)
+                wrapstring = textwrap.wrap(ourriddle[0], width=self.datawidth)
                 answer = str(ourriddle[1]).lower()
                 for line in wrapstring:
                     centerprint(line)
-                
                 centerprint('Speak the answer to the wind...')
                 useranswer = input()
-                # if useranswer == '':
-                #    #while (useranswer == ''):
-                #        centerprint('Please answer the riddle.')
-                #        useranswer = input()
-                #        if self.debugging:
-                #            print(answer + ', you cheater!')
+                if useranswer == '' and self.riddlemode == 1:
+                    while useranswer == '':
+                        centerprint('Please answer the riddle.')
+                        useranswer = input()
+                        if self.debugging:
+                            marqueeprint(answer + ', you cheater!')
                 if similarstring(useranswer, answer) and useranswer != '':
                     centerprint('You have successfully answered the riddle')
                     centerprint('The answer was \"' + answer + '\"')
                     centerprint('I present you with this:')
-                    self.ourhero.addgold(self.ourhero.level * 60)
-                    self.ourhero.addxp(self.ourhero.nextlevel * .1)
+                    self.ourhero.addgold(self.ourhero.level * 44)
+                    self.ourhero.addxp(self.ourhero.nextlevel * .17)
                 else:
                     centerprint('You Fail! Leave this place!')
         elif m == 'c':
-            
             self.camp()
         if not self.ourhero.isalive():
             return
@@ -223,8 +231,7 @@ class Game:
     # One round of a battle
     def battle(self):
         self.ourhero.battlecount += 1
-        self.printadversaries()
-        
+        self.printadversaries(self.datawidth)
         marqueeprint('[CHOOSE ACTION]');
         centerprint('[a]tk  [d]ef [r]un [i]tem')
         centerprint('Coinflip to [h]eal (100g)')
@@ -241,6 +248,7 @@ class Game:
             wait = input()
         if not self.ourhero.isalive():
             self.ourhero.death()
+            wait = input()
             return
         if not self.ourenemy.isalive():
             self.ourhero.isbattling = False
@@ -249,7 +257,6 @@ class Game:
             self.ourhero.addgold(self.ourenemy.gold + (self.ourenemy.gold * self.ourhero.defcurve))
             self.ourhero.addxp(self.ourenemy.xp + (self.ourenemy.xp * self.ourhero.defcurve))
             # 15% chance to get some health back.
-            
             if random.randrange(0, 100) in range(0, 15):
                 self.ourhero.food()
         if not self.ourhero.isbattling:
@@ -260,10 +267,9 @@ class Game:
     def playerturn(self, m):
         # for health regen potion
         if self.ourhero.regentimer > 0:
-            regen = int(self.ourhero.hp * .2)
+            regen = int(self.ourhero.maxhp * .2)
             self.ourhero.heal(regen)
             self.ourhero.regentimer -= 1
-
         # for haste potion for 5 turn dodge increases
         self.ourhero.dodge = self.ourhero.basedodge
         if self.ourhero.hastetimer > 0:
@@ -271,7 +277,6 @@ class Game:
             self.ourhero.hastetimer -= 1
         else:
             self.ourhero.dodge = self.ourhero.basedodge
-
         self.ourhero.applyequip()
         marqueeprint('[HERO TURN]')
         crit = 0
@@ -350,13 +355,23 @@ class Game:
         self.conn.execute('SELECT * FROM enemies WHERE level = ' + str(self.ourhero.level) + ';')
         rows = self.conn.fetchall()
         new_enemy = random.choice(rows)
+
         # create random enemy name
-        levelname = random.choice((rows[0][1], rows[1][1], rows[2][1], rows[3][1], rows[4][1]))
-        adjective = random.choice((rows[0][2], rows[1][2], rows[2][2], rows[3][2], rows[4][2]))
-        enemyname = random.choice((rows[0][3], rows[1][3], rows[2][3], rows[3][3], rows[4][3]))
-        ournewenemy = Enemy.Enemy(new_enemy[0], levelname, adjective, enemyname, new_enemy[4], new_enemy[5],
-                                  (new_enemy[6] + (new_enemy[6] * self.ourhero.defcurve)), new_enemy[7], new_enemy[8],
-                                  new_enemy[9])
+        levelname = random.choice((rows[0][1], rows[1][1],
+                                   rows[2][1], rows[3][1],
+                                   rows[4][1]))
+        # part of random name
+        adjective = random.choice((rows[0][2], rows[1][2],
+                                   rows[2][2], rows[3][2],
+                                   rows[4][2]))
+        # part of random name
+        enemyname = random.choice((rows[0][3], rows[1][3],
+                                   rows[2][3], rows[3][3],
+                                   rows[4][3]))
+        # part of random name
+        ournewenemy = Enemy.Enemy(new_enemy[0], levelname, adjective, enemyname, new_enemy[4],
+                                  new_enemy[5], (new_enemy[6] + (new_enemy[6] * self.ourhero.defcurve)),
+                                  new_enemy[7], new_enemy[8], new_enemy[9])
         return ournewenemy
 
     # a blacksmith who can repair or sell gear
@@ -367,16 +382,19 @@ class Game:
         nextdecision = input()
         centerprint('Gold: ' + str(self.ourhero.gold))
         if nextdecision == 'f':
+
             # offer equipment repair for any of the 3 slots, for 1g/durability point
             centerprint('The Blacksmith can offer repair ')
             centerprint('services for 1g/repair point')
             centerprint('Here is your gear durability:')
+
+            # print all your gear out
             gridoutput(self.ourhero.ourweapon.datadict())
             gridoutput(self.ourhero.ourshield.datadict())
             gridoutput(self.ourhero.ourarmor.datadict())
 
+            # user input for what to repair, or all of it, for convenience
             decision = input('What do you want to repair? [a] for all')
-
             if decision == '1' or decision == 'a':
                 repaircost = self.ourhero.ourweapon.maxdur - self.ourhero.ourweapon.dur
                 centerprint('Repair Your weapon?')
@@ -546,14 +564,11 @@ class Game:
                 centerprint('\"WHYD YOU COME HERE AND NOT BUY ANYTHING?\"')
                 return
             else:
-                print('Get out of here you bum!')
+                centerprint('Get out of here you bum!')
                 # offer random choice of items at 1.5x value price
         if nextdecision == 's':
             pass
             # let hero sell anything for .6 their value in gold.
-        if nextdecision == 'f':
-            pass
-            # Tell hero a fortune, -/+ stats and -/+ luck possibility
 
     # pickle in to hero obj and start gameloop
     def loadgame(self):
@@ -602,17 +617,14 @@ class Game:
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
     def item_management(self):
-        invlimit = 5
         if not self.ourhero.items:
             centerprint('Inventory Empty')
             return False
-        i = 0
-        dataarray = []
-        while i < len(self.ourhero.items):
+        # print all the item's info
+        for i, item in enumerate(self.ourhero.items):
+            leftprint(i)
             gridoutput(self.ourhero.items[i].datadict())
-            i += 1
         centerprint('Please enter decision, [ENTER] to go back')
-
         try:
             itemindex = input()
             itemindex = int(itemindex)
@@ -691,15 +703,16 @@ class Game:
             print(s)
 
     # Print hero and enemy justified on left and right
-    def printadversaries(self):
-        print(lr_justify('[HERO]', '[ENEMY]', self.textwidth))
-        print(lr_justify(self.ourhero.name, self.ourenemy.name, self.textwidth))
-        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), str('lvl: ' + str(self.ourenemy.level)), self.textwidth))
-        print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)),
+    def printadversaries(self, datawidth):
+        self.textwidth = datawidth
+        centerprint(lr_justify('[HERO]', '[ENEMY]', self.textwidth))
+        centerprint(lr_justify(self.ourhero.name, self.ourenemy.name, self.textwidth))
+        centerprint(lr_justify(str('lvl: ' + str(self.ourhero.level)),
+                               str('lvl: ' + str(self.ourenemy.level)),self.textwidth))
+        centerprint(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)),
                          str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), self.textwidth))
-        print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
-                         str('XP drop: ' + str(self.ourenemy.xp)),
-                         self.textwidth))
+        centerprint(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
+                         str('XP drop: ' + str(self.ourenemy.xp)),self.textwidth))
 
     # To be used on status screens
     def printmarqueehero(self, sometext):

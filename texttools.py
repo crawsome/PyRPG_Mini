@@ -42,7 +42,7 @@ def fiverowprintoptions(dataheader, table_data, title):
 # dynamic sized row-at-a-time output. Will appropriately size the margins
 # of any dict passed to it and print it out all pretty-like.
 def gridoutput(table_data):
-    basestring = '{: ^'
+    basestring = '{: >'
     cap = '} '
     rowformat = ''
     columwidth, thedata, dataheader = [], [], []
