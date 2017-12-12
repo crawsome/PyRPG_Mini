@@ -10,6 +10,7 @@ import dbsetup
 from texttools import *
 
 
+# game class makes the game work instantiates all other classes at some point.
 class Game:
     def __init__(self):
         # adds a little suspense
@@ -56,11 +57,14 @@ class Game:
             oursetup.setupdb()
         if self.debugging:
             printtest()
+
         # our database path
         self.dbpath = './db/game.db'
+
         # import and create our player database
         self.gamedb = connect(self.dbpath)
         self.conn = self.gamedb.cursor()
+
         # width of centered data in screencenter
         self.datawidth = 55
 
@@ -84,7 +88,8 @@ class Game:
         marqueeprint('[CHOOSE DIFFICULTY]')
         centerprint('[1]easy [2]med [3]hard')
         diff = input()
-        # hardest difficulty you defend the least, and attack the least
+
+        # the harder the difficulty, the less your attack and defense
         if diff == '1' or diff == '':
             atkcurve = .2
             defcurve = .05
@@ -142,7 +147,6 @@ class Game:
         centerprint('[a]dventure or [c]amp')
         m = input()
         ourrand = random.randint(0, 100)
-        self.ourhero.hp = self.ourhero.maxhp
         if m == 'a' or m == '':
             if ourrand <= 70:
                 self.ourhero.isbattling = True

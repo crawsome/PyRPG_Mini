@@ -2,6 +2,7 @@ import textwrap
 from difflib import SequenceMatcher
 
 
+# prints ========CENTERED TEXT IN A BAND=========
 def marqueeprint(text):
     print('{:=^70}'.format(text.upper()))
 
@@ -59,6 +60,8 @@ def gridoutput(table_data):
     centerprint(rowformat.format(*thedata))
 
 
+# dynamic sized many-rows at a time output. Meant for item inventory
+# Will appropriately size the margins of any dict passed to it and print it out all pretty-like.
 def gridoutputmultiple(title, table_data):
     marqueeprint(title)
     for data in table_data:
