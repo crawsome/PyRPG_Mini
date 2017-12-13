@@ -65,7 +65,6 @@ class Game:
         self.datawidth = 55
 
     # TODO: make self.ourhero.levelup and newhero the same function
-
     # makes a new hero object for when starting new game.
     def newhero(self):
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
@@ -142,7 +141,6 @@ class Game:
         centerprint('[a]dventure or [c]amp')
         m = input()
         ourrand = random.randint(0, 100)
-        self.ourhero.hp = self.ourhero.maxhp
         if m == 'a' or m == '':
             if ourrand <= 70:
                 self.ourhero.isbattling = True
@@ -197,32 +195,10 @@ class Game:
                 centerprint('...you venture back to camp')
             elif 90 < ourrand <= 95:
                 # a story event?
+                centerprint('You find nothing and wander back to camp')
                 pass
             elif 95 < ourrand <= 100:
-                marqueeprint('[RIDDLE]')
-                centerprint('The area gets quiet. The wind blows.')
-                centerprint('A torn page lands in your grasp. It reads:')
-                ourriddle = self.getriddle()
-                wrapstring = textwrap.wrap(ourriddle[0], width=self.datawidth)
-                answer = str(ourriddle[1]).lower()
-                for line in wrapstring:
-                    centerprint(line)
-                centerprint('Speak the answer to the wind...')
-                useranswer = input()
-                if useranswer == '' and self.riddlemode == 1:
-                    while useranswer == '':
-                        centerprint('Please answer the riddle.')
-                        useranswer = input()
-                        if self.debugging:
-                            marqueeprint(answer + ', you cheater!')
-                if similarstring(useranswer, answer) and useranswer != '':
-                    centerprint('You have successfully answered the riddle')
-                    centerprint('The answer was \"' + answer + '\"')
-                    centerprint('I present you with this:')
-                    self.ourhero.addgold(self.ourhero.level * 44)
-                    self.ourhero.addxp(self.ourhero.nextlevel * .17)
-                else:
-                    centerprint('You Fail! Leave this place!')
+                self.riddle()
         elif m == 'c':
             self.camp()
         if not self.ourhero.isalive():
@@ -342,13 +318,36 @@ class Game:
                 self.ourhero.ourshield.damagedur(effatk, self.ourhero.defcurve)
                 self.ourhero.damage(effatk)
 
-    # fetch a random riddle from db
-    def getriddle(self):
+    def riddle(self):
+        marqueeprint('[RIDDLE]')
+        centerprint('The area gets quiet. The wind blows.')
+        centerprint('A torn page lands in your grasp. It reads:')
+        print('\n')
+        # query database for a single random riddle
         self.conn.execute('SELECT * FROM riddles ORDER BY RANDOM() LIMIT 1' + ';')
         row = self.conn.fetchall()[0]
-        riddle = [row[0], row[1]]
-        return riddle
-        pass
+        ourriddle = [row[0], row[1]]
+        wrapstring = textwrap.wrap(ourriddle[0], width=self.datawidth)
+        answer = str(ourriddle[1]).lower()
+        for line in wrapstring:
+            centerprint(line)
+        centerprint('Speak the answer to the wind...')
+        useranswer = input()
+        if useranswer == '' and self.riddlemode == 1:
+            while useranswer == '':
+                centerprint('Please answer the riddle.')
+                useranswer = input()
+                if self.debugging:
+                    marqueeprint(answer + ', you cheater!')
+        if similarstring(useranswer, answer) and useranswer != '':
+            centerprint('You have successfully answered the riddle')
+            centerprint('The answer was \"' + answer + '\"')
+            centerprint('I present you with this:')
+            self.ourhero.addgold(self.ourhero.level * 44)
+            self.ourhero.addxp(self.ourhero.nextlevel * .17)
+        else:
+            centerprint('You Fail! Leave this place!')
+
 
     # fetch a new enemy that is at hero's level (for now...)
     def getenemy(self):
@@ -436,6 +435,7 @@ class Game:
             gridoutput(self.ourhero.ourweapon.datadict())
             gridoutput(self.ourhero.ourshield.datadict())
             gridoutput(self.ourhero.ourarmor.datadict())
+            print('')
 
             # determine weapon costs
             wepcost = weaponforsale.level * 60 * self.ourhero.defcurve
@@ -536,7 +536,7 @@ class Game:
     def peddler(self):
         centerprint('An old Peddler rests at your camp.')
         centerprint('He shows his wares:')
-        centerprint('[b]uy, [s]ell, [f]ortune-telling')
+        centerprint('[b]uy, [r]iddle (100g)')
         nextdecision = input()
         if nextdecision == 'b':
             pass
@@ -551,24 +551,25 @@ class Game:
             print('Your selection? (ENTER to go back)')
             selection = input()
             if selection == '1':
-                self.ourhero.buy(item1)
+                self.ourhero.buyitem(item1)
             elif selection == '2':
-                self.ourhero.buy(item2)
+                self.ourhero.buyitem(item2)
             elif selection == '3':
-                self.ourhero.buy(item3)
+                self.ourhero.buyitem(item3)
             elif selection == '4':
-                self.ourhero.buy(item4)
+                self.ourhero.buyitem(item4)
             elif selection == '5':
-                self.ourhero.buy(item5)
+                self.ourhero.buyitem(item5)
             elif selection == '':
                 centerprint('\"WHYD YOU COME HERE AND NOT BUY ANYTHING?\"')
                 return
             else:
                 centerprint('Get out of here you bum!')
                 # offer random choice of items at 1.5x value price
-        if nextdecision == 's':
-            pass
-            # let hero sell anything for .6 their value in gold.
+        if nextdecision == 'r':
+            if self.ourhero.canafford(100):
+                self.ourhero.gold -= 100
+                self.riddle()
 
     # pickle in to hero obj and start gameloop
     def loadgame(self):
@@ -660,7 +661,7 @@ class Game:
         healed = self.ourhero.activeitem.effect
         self.ourhero.heal(healed)
         self.ourhero.activeitem = 0
-        return
+
 
     # hero uses an item that damages enemy
     def explosivemanavial(self):
@@ -669,7 +670,7 @@ class Game:
         dmg = self.ourhero.activeitem.effect
         self.ourenemy.damage(dmg, self.ourhero.atkcurve)
         self.ourhero.activeitem = 0
-        return
+
 
     # adds health per turn
     def healthregenpotion(self):

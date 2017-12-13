@@ -40,9 +40,10 @@ def fiverowprintoptions(dataheader, table_data, title):
 
 
 # dynamic sized row-at-a-time output. Will appropriately size the margins
-# of any dict passed to it and print it out all pretty-like.
+# of any dict passed to it and tries to print it out all pretty-like.
 def gridoutput(table_data):
-    basestring = '{: >'
+    basestring = '{: '
+    centerchar = ['^']
     cap = '} '
     rowformat = ''
     columwidth, thedata, dataheader = [], [], []
@@ -50,33 +51,18 @@ def gridoutput(table_data):
         dataheader.append(key)
         thedata.append(value)
         columwidth.append(len(max([str(key), str(value)], key=len)))
-    for widthsize in columwidth:
+    for i, widthsize in enumerate(columwidth):
         rowformat += basestring
+        rowformat += centerchar[i % len(centerchar)]
         rowformat += str(widthsize)
         rowformat += cap
     marqueeprint(('[' + table_data['Name'] + ']').upper())
-    centerprint(rowformat.format(*dataheader))
-    centerprint(rowformat.format(*thedata))
+    print(rowformat.format(*dataheader))
+    print(rowformat.format(*thedata))
 
-
+# not developed yet
 def gridoutputmultiple(title, table_data):
-    marqueeprint(title)
-    for data in table_data:
-        basestring = '{: ^'
-        cap = '} '
-        rowformat = ''
-        columwidth, thedata, dataheader = [], [], []
-        for key, value in data.items():
-            dataheader.append(key)
-            thedata.append(value)
-            columwidth.append(len(max([str(key), str(value)], key=len)))
-        for widthsize in columwidth:
-            rowformat += basestring
-            rowformat += str(widthsize)
-            rowformat += cap
-        marqueeprint(('[' + table_data['Name'] + ']').upper())
-        centerprint(rowformat.format(*dataheader))
-        centerprint(rowformat.format(*thedata))
+    pass
 
 
 # for debugging and margin adjustments for user to zoom in
@@ -85,9 +71,10 @@ def printtest():
     leftprint('Justified Left')
     rightprint('Justified Right')
     centerprint('Center Print')
+    marqueeprint("[[/PRINT TEST]]")
 
 
-# if string is at least 60% similar, will return true
+# if string is at least 80% similar, will return true
 def similarstring(a, b):
     ourratio = SequenceMatcher(None, a, b).ratio()
     if ourratio >= .8:

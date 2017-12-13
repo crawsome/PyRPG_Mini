@@ -146,7 +146,7 @@ class Hero:
         self.gold += int(gainedgold + (gainedgold * self.defcurve))
 
     # attempt to buy an item
-    def buy(self, item):
+    def buyitem(self, item):
         if self.canafford(item.val):
             self.gold -= item.val
             self.items.append(item)
