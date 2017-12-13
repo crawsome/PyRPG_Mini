@@ -13,6 +13,7 @@ class Hero:
     def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, herododge):
         # name
         self.name = ''
+
         # instance vars
         self.ourclass = heroclass
         self.level = herolevel
@@ -84,7 +85,7 @@ class Hero:
 
     # Heals user up to max health
     def heal(self, hpup):
-        Game.centerprint('You heal for ' + str(int(hpup)) + ' HP')
+        centerprint('You heal for ' + str(int(hpup)) + ' HP')
         print('')
         self.hp += hpup
         if self.hp > self.maxhp:
@@ -92,32 +93,32 @@ class Hero:
 
     # flip a coin, pay 100g, 1/2 chance of regaining health
     def healflip(self):
-        Game.marqueeprint('[HEAL FLIP]')
-        Game.centerprint('Death appears to flip a coin with you.')
+        marqueeprint('[HEAL FLIP]')
+        centerprint('Death appears to flip a coin with you.')
         if self.gold >= 100:
             self.gold -= 100
             newrand = random.randrange(0, 1)
             if newrand == 0:
                 self.heal(self.maxhp)
-                Game.marqueeprint('[HEAL SUCCESS]')
-                Game.centerprint(str(self.maxhp) + ' healed')
+                marqueeprint('[HEAL SUCCESS]')
+                centerprint(str(self.maxhp) + ' healed')
             else:
-                Game.marqueeprint('HEAL FAILED You lost the roll!')
+                marqueeprint('HEAL FAILED You lost the roll!')
         else:
-            Game.marqueeprint('[HEAL FAILED]')
-            Game.centerprint('You don\'t have enough money!')
+            marqueeprint('[HEAL FAILED]')
+            centerprint('You don\'t have enough money!')
 
     # sometimes you find food after a fight
     def food(self):
         hpback = int(self.maxhp * .2)
-        Game.centerprint('You found some food and healed ' + str(hpback) + ' HP.')
+        centerprint('You found some food and healed ' + str(hpback) + ' HP.')
         self.heal(hpback)
 
     # take damage
     def damage(self, hpdown):
         effatk = hpdown + (hpdown * self.defcurve)
         self.hp -= int(effatk)
-        Game.centerprint(str(self.name) + ' takes ' + str(int(effatk)) + ' damage!')
+        centerprint(str(self.name) + ' takes ' + str(int(effatk)) + ' damage!')
         if self.hp < 0:
             self.hp = 0
 
@@ -125,16 +126,16 @@ class Hero:
     def death(self):
         self.isbattling = False
         self.hp = 0
-        Game.marqueeprint('')
-        Game.marqueeprint('[GAME OVER]')
-        Game.marqueeprint('')
+        marqueeprint('')
+        marqueeprint('[GAME OVER]')
+        marqueeprint('')
         print('')
         gridoutput(self.datadict())
 
     # adds XP to character, and levels up if it goes over
     def addxp(self, gainedxp):
         gainedxp = gainedxp + (gainedxp * self.defcurve)
-        Game.centerprint('You gained ' + str(int(gainedxp)) + ' Exp')
+        centerprint('You gained ' + str(int(gainedxp)) + ' Exp')
         self.xp += int(gainedxp)
         if self.xp >= self.nextlevel:
             self.levelup()
@@ -142,7 +143,7 @@ class Hero:
     # adds gold to character
     def addgold(self, gainedgold):
         gainedgold = gainedgold + (gainedgold * self.defcurve)
-        Game.centerprint('You gained ' + str(int(gainedgold + (gainedgold * self.defcurve))) + ' Gold')
+        centerprint('You gained ' + str(int(gainedgold + (gainedgold * self.defcurve))) + ' Gold')
         self.gold += int(gainedgold + (gainedgold * self.defcurve))
 
     # attempt to buy an item
@@ -220,7 +221,7 @@ class Hero:
 
     # prints all hero stat info
     def printheroinfodetail(self):
-        Game.marqueeprint('[HERO DATA]')
+        marqueeprint('[HERO DATA]')
         centerprint(Game.lr_justify('Class:', str(self.ourclass), self.datawidth))
         centerprint(Game.lr_justify('Name:', str(self.name), self.datawidth))
         centerprint(Game.lr_justify('Level:', str(self.level), self.datawidth))
@@ -233,6 +234,7 @@ class Hero:
         centerprint(Game.lr_justify('battles fought', str(self.battlecount), self.datawidth))
         print('')
 
+    # returns a dictionary of relevant user data for printing and delivering class information in a package
     def datadict(self):
         return {
             'Class': str(self.ourclass),
@@ -249,13 +251,14 @@ class Hero:
 
     # levels up hero
     def levelup(self):
+        wait = input()
         newdb = dbsetup.dbsetup()
-        Game.marqueeprint('LEVEL UP!')
+        marqueeprint('[LEVEL UP]')
         self.xp -= self.nextlevel
         self.level += 1
         if self.level > 15:
-            Game.marqueeprint('MAX LEVEL! YOU WIN!')
-            Game.marqueeprint('THANKS FOR PLAYING')
+            centerprint('MAX LEVEL! YOU WIN!')
+            centerprint('THANKS FOR PLAYING')
             gridoutput(self.datadict())
             quit()
         newdb.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
@@ -272,6 +275,7 @@ class Hero:
         self.dodge = int(new_hero_data[5] + self.dodgeaug)
         self.basecrit += self.critaug
         gridoutput(self.datadict())
+        wait = input()
 
     # fetches a new weapon for hero
     def newweapon(self):

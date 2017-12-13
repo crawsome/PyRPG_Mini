@@ -10,6 +10,7 @@ import dbsetup
 from texttools import *
 
 
+# game class makes the game work instantiates all other classes at some point.
 class Game:
     def __init__(self):
         # adds a little suspense
@@ -56,11 +57,14 @@ class Game:
             oursetup.setupdb()
         if self.debugging:
             printtest()
+
         # our database path
         self.dbpath = './db/game.db'
+
         # import and create our player database
         self.gamedb = connect(self.dbpath)
         self.conn = self.gamedb.cursor()
+
         # width of centered data in screencenter
         self.datawidth = 55
 
@@ -83,7 +87,8 @@ class Game:
         marqueeprint('[CHOOSE DIFFICULTY]')
         centerprint('[1]easy [2]med [3]hard')
         diff = input()
-        # hardest difficulty you defend the least, and attack the least
+
+        # the harder the difficulty, the less your attack and defense
         if diff == '1' or diff == '':
             atkcurve = .2
             defcurve = .05
@@ -107,7 +112,7 @@ class Game:
                                new_hero_data[4], new_hero_data[5])
         ournewhero.defcurve = defcurve
         ournewhero.atkcurve = atkcurve
-        marqueeprint('ENTER NAME')
+        marqueeprint('[ENTER NAME]')
         centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
         ournewhero.name = input()
         if ournewhero.name == '':
@@ -623,7 +628,7 @@ class Game:
             return False
         # print all the item's info
         for i, item in enumerate(self.ourhero.items):
-            leftprint(i)
+            leftprint('ITEM: ' + str(i+1))
             gridoutput(self.ourhero.items[i].datadict())
         centerprint('Please enter decision, [ENTER] to go back')
         try:
@@ -714,6 +719,7 @@ class Game:
                          str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), self.textwidth))
         centerprint(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
                          str('XP drop: ' + str(self.ourenemy.xp)),self.textwidth))
+        wait = input()
 
     # To be used on status screens
     def printmarqueehero(self, sometext):
