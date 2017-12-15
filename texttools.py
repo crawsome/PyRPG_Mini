@@ -57,8 +57,13 @@ def gridoutput(table_data):
         rowformat += str(widthsize)
         rowformat += cap
     marqueeprint(('[' + table_data['Name'] + ']').upper())
-    print(rowformat.format(*dataheader))
-    print(rowformat.format(*thedata))
+
+    # a hacky way to center the text after the formatting is done
+    spacesqty = (70 - len(rowformat.format(*dataheader)))/2
+    spaces = ' ' * int(spacesqty)
+    print(spaces + rowformat.format(*dataheader))
+    print(spaces + rowformat.format(*thedata))
+
 
 # not developed yet
 def gridoutputmultiple(title, table_data):
