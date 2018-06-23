@@ -213,7 +213,7 @@ class Game:
     def battle(self):
         self.ourhero.battlecount += 1
         self.printadversaries(self.datawidth)
-        marqueeprint('[CHOOSE ACTION]');
+        marqueeprint('[CHOOSE ACTION]')
         centerprint('[a]tk  [d]ef [r]un [i]tem')
         centerprint('Coinflip to [h]eal (100g)')
         centerprint('Action?')
@@ -223,13 +223,13 @@ class Game:
             turnnotused = True
             while turnnotused:
                 turnnotused = self.playerturn(nextmove)
-                wait = input()
+                #wait = input()
         if self.ourenemy.isalive():
             self.enemyturn()
-            wait = input()
+            #wait = input()
         if not self.ourhero.isalive():
             self.ourhero.death()
-            wait = input()
+            #wait = input()
             return
         if not self.ourenemy.isalive():
             self.ourhero.isbattling = False
@@ -240,9 +240,10 @@ class Game:
             # 15% chance to get some health back.
             if random.randrange(0, 100) in range(0, 15):
                 self.ourhero.food()
+            centerprint('Press [Enter] To continue')
+            wait = input()
         if not self.ourhero.isbattling:
             return
-            wait = input()
 
     # One round of a player's turn
     def playerturn(self, m):
@@ -719,7 +720,6 @@ class Game:
                          str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), self.textwidth))
         centerprint(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
                          str('XP drop: ' + str(self.ourenemy.xp)),self.textwidth))
-        wait = input()
 
     # To be used on status screens
     def printmarqueehero(self, sometext):

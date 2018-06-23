@@ -251,7 +251,6 @@ class Hero:
 
     # levels up hero
     def levelup(self):
-        wait = input()
         newdb = dbsetup.dbsetup()
         marqueeprint('[LEVEL UP]')
         self.xp -= self.nextlevel
@@ -275,7 +274,6 @@ class Hero:
         self.dodge = int(new_hero_data[5] + self.dodgeaug)
         self.basecrit += self.critaug
         gridoutput(self.datadict())
-        wait = input()
 
     # fetches a new weapon for hero
     def newweapon(self):
