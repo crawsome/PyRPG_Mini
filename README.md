@@ -37,7 +37,7 @@ Check back soon for new features!
 
 0. For your convenience, you can skip any prompt and default \[n]ew game, \[w]arrior, \[1] easy, \[a]dventure, \[a]ttack by simply pressing \[enter].
 
- 1. Run __init__.py. If the database was deleted, it will reload the database from the CSVs in ./csv/ folder.
+ 1. Run \_\_init\_\_.py. If the database was deleted, it will reload the database from the CSVs in ./csv/ folder.
  2. Press \[ENTER] to play regular game. Enter \[1] to go into debugging mode.
  3. Select \[n]ew game
  4. Choose your class: \[w]arrior \[m]age \[h]unter
