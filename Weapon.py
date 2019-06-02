@@ -31,8 +31,6 @@ class Weapon:
         elif chance >= 96 or chance < 100:
             self.quality = 'Legendary'
 
-
-
         # Weapon atk
         self.baseatk = weaponbaseatk
         if self.quality == 'Rusty':
