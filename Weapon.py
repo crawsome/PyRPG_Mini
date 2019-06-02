@@ -1,4 +1,5 @@
 from texttools import *
+import random
 
 
 class Weapon:
@@ -16,8 +17,33 @@ class Weapon:
         # Weapon Name
         self.name = weaponname
 
+        # Weapon Quality (rusty, common, great, magical, legendary)
+        chance = random.randint(1, 100)
+
+        if chance < 20:
+            self.quality = 'Rusty'
+        elif chance >= 21 or chance < 65:
+            self.quality = 'Common'
+        elif chance >= 66 or chance < 86:
+            self.quality = 'Great'
+        elif chance >= 85 or chance < 96:
+            self.quality = 'Magical'
+        elif chance >= 96 or chance < 100:
+            self.quality = 'Legendary'
+
         # Weapon atk
         self.baseatk = weaponbaseatk
+        if self.quality == 'Rusty':
+            self.baseatk = int(self.baseatk * 0.9)
+        elif self.quality == 'Common':
+            self.baseatk = int(self.baseatk * 1)
+        elif self.quality == 'Great':
+            self.baseatk = int(self.baseatk * 1.25)
+        elif self.quality == 'Magical':
+            self.baseatk = int(self.baseatk * 1.6)
+        elif self.quality == 'Legendary':
+            self.baseatk = int(self.baseatk * 2)
+
         self.atk = self.baseatk
 
         # Weapon durability
@@ -68,6 +94,7 @@ class Weapon:
         print(lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 70))
         print(lr_justify('Broken?:', str(self.isbroken()), 70))
         print(lr_justify('Power:', str(self.power), 70))
+        print(lr_justify('Quality:', str(self.quality), 70))
 
     # ['Level', 'Name', 'Type', 'Atk', 'Dur', 'Broken?', 'Power']
     def datadict(self):
@@ -77,5 +104,6 @@ class Weapon:
                 'Dur': (str(self.dur) + '/' + str(self.maxdur)),
                 'Broken?': str(self.isbroken()),
                 'Repair Cost': str(self.maxdur - self.dur) + ' gold',
-                'Power': str(self.power)
+                'Power': str(self.power),
+                'Quality': str(self.quality)
                 }
