@@ -1,4 +1,5 @@
 import Game
+import random
 
 
 # TODO: Make shield, armor, weapon all have similar repair methods.
@@ -17,12 +18,47 @@ class Shield:
         # shield type
         self.type = shieldtype
 
-        # shield defense value
+        # Shield Quality (rusty, common, great, magical, legendary)
+        chance = random.randint(1, 100)
+
+        if chance < 20:
+            self.quality = 'Rusty'
+        elif chance >= 21 or chance < 65:
+            self.quality = 'Common'
+        elif chance >= 66 or chance < 86:
+            self.quality = 'Great'
+        elif chance >= 85 or chance < 96:
+            self.quality = 'Magical'
+        elif chance >= 96 or chance < 100:
+            self.quality = 'Legendary'
+
+        # Defense Values
         self.basedefn = shieldbasedefn
+        if self.quality == 'Rusty':
+            self.basedefn = int(self.basedefn * 0.9)
+        elif self.quality == 'Common':
+            self.basedefn = int(self.basedefn * 1)
+        elif self.quality == 'Great':
+            self.basedefn = int(self.basedefn * 1.25)
+        elif self.quality == 'Magical':
+            self.basedefn = int(self.basedefn * 1.6)
+        elif self.quality == 'Legendary':
+            self.basedefn = int(self.basedefn * 2)
+
         self.defn = self.basedefn
 
-        # shield defense value
+        # shield durability value
         self.maxdur = shielddur
+        if self.quality == 'Rusty':
+            self.maxdur = int(self.maxdur * 0.9)
+        elif self.quality == 'Common':
+            self.maxdur = int(self.maxdur * 1)
+        elif self.quality == 'Great':
+            self.maxdur = int(self.maxdur * 1.25)
+        elif self.quality == 'Magical':
+            self.maxdur = int(self.maxdur * 1.6)
+        elif self.quality == 'Legendary':
+            self.maxdur = int(self.maxdur * 2)
         self.dur = self.maxdur
 
     # damage durability, and check to see if broken
@@ -65,6 +101,7 @@ class Shield:
         print(Game.lr_justify('Defense:', str(self.defn) + '/' + str(self.basedefn), 60))
         print(Game.lr_justify('Dur:', str(self.dur) + '/' + str(self.maxdur), 60))
         print(Game.lr_justify('Broken?:', str(self.isbroken()), 60))
+        print(Game.lr_justify('Quality:', str(self.quality), 60))
 
     # ['Level', 'Name', 'Defense', 'Dur', 'Broken?', 'Power']
     def datadict(self):
@@ -73,5 +110,6 @@ class Shield:
                 'Def': str(self.defn),
                 'Dur': str(self.dur) + '/' + str(self.maxdur),
                 'Broken?': str(self.isbroken()),
-                'Repair Cost': str(self.maxdur - self.dur) + ' gold'
+                'Repair Cost': str(self.maxdur - self.dur) + ' gold',
+                'Quality': str(self.quality)
                 }
