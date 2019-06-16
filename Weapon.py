@@ -63,7 +63,7 @@ class Weapon:
     def restoredur(self, aug):
         self.dur += aug
         if not self.isbroken():
-            self.dur == self.maxdur
+            self.dur = self.maxdur
             self.atk = self.baseatk
 
     # restore dur entirely
