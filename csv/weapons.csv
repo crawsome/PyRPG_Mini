@@ -10,7 +10,7 @@ level,class,name,type,baseattack,durability,power
 3,hunter,wanderer,bow,15,44,none
 4,warrior,old,sword,24,54,none
 4,mage,old,staff,16,43,none
-4,hunter,old old,bow,19,49,none
+4,hunter,old,bow,19,49,none
 5,warrior,historic,sword,31,60,none
 5,mage,historic,staff,26,48,none
 5,hunter,historic,bow,27,54,none
