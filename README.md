@@ -13,6 +13,10 @@ A text RPG written in Python 3 with many technical RPG features you'd want.
 * random
 * Read/write access to the project folder for database creation, reading, and saved games.
 
+## Quick Preview
+
+![](https://i.imgur.com/YTx0ZGj.gif)
+
 ## Game Features
 
 * OOP Python RPG with simple class names, convenient calls like *ourhero.heal()* and *ourhero.isalive()*
