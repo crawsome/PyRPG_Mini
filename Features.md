@@ -42,7 +42,7 @@ Feature 5: Add a tutorial / information printout.
 
 	User Story E : As a user, I want to be able to see information about the different classes and options I will come across during 		the game so that I can play better and be able to choose the correct options.
 
-		Task 1: Add informational text to database to be accessed in tutorial
+		Task 1: Add informational text to text file to be accessed in tutorial
 
 		Task 2: Add Tutorial option at start of game
 
@@ -57,3 +57,13 @@ Feature 6: Fix bugs found in base game.
 			back to camp
 
 		Task 3: Add input validation where necessary. 
+		
+Feature 7 (Andrew): Upgrade Inventory Management System
+	
+	User Story G: As a user, I would like to have a robust inventory management system to 	
+		store, equip, use or delete items acquired in-game.
+		
+		Task 1: Update current inventory system to give an option to store/drop items
+			acquired while adventuring.
+
+		Task 2: Add menu features to manage inventory.  
