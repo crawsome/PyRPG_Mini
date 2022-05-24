@@ -1,9 +1,7 @@
-from enum import Enum
-
 from texttools import *
 
 
-class ItemGrade(Enum):
+class ItemGrade:
     WEAK = 'weak'
     MINOR = 'minor'
     STANDARD = 'standard'

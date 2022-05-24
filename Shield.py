@@ -1,15 +1,14 @@
-from enum import Enum
 import random
 from texttools import *
 
 
-class ShieldType(Enum):
+class ShieldType:
     WARD = 'ward'
     SHIELD = 'shield'
     BUCKLER = 'buckler'
 
 
-class ShieldQuality(Enum):
+class ShieldQuality:
     RUSTY = 'rusty'
     COMMON = 'common'
     GREAT = 'great'

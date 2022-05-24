@@ -1,5 +1,4 @@
 import random
-from enum import Enum
 from typing import Union
 
 from Item import Item
@@ -10,7 +9,7 @@ from texttools import *
 from Armor import Armor
 
 
-class HeroClass(Enum):
+class HeroClass:
     HUNTER = 'hunter'
     MAGE = 'mage'
     WARRIOR = 'warrior'

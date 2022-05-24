@@ -1,15 +1,14 @@
 import random
-from enum import Enum
 from texttools import *
 
 
-class ArmorType(Enum):
+class ArmorType:
     OUTFIT = 'outfit'
     PLATE = 'plate'
     ROBE = 'robe'
 
 
-class ArmorQuality(Enum):
+class ArmorQuality:
     RUSTY = 'rusty'
     COMMON = 'common'
     GREAT = 'great'

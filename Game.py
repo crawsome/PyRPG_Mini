@@ -218,14 +218,14 @@ class Game:
             while turn_not_used:
                 turn_not_used = self.player_turn(next_move)
                 # wait = input()
-        if self.our_enemy.isalive():
+        if self.our_enemy.is_alive():
             self.enemy_turn()
             # wait = input()
         if not self.our_hero.is_alive():
             self.our_hero.death()
             # wait = input()
             return
-        if not self.our_enemy.isalive():
+        if not self.our_enemy.is_alive():
             self.our_hero.is_battling = False
             self.our_enemy.reset()
             marqueeprint('[VICTORY]')
@@ -296,7 +296,7 @@ class Game:
     # One round of an enemy turn
     def enemy_turn(self) -> None:
         overunder = random.randrange(0, 20)
-        if self.our_enemy.isalive:
+        if self.our_enemy.is_alive:
             marqueeprint('[ENEMY ATTACK]')
             if overunder == 0:
                 self.our_enemy.anger()
@@ -709,7 +709,7 @@ class Game:
         centerprint(lr_justify(str('lvl: ' + str(self.our_hero.level)),
                                str('lvl: ' + str(self.our_enemy.level)), self.text_width))
         centerprint(lr_justify(str('HP: ' + str(self.our_hero.hp) + '/' + str(self.our_hero.max_hp)),
-                               str('HP: ' + str(self.our_enemy.hp) + '/' + str(self.our_enemy.maxhp)), self.text_width))
+                               str('HP: ' + str(self.our_enemy.hp) + '/' + str(self.our_enemy.max_hp)), self.text_width))
         centerprint(lr_justify(str('XP: ' + str(self.our_hero.xp) + '/' + str(self.our_hero.next_level)),
                                str('XP drop: ' + str(self.our_enemy.xp)), self.text_width))
 
