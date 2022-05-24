@@ -1,24 +1,25 @@
 import csv
 import os
 from sqlite3 import connect
+from texttools import centerprint
 
-import Game
 
-
-class dbsetup():
+class Database:
     def __init__(self):
-        self.dbpath = './db/game.db'
+        self.db_path: str = './db/game.db'
         # import and create our player database
-        self.gamedb = connect(self.dbpath)
-        self.conn = self.gamedb.cursor()
+        self.game_db = connect(self.db_path)
+        self.conn = self.game_db.cursor()
 
     # used to delete the current database
-    def deletedbifexists(self):
+    @staticmethod
+    def delete_db_if_exists() -> None:
         if os.path.exists('./db/game.db'):
             os.remove('./db/game.db')
 
-    def setupdb(self):
-        # If you set this to 1, it will print out all data as it populates the datbase.
+    @staticmethod
+    def setup_db():
+        # If you set this to 1, it will print out all data as it populates the database.
         debugging = 0
 
         # make a database connection to the game database
@@ -35,7 +36,8 @@ class dbsetup():
         if debugging:
             print('creating table for armor')
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS armor (level INTEGER, class TEXT, name TEXT, type TEXT, basedef INTEGER, durability INTEGER)''')
+            'CREATE TABLE IF NOT EXISTS armor '
+            '(level INTEGER, class TEXT, name TEXT, type TEXT, base_def INTEGER, durability INTEGER)')
 
         # insert our armor table in the database
         if debugging:
@@ -56,7 +58,9 @@ class dbsetup():
         if debugging:
             print('creating table for enemies')
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS enemies(level INT, firstname TEXT, middlename TEXT, lastname TEXT, attack INTEGER, xp INTEGER, gold INTEGER, hp INTEGER, def INTEGER, status TEXT)''')
+            'CREATE TABLE IF NOT EXISTS enemies '
+            '(level INT, firstname TEXT, middlename TEXT, lastname TEXT, attack INTEGER, '
+            'xp INTEGER, gold INTEGER, hp INTEGER, def INTEGER, status TEXT)')
 
         # insert our enemy table in the database
         if debugging:
@@ -73,13 +77,13 @@ class dbsetup():
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
 
-        # create our items table in the database
+        # create our item's table in the database
         if debugging:
             print('creating table for items')
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS items(level INT, grade INT,name TEXT,effect INT,value INT)''')
+            'CREATE TABLE IF NOT EXISTS items(level INT, grade INT,name TEXT,effect INT,value INT)')
 
-        # insert our items table in the database
+        # insert our item's table in the database
         if debugging:
             print('inserting items into database')
         with open('./csv/items.csv', 'r') as fin:
@@ -94,15 +98,15 @@ class dbsetup():
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
 
-        # create our levelnotes table in the database
+        # create our level notes table in the database
         if debugging:
-            print('creating table for levelnotes')
+            print('creating table for level notes')
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS levelnotes(Level INT,HP INT,ATK INT,DEF INT,xptonextlevel INT, dodge INT )''')
+            'CREATE TABLE IF NOT EXISTS levelnotes(Level INT,HP INT,ATK INT,DEF INT,xptonextlevel INT, dodge INT )')
 
-        # insert our levelnotes table in the database
+        # insert our level notes table in the database
         if debugging:
-            print('inserting levelnotes into database')
+            print('inserting level notes into database')
         with open('./csv/levelnotes.csv', 'r') as fin:
             dr = csv.reader(fin)
             for i in dr:
@@ -115,13 +119,13 @@ class dbsetup():
                 for row in rows:
                     print('QUERY ALL: ' + str(row))
 
-        # create our shields table in the database
+        # create our shield's table in the database
         if debugging:
             print('creating table for shields')
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS shields (level INT,class TEXT,name TEXT,type TEXT,basedef INT,durability INT)''')
+            'CREATE TABLE IF NOT EXISTS shields (level INT,class TEXT,name TEXT,type TEXT,base_def INT,durability INT)')
 
-        # insert our shields table in the database
+        # insert our shield's table in the database
         if debugging:
             print('inserting shields into database')
         with open('./csv/shields.csv', 'r') as fin:
@@ -140,7 +144,8 @@ class dbsetup():
         if debugging:
             print('creating table for weapons')
         cur.execute(
-            '''CREATE TABLE IF NOT EXISTS weapons ( level INTEGER ,class TEXT ,name TEXT ,type TEXT,baseattack INTEGER ,durability INTEGER ,power TEXT)''')
+            'CREATE TABLE IF NOT EXISTS weapons '
+            '(level INTEGER ,class TEXT ,name TEXT ,type TEXT,baseattack INTEGER ,durability INTEGER ,power TEXT)')
 
         # insert our weapons table in the database
         if debugging:
@@ -181,4 +186,4 @@ class dbsetup():
         conn.commit()
         # close the database connection to let other operations use it
         conn.close()
-        Game.centerprint('...Have fun')
+        centerprint('...Have fun')
