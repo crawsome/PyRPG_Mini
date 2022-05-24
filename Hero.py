@@ -1,154 +1,164 @@
 import random
+from enum import Enum
+from typing import Union
 
-import Armor
-import Game
-import Item
-import Shield
-import Weapon
-import dbsetup
+from Item import Item
+from Shield import Shield
+from Weapon import Weapon
+from Database import Database
 from texttools import *
+from Armor import Armor
+
+
+class HeroClass(Enum):
+    HUNTER = 'hunter'
+    MAGE = 'mage'
+    WARRIOR = 'warrior'
 
 
 class Hero:
-    def __init__(self, heroclass, herolevel, herohp, heroatk, herodefn, heronextlevel, herododge):
+    def __init__(self,
+                 hero_class: HeroClass,
+                 hero_level: int,
+                 hero_hp: int,
+                 hero_atk: int,
+                 hero_defn: int,
+                 hero_next_level: int,
+                 hero_dodge: int):
         # name
-        self.name = ''
+        self.name: str = ''
 
         # instance vars
-        self.ourclass = heroclass
-        self.level = herolevel
-        self.nextlevel = heronextlevel
+        self.our_class: HeroClass = hero_class
+        self.level: int = hero_level
+        self.next_level: int = hero_next_level
 
         # HP
-        self.maxhp = herohp
-        self.hp = self.maxhp
+        self.max_hp: int = hero_hp
+        self.hp: int = self.max_hp
 
         # Attack
-        self.baseatk = heroatk
-        self.atk = self.baseatk
+        self.base_atk: int = hero_atk
+        self.atk: int = self.base_atk
 
         # Defense
-        self.basedef = herodefn
-        self.defn = self.basedef
+        self.base_def: int = hero_defn
+        self.defn: int = self.base_def
 
         # Dodge
-        self.basedodge = herododge
-        self.dodge = self.basedodge
+        self.base_dodge: int = hero_dodge
+        self.dodge: int = self.base_dodge
 
         # Luck
-        self.baseluck = 0
-        self.luck = self.baseluck
+        self.base_luck: int = 0
+        self.luck: int = self.base_luck
 
         # Crit
-        self.basecrit = 5
-        self.crit = self.basecrit
+        self.base_crit: int = 5
+        self.crit: int = self.base_crit
 
         # game-created vars
-        self.gold = 0
-        self.xp = 0
+        self.gold: int = 0
+        self.xp: Union[int, float] = 0
 
         # Augmentations for hero classes
-        self.hpaug = 0
-        self.dodgeaug = 0
-        self.defaug = 0
-        self.atkaug = 0
-        self.levelupaug = 0
-        self.critaug = 0
+        self.hp_aug: int = 0
+        self.dodge_aug: int = 0
+        self.def_aug: int = 0
+        self.atk_aug: int = 0
+        self.levelup_aug: int = 0
+        self.crit_aug: int = 0
 
         # Items container and usage
-        self.items = []
-        self.activeitem = 0
+        self.items: list = []
+        self.active_item = 0
 
         # Gear container
-        self.gear = []
+        self.gear: list = []
 
         # Keep track of battle count
-        self.battlecount = 0
+        self.battle_count: int = 0
 
         # Used for regen and haste potions
-        self.regentimer = 0
-        self.hastetimer = 0
+        self.regen_timer: int = 0
+        self.haste_timer: int = 0
 
         # A difficulty curve for determining lots of things
-        self.atkcurve = 0
-        self.defcurve = 0
+        self.atk_curve: float = 0
+        self.def_curve: float = 0
 
         # equip objects
-        self.ourweapon = Weapon.Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
-        self.ourarmor = Armor.Armor(0, 'training', 'broken', 'plate', 2, 10)
-        self.ourshield = Shield.Shield(0, 'training', 'wooden', 'ward', 3, 20)
-        self.ouritem = Item.Item(0, 0, 0, 0, 0)
-        self.isbattling = False
+        self.our_weapon: Weapon = Weapon(0, 'training', 'wooden', 'stick', 3, 20, 'none')
+        self.our_armor: Armor = Armor(0, 'training', 'broken', 'plate', 2, 10)
+        self.our_shield: Shield = Shield(0, 'training', 'wooden', 'ward', 3, 20)
+        self.our_item: Item = Item(0, 0, 0, 0, 0)
+        self.is_battling: bool = False
 
-        # width of centered data in screencenter
-        self.datawidth = 40
+        # width of centered data in screen center
+        self.data_width: int = 40
 
     # Heals user up to max health
-    def heal(self, hpup):
-        centerprint('You heal for ' + str(int(hpup)) + ' HP')
-        print('')
-        self.hp += hpup
-        if self.hp > self.maxhp:
-            self.hp = self.maxhp
+    def heal(self, hp_up: int) -> None:
+        centerprint(f'You heal for {hp_up} HP\n')
+        self.hp += hp_up
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
 
     # flip a coin, pay 100g, 1/2 chance of regaining health
-    def healflip(self):
+    def heal_flip(self) -> None:
         marqueeprint('[HEAL FLIP]')
         centerprint('Death appears to flip a coin with you.')
         if self.gold >= 100:
             self.gold -= 100
-            newrand = random.randrange(0, 1)
-            if newrand == 0:
-                self.heal(self.maxhp)
+            if random.choice([True, False]):
+                self.heal(self.max_hp)
                 marqueeprint('[HEAL SUCCESS]')
-                centerprint(str(self.maxhp) + ' healed')
-            else:
-                marqueeprint('HEAL FAILED You lost the roll!')
-        else:
-            marqueeprint('[HEAL FAILED]')
-            centerprint('You don\'t have enough money!')
+                centerprint(str(self.max_hp) + ' healed')
+                return
+            marqueeprint('HEAL FAILED You lost the roll!')
+            return
+        marqueeprint('[HEAL FAILED]')
+        centerprint('You don\'t have enough money!')
 
     # sometimes you find food after a fight
-    def food(self):
-        hpback = int(self.maxhp * .2)
-        centerprint('You found some food and healed ' + str(hpback) + ' HP.')
-        self.heal(hpback)
+    def food(self) -> None:
+        hp_back = int(self.max_hp * .2)
+        centerprint(f'You found some food and healed {hp_back} HP.')
+        self.heal(hp_back)
 
     # take damage
-    def damage(self, hpdown):
-        effatk = hpdown + (hpdown * self.defcurve)
-        self.hp -= int(effatk)
-        centerprint(str(self.name) + ' takes ' + str(int(effatk)) + ' damage!')
-        if self.hp < 0:
-            self.hp = 0
+    def damage(self, hp_down: int) -> None:
+        eff_atk = hp_down + (hp_down * self.def_curve)
+        self.hp -= int(eff_atk)
+        centerprint(f'{self.name} takes {eff_atk} damage!')
+        self.hp = 0 if self.hp < 0 else self.hp
 
     # kills the character
-    def death(self):
-        self.isbattling = False
+    def death(self) -> None:
+        self.is_battling = False
         self.hp = 0
         marqueeprint('')
         marqueeprint('[GAME OVER]')
-        marqueeprint('')
-        print('')
+        marqueeprint('\n')
         gridoutput(self.datadict())
 
     # adds XP to character, and levels up if it goes over
-    def addxp(self, gainedxp):
-        gainedxp = gainedxp + (gainedxp * self.defcurve)
-        centerprint('You gained ' + str(int(gainedxp)) + ' Exp')
-        self.xp += int(gainedxp)
-        if self.xp >= self.nextlevel:
-            self.levelup()
+    def add_xp(self, gained_xp: float) -> None:
+        gained_xp = gained_xp + (gained_xp * self.def_curve)
+        centerprint(f'You gained {gained_xp} Exp')
+        self.xp += gained_xp
+        if self.xp >= self.next_level:
+            self.level_up()
 
     # adds gold to character
-    def addgold(self, gainedgold):
-        gainedgold = gainedgold + (gainedgold * self.defcurve)
-        centerprint('You gained ' + str(int(gainedgold + (gainedgold * self.defcurve))) + ' Gold')
-        self.gold += int(gainedgold + (gainedgold * self.defcurve))
+    def add_gold(self, gained_gold: int) -> None:
+        gained_gold = gained_gold + (gained_gold * self.def_curve)
+        centerprint(f'You gained {str(int(gained_gold + (gained_gold * self.def_curve)))} Gold')
+        self.gold += int(gained_gold + (gained_gold * self.def_curve))
 
     # attempt to buy an item
-    def buyitem(self, item):
-        if self.canafford(item.val):
+    def buy_item(self, item: Item) -> None:
+        if self.can_afford(item.val):
             self.gold -= item.val
             self.items.append(item)
             print('You bought ' + item.name)
@@ -156,172 +166,166 @@ class Hero:
             print('You can\'t afford that!')
 
     # see if you can afford an item
-    def canafford(self, val):
-        if self.gold >= val:
-            return True
-        else:
-            return False
+    def can_afford(self, val: int) -> bool:
+        return self.gold >= val
 
     # alive check
-    def isalive(self):
-        if self.hp > 0:
-            return True
-        else:
-            return False
+    def is_alive(self) -> bool:
+        return self.hp > 0
 
     # applies hero's perks
-    def heroperks(self):
-        if self.ourclass == 'warrior':
+    def hero_perks(self) -> None:
+        if self.our_class == HeroClass.WARRIOR:
             # more HP
-            self.hpaug = 15
+            self.hp_aug = 15
             # slower
-            self.dodgeaug = 2
+            self.dodge_aug = 2
             # more def
-            self.defaug = 12
+            self.def_aug = 12
             # low atk
-            self.atkaug = 2
+            self.atk_aug = 2
             # doofus is a slow leveler
-            self.levelupaug = 1
+            self.levelup_aug = 1
             # mild crit chance boost
-            self.critaug = 2
-        elif self.ourclass == 'mage':
+            self.crit_aug = 2
+        elif self.our_class == HeroClass.MAGE:
             # glass cannon
-            self.hpaug = 5
+            self.hp_aug = 5
             # med dodge
-            self.dodgeaug = 5
+            self.dodge_aug = 5
             # low DEF
-            self.defaug = 6
+            self.def_aug = 6
             # lower atk
-            self.atkaug = 12
+            self.atk_aug = 12
             # smarter, levels up quicker
-            self.levelupaug = .6
+            self.levelup_aug = .6
             # mild crit chance boost
-            self.critaug = 2
-        elif self.ourclass == 'hunter':
+            self.crit_aug = 2
+        elif self.our_class == HeroClass.HUNTER:
             # med health
-            self.hpaug = 10
+            self.hp_aug = 10
             # high dodge
-            self.dodgeaug = 8
+            self.dodge_aug = 8
             # med DEF
-            self.defaug = 8
+            self.def_aug = 8
             # def ATK
-            self.atkaug = 6
+            self.atk_aug = 6
             # he gets by
-            self.levelupaug = .8
+            self.levelup_aug = .8
             # high crit chance boost
-            self.critaug = 6
-        self.maxhp += self.hpaug
-        self.hp += self.hpaug
-        self.dodge += self.dodgeaug
-        self.basedef += self.defaug
-        self.defn += self.defaug
-        self.nextlevel = int(self.nextlevel * self.levelupaug)
-        self.baseatk += self.atkaug
-        self.atk += self.atkaug
+            self.crit_aug = 6
+        self.max_hp += self.hp_aug
+        self.hp += self.hp_aug
+        self.dodge += self.dodge_aug
+        self.base_def += self.def_aug
+        self.defn += self.def_aug
+        self.next_level = int(self.next_level * self.levelup_aug)
+        self.base_atk += self.atk_aug
+        self.atk += self.atk_aug
 
     # prints all hero stat info
-    def printheroinfodetail(self):
+    def print_hero_info_detail(self) -> None:
         marqueeprint('[HERO DATA]')
-        centerprint(Game.lr_justify('Class:', str(self.ourclass), self.datawidth))
-        centerprint(Game.lr_justify('Name:', str(self.name), self.datawidth))
-        centerprint(Game.lr_justify('Level:', str(self.level), self.datawidth))
-        centerprint(Game.lr_justify('XP:', str(self.xp) + '/' + str(self.nextlevel), self.datawidth))
-        centerprint(Game.lr_justify('HP:', str(self.hp) + '/' + str(self.maxhp), self.datawidth))
-        centerprint(Game.lr_justify('Gold:', str(self.gold), self.datawidth))
-        centerprint(Game.lr_justify('Atk:', str(self.atk), self.datawidth))
-        centerprint(Game.lr_justify('Defense:', str(self.defn), self.datawidth))
-        centerprint(Game.lr_justify('Dodge:', str(self.dodge), self.datawidth))
-        centerprint(Game.lr_justify('battles fought', str(self.battlecount), self.datawidth))
+        centerprint(lr_justify('Class:', str(self.our_class), self.data_width))
+        centerprint(lr_justify('Name:', str(self.name), self.data_width))
+        centerprint(lr_justify('Level:', str(self.level), self.data_width))
+        centerprint(lr_justify('XP:', str(self.xp) + '/' + str(self.next_level), self.data_width))
+        centerprint(lr_justify('HP:', str(self.hp) + '/' + str(self.max_hp), self.data_width))
+        centerprint(lr_justify('Gold:', str(self.gold), self.data_width))
+        centerprint(lr_justify('Atk:', str(self.atk), self.data_width))
+        centerprint(lr_justify('Defense:', str(self.defn), self.data_width))
+        centerprint(lr_justify('Dodge:', str(self.dodge), self.data_width))
+        centerprint(lr_justify('battles fought', str(self.battle_count), self.data_width))
         print('')
 
     # returns a dictionary of relevant user data for printing and delivering class information in a package
-    def datadict(self):
+    def datadict(self) -> dict:
         return {
-            'Class': str(self.ourclass),
+            'Class': str(self.our_class),
             'Name': str(self.name),
             'Level': str(self.level),
-            'XP': str(str(self.xp) + '/' + str(self.nextlevel)),
-            'HP': str(str(self.hp) + '/' + str(self.maxhp)),
+            'XP': str(str(self.xp) + '/' + str(self.next_level)),
+            'HP': str(str(self.hp) + '/' + str(self.max_hp)),
             'Gold': str(self.gold),
             'Atk': str(self.atk),
             'Def': str(self.defn),
             'Dodge': str(self.dodge),
-            'battles': str(self.battlecount)
+            'battles': str(self.battle_count)
         }
 
     # levels up hero
-    def levelup(self):
-        newdb = dbsetup.dbsetup()
+    def level_up(self) -> None:
+        new_db = Database()
         marqueeprint('[LEVEL UP]')
-        self.xp -= self.nextlevel
+        self.xp -= self.next_level
         self.level += 1
         if self.level > 15:
             centerprint('MAX LEVEL! YOU WIN!')
             centerprint('THANKS FOR PLAYING')
             gridoutput(self.datadict())
             quit()
-        newdb.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
-        rows = newdb.conn.fetchall()
-        newdb.conn.close()
+        new_db.conn.execute('SELECT * FROM levelnotes WHERE level = ' + str(self.level) + ';')
+        rows = new_db.conn.fetchall()
+        new_db.conn.close()
         new_hero_data = rows[0]
-        self.maxhp = int(new_hero_data[1] + self.hpaug)
-        self.hp = self.maxhp
-        self.baseatk = int(new_hero_data[2] + self.atkaug)
-        self.atk = self.baseatk
-        self.basedef = int(new_hero_data[3] + self.defaug)
-        self.defn = self.basedef
-        self.nextlevel += int(new_hero_data[4] * self.levelupaug)
-        self.dodge = int(new_hero_data[5] + self.dodgeaug)
-        self.basecrit += self.critaug
+        self.max_hp = int(new_hero_data[1] + self.hp_aug)
+        self.hp = self.max_hp
+        self.base_atk = int(new_hero_data[2] + self.atk_aug)
+        self.atk = self.base_atk
+        self.base_def = int(new_hero_data[3] + self.def_aug)
+        self.defn = self.base_def
+        self.next_level += int(new_hero_data[4] * self.levelup_aug)
+        self.dodge = int(new_hero_data[5] + self.dodge_aug)
+        self.base_crit += self.crit_aug
         gridoutput(self.datadict())
 
     # fetches a new weapon for hero
-    def newweapon(self):
-        newdb = dbsetup.dbsetup()
-        newdb.conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',
-                           (str(self.level), str(self.ourclass),))
-        rows = newdb.conn.fetchall()
-        newdb.conn.close()
+    def new_weapon(self) -> Weapon:
+        new_db = Database()
+        new_db.conn.execute('SELECT * FROM weapons WHERE "level" = ? AND "class" = ? ;',
+                            (str(self.level), str(self.our_class),))
+        rows = new_db.conn.fetchall()
+        new_db.conn.close()
         new_weapon_data = rows[0]
-        ournewweapon = Weapon.Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
-                                     new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
-        return ournewweapon
+        our_new_weapon = Weapon(new_weapon_data[0], new_weapon_data[1], new_weapon_data[2], new_weapon_data[3],
+                                new_weapon_data[4], new_weapon_data[5], new_weapon_data[6])
+        return our_new_weapon
 
     # fetches a new armor for hero
-    def newarmor(self):
-        newdb = dbsetup.dbsetup()
-        newdb.conn.execute('SELECT * FROM armor WHERE "level" = ? AND "class" = ? ;',
-                           (str(self.level), str(self.ourclass),))
-        rows = newdb.conn.fetchall()
-        newdb.conn.close()
+    def new_armor(self) -> Armor:
+        new_db = Database()
+        new_db.conn.execute('SELECT * FROM armor WHERE "level" = ? AND "class" = ? ;',
+                            (str(self.level), str(self.our_class),))
+        rows = new_db.conn.fetchall()
+        new_db.conn.close()
         new_armor_data = rows[0]
-        ournewarmor = Armor.Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3],
-                                  new_armor_data[4], new_armor_data[5])
-        return ournewarmor
+        our_new_armor = Armor(new_armor_data[0], new_armor_data[1], new_armor_data[2], new_armor_data[3],
+                              new_armor_data[4], new_armor_data[5])
+        return our_new_armor
 
     # fetches a new shield for hero
-    def newshield(self):
-        newdb = dbsetup.dbsetup()
-        newdb.conn.execute('SELECT * FROM shields WHERE "level" = ? AND "class" = ? ;',
-                           (str(self.level), str(self.ourclass),))
-        rows = newdb.conn.fetchall()
-        newdb.conn.close()
+    def new_shield(self) -> Shield:
+        new_db = Database()
+        new_db.conn.execute('SELECT * FROM shields WHERE "level" = ? AND "class" = ? ;',
+                            (str(self.level), str(self.our_class),))
+        rows = new_db.conn.fetchall()
+        new_db.conn.close()
         new_shield_data = rows[0]
-        ournewshield = Shield.Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3],
-                                     new_shield_data[4], new_shield_data[5])
-        return ournewshield
+        our_new_shield = Shield(new_shield_data[0], new_shield_data[1], new_shield_data[2], new_shield_data[3],
+                                new_shield_data[4], new_shield_data[5])
+        return our_new_shield
 
     # fetches a new item for hero
-    def newitem(self):
-        newdb = dbsetup.dbsetup()
-        newdb.conn.execute('SELECT * FROM items WHERE "level" = ? ;', (self.level,))
-        rows = newdb.conn.fetchall()
-        newdb.conn.close()
+    def new_item(self) -> Item:
+        new_db = Database()
+        new_db.conn.execute('SELECT * FROM items WHERE "level" = ? ;', (self.level,))
+        rows = new_db.conn.fetchall()
+        new_db.conn.close()
         new_item_data = random.choice(rows)
-        ournewitem = Item.Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3], new_item_data[4])
-        return ournewitem
+        our_new_item = Item(new_item_data[0], new_item_data[1], new_item_data[2], new_item_data[3], new_item_data[4])
+        return our_new_item
 
-    # re-equips all gear. Usually called when setting something like self.ourarmor = Armor.Armor(*args)
-    def applyequip(self):
-        self.atk = int(self.baseatk + self.ourweapon.baseatk)
-        self.defn = int(self.basedef + self.ourarmor.defn + self.ourshield.defn)
+    # re-equips all gear. Usually called when setting something like self.our_armor = Armor.Armor(*args)
+    def apply_equip(self) -> None:
+        self.atk = int(self.base_atk + self.our_weapon.baseatk)
+        self.defn = int(self.base_def + self.our_armor.defn + self.our_shield.defn)

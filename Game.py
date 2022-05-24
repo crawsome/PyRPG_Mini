@@ -4,9 +4,11 @@ import pickle
 import random
 import time
 from sqlite3 import connect
+from typing import Optional
+
+from Hero import Hero, HeroClass
 import Enemy
-import Hero
-import dbsetup
+from Database import Database
 from texttools import *
 
 
@@ -15,46 +17,43 @@ class Game:
     def __init__(self):
         # adds a little suspense
         # TODO: add suspense option to some printing methods?
-        self.suspensemode = 0
+        self.suspense_mode: bool = False
 
         # provides inner workings of game, some live-comments
         # TODO: add more comments and stats as game goes on
-        self.debugging = 0
         centerprint('Debugging Mode? [1] for yes, [ENTER] for no')
-        self.debugging = input()
+        self.debugging: bool = input() == "1"
 
         # riddle mode 0 - optional, 1 - mandatory
         centerprint('Riddles Mandatory? [1] for yes, [ENTER] for no')
-        self.riddlemode = input()
-        if self.riddlemode == '':
-            self.riddlemode = 0
+        self.riddle_mode: bool = input() == "1"
 
         # provides a way to speed through battle (risky!)
-        self.autoattack = 0
+        self.auto_attack: bool = False
 
-        # make blank hero and enemy objects
-        self.ourhero = 0
-        self.ourenemy = 0
+        # initialize variables for hero and enemy objects
+        self.our_hero: Optional[Hero] = None
+        self.our_enemy: Optional[Enemy] = None
 
         # global text width
-        self.textwidth = 70
+        self.text_width: int = 70
 
         # width of data, so it's not so spaced-out
-        self.datawidth = 55
+        self.data_width: int = 55
 
         # Create all game databases (only needs to run once to make databases)
-        firsttime = False
+        first_time: bool = False
         if 'game.db' not in os.listdir('./db/'):
             centerprint('This looks like it\'s your first time playing.')
             centerprint('We must load the database first')
             centerprint('This will only take a moment...')
-            firsttime = True
+            first_time = True
 
         # re-creates the database, in case you change values1
-        if firsttime:
+        if first_time:
             print('Loading Database:')
-            oursetup = dbsetup.dbsetup()
-            oursetup.setupdb()
+            database = Database()
+            database.setup_db()
         if self.debugging:
             printtest()
 
@@ -62,65 +61,62 @@ class Game:
         self.dbpath = './db/game.db'
 
         # import and create our player database
-        self.gamedb = connect(self.dbpath)
-        self.conn = self.gamedb.cursor()
+        self.game_db = connect(self.dbpath)
+        self.conn = self.game_db.cursor()
 
-        # width of centered data in screencenter
-        self.datawidth = 55
-
-    # TODO: make self.ourhero.levelup and newhero the same function
+    # TODO: make self.our_hero.levelup and newhero the same function
     # makes a new hero object for when starting new game.
-    def newhero(self):
+    def new_hero(self) -> Hero:
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
         rows = self.conn.fetchall()
         marqueeprint('[CHOOSE CLASS]')
         centerprint('[w]arrior [m]age [h]unter')
-        ourclass = input()
-        if ourclass == 'w' or ourclass == '':
-            ourclass = 'warrior'
-        elif ourclass == 'm':
-            ourclass = 'mage'
-        elif ourclass == 'h':
-            ourclass = 'hunter'
+        our_class = input()
+        if our_class == 'w' or our_class == '':
+            our_class = HeroClass.WARRIOR
+        elif our_class == 'm':
+            our_class = HeroClass.MAGE
+        elif our_class == 'h':
+            our_class = HeroClass.HUNTER
         else:
             centerprint('Please enter a valid selection')
+            return self.new_hero()
         marqueeprint('[CHOOSE DIFFICULTY]')
         centerprint('[1]easy [2]med [3]hard')
         diff = input()
 
         # the harder the difficulty, the less your attack and defense
         if diff == '1' or diff == '':
-            atkcurve = .2
-            defcurve = .05
+            atk_curve = .2
+            def_curve = .05
         elif diff == '2':
-            atkcurve = .1
-            defcurve = .1
+            atk_curve = .1
+            def_curve = .1
         elif diff == '3':
-            atkcurve = .05
-            defcurve = .2
+            atk_curve = .05
+            def_curve = .2
         else:
             centerprint('Please enter a valid selection')
             diff = 1
-            atkcurve = .4
-            defcurve = .05
-            centerprint('Setting Difficulty to ' + str(diff))
+            atk_curve = .4
+            def_curve = .05
+            centerprint(f'Setting Difficulty to {diff}')
 
         new_hero_data = rows[0]
-        ournewhero = Hero.Hero(ourclass,
-                               new_hero_data[0], new_hero_data[1],
-                               new_hero_data[2], new_hero_data[3],
-                               new_hero_data[4], new_hero_data[5])
-        ournewhero.defcurve = defcurve
-        ournewhero.atkcurve = atkcurve
+        our_new_hero = Hero(our_class,
+                            new_hero_data[0], new_hero_data[1],
+                            new_hero_data[2], new_hero_data[3],
+                            new_hero_data[4], new_hero_data[5])
+        our_new_hero.def_curve = def_curve
+        our_new_hero.atk_curve = atk_curve
         marqueeprint('[ENTER NAME]')
-        centerprint('Your name, ' + str(ournewhero.ourclass) + '?\n')
-        ournewhero.name = input()
-        if ournewhero.name == '':
-            ournewhero.name = 'Sir Lazy'
-        return ournewhero
+        centerprint(f'Your name, {our_new_hero.our_class} ?\n')
+        new_hero_name = input()
+        our_new_hero.name = new_hero_name if new_hero_name else 'Sir Lazy'
+        return our_new_hero
 
     # brings game back after death.
-    def gameloop(self):
+    def game_loop(self) -> None:
         while True:
             marqueeprint('')
             centerprint('MiniRPG')
@@ -130,201 +126,199 @@ class Game:
             decision = input()
             if decision == 'n' or decision == '':
                 # Make new global hero and enemy which will change over time
-                self.ourhero = self.newhero()
-                self.ourenemy = self.getenemy()
-                self.ourhero.heroperks()
-                gridoutput(self.ourhero.datadict())
+                self.our_hero = self.new_hero()
+                self.our_enemy = self.get_enemy()
+                self.our_hero.hero_perks()
+                gridoutput(self.our_hero.datadict())
             if decision == 'l':
-                print('lOADING GAME')
-                self.ourhero = self.loadgame()
-                self.ourenemy = self.getenemy()
-            while self.ourhero.isalive():
+                print('LOADING GAME')
+                self.our_hero = self.load_game()
+                self.our_enemy = self.get_enemy()
+            while self.our_hero.is_alive():
                 self.adventure()
 
     # where the meat of things happen, this decides what happens when you enter [a]dventure
     def adventure(self):
         centerprint('[a]dventure or [c]amp')
         m = input()
-        ourrand = random.randint(0, 100)
+        our_rand = random.randint(0, 100)
         if m == 'a' or m == '':
-            if ourrand <= 70:
-                self.ourhero.isbattling = True
+            if our_rand <= 70:
+                self.our_hero.is_battling = True
                 # Make new enemy
-                self.ourenemy = self.getenemy()
+                self.our_enemy = self.get_enemy()
                 marqueeprint('[BATTLE]')
                 # battle until one is dead
-                turnnum = 1
-                while self.ourhero.isalive() and self.ourenemy.isalive() and self.ourhero.isbattling:
-                    marqueeprint('[TURN ' + str(turnnum) + ']')
+                turn_num = 1
+                while self.our_hero.is_alive() and self.our_enemy.is_alive() and self.our_hero.is_battling:
+                    marqueeprint(f'[TURN {turn_num}]')
                     self.battle()
-                    turnnum += 1
-            elif 70 < ourrand <= 90:
+                    turn_num += 1
+            elif 70 < our_rand <= 90:
                 marqueeprint('[FOUND ITEM]')
                 itemrand = random.randrange(0, 6)
                 if itemrand == 0:
-                    self.ourhero.ourarmor = self.ourhero.newarmor()
-                    gridoutput(self.ourhero.ourarmor.datadict())
+                    self.our_hero.our_armor = self.our_hero.new_armor()
+                    gridoutput(self.our_hero.our_armor.datadict())
                 elif itemrand == 1:
-                    self.ourhero.ourweapon = self.ourhero.newweapon()
-                    gridoutput(self.ourhero.ourweapon.datadict())
+                    self.our_hero.our_weapon = self.our_hero.new_weapon()
+                    gridoutput(self.our_hero.our_weapon.datadict())
                 elif itemrand == 2:
-                    self.ourhero.ourshield = self.ourhero.newshield()
-                    gridoutput(self.ourhero.ourshield.datadict())
+                    self.our_hero.our_shield = self.our_hero.new_shield()
+                    gridoutput(self.our_hero.our_shield.datadict())
                 elif 3 <= itemrand <= 6:
-                    self.ourhero.ouritem = self.ourhero.newitem()
-                    gridoutput(self.ourhero.ouritem.datadict())
-                    self.ourhero.items.append(self.ourhero.ouritem)
-                self.ourhero.applyequip()
-            elif 90 < ourrand <= 95:
+                    self.our_hero.our_item = self.our_hero.new_item()
+                    gridoutput(self.our_hero.our_item.datadict())
+                    self.our_hero.items.append(self.our_hero.our_item)
+                self.our_hero.apply_equip()
+            elif 90 < our_rand <= 95:
                 marqueeprint('A LONE TRAVELER')
                 centerprint('You find a lone traveler,')
                 centerprint('He says:')
                 print('\n')
                 with open('./quoteslist.txt', 'rb') as f:
-                    quotelist = f.read().splitlines()
-                    quote = random.choice(quotelist)
-                    quote = quote.decode('utf-8')
-                    wrapstring = textwrap.wrap(quote, width=self.datawidth)
-                    for line in wrapstring:
+                    quote_list = f.read().splitlines()
+                    quote = random.choice(quote_list).decode('utf-8')
+                    for line in textwrap.wrap(quote, width=self.data_width):
                         centerprint(line)
                     print('\n')
-                threechoicerandom = random.randrange(0, 2)
-                if threechoicerandom == 0:
-                    xpgain = int(self.ourhero.nextlevel * .10)
-                    self.ourhero.addxp(int(round(xpgain, 1)))
-                if threechoicerandom == 1:
-                    goldgain = int(self.ourhero.gold * .10)
-                    self.ourhero.addgold(goldgain)
-                if threechoicerandom == 2:
+                three_choice_random = random.randrange(0, 2)
+                if three_choice_random == 0:
+                    xp_gain = int(self.our_hero.next_level * .10)
+                    self.our_hero.add_xp(int(round(xp_gain, 1)))
+                if three_choice_random == 1:
+                    gold_gain = int(self.our_hero.gold * .10)
+                    self.our_hero.add_gold(gold_gain)
+                if three_choice_random == 2:
                     pass
                 centerprint('...you venture back to camp')
-            elif 90 < ourrand <= 95:
+            elif 90 < our_rand <= 95:
                 # a story event?
                 centerprint('You find nothing and wander back to camp')
                 pass
-            elif 95 < ourrand <= 100:
+            elif 95 < our_rand <= 100:
                 self.riddle()
         elif m == 'c':
             self.camp()
-        if not self.ourhero.isalive():
+        if not self.our_hero.is_alive():
             return
 
     # One round of a battle
     def battle(self):
-        self.ourhero.battlecount += 1
-        self.printadversaries(self.datawidth)
+        self.our_hero.battle_count += 1
+        self.print_adversaries(self.data_width)
         marqueeprint('[CHOOSE ACTION]')
         centerprint('[a]tk  [d]ef [r]un [i]tem')
         centerprint('Coinflip to [h]eal (100g)')
         centerprint('Action?')
-        nextmove = input()
+        next_move = input()
         # conditions to end battle
-        if self.ourhero.isalive():
-            turnnotused = True
-            while turnnotused:
-                turnnotused = self.playerturn(nextmove)
-                #wait = input()
-        if self.ourenemy.isalive():
-            self.enemyturn()
-            #wait = input()
-        if not self.ourhero.isalive():
-            self.ourhero.death()
-            #wait = input()
+        if self.our_hero.is_alive():
+            turn_not_used = True
+            while turn_not_used:
+                turn_not_used = self.player_turn(next_move)
+                # wait = input()
+        if self.our_enemy.isalive():
+            self.enemy_turn()
+            # wait = input()
+        if not self.our_hero.is_alive():
+            self.our_hero.death()
+            # wait = input()
             return
-        if not self.ourenemy.isalive():
-            self.ourhero.isbattling = False
-            self.ourenemy.reset()
+        if not self.our_enemy.isalive():
+            self.our_hero.is_battling = False
+            self.our_enemy.reset()
             marqueeprint('[VICTORY]')
-            self.ourhero.addgold(self.ourenemy.gold + (self.ourenemy.gold * self.ourhero.defcurve))
-            self.ourhero.addxp(self.ourenemy.xp + (self.ourenemy.xp * self.ourhero.defcurve))
+            self.our_hero.add_gold(self.our_enemy.gold + (self.our_enemy.gold * self.our_hero.def_curve))
+            self.our_hero.add_xp(self.our_enemy.xp + (self.our_enemy.xp * self.our_hero.def_curve))
             # 15% chance to get some health back.
             if random.randrange(0, 100) in range(0, 15):
-                self.ourhero.food()
+                self.our_hero.food()
             centerprint('Press [Enter] To continue')
-            wait = input()
-        if not self.ourhero.isbattling:
+            input()  # Wait
+        if not self.our_hero.is_battling:
             return
 
     # One round of a player's turn
-    def playerturn(self, m):
+    def player_turn(self, m: str) -> Optional[bool]:  # FixMe: This stinks and is a possible soft-lock
         # for health regen potion
-        if self.ourhero.regentimer > 0:
-            regen = int(self.ourhero.maxhp * .2)
-            self.ourhero.heal(regen)
-            self.ourhero.regentimer -= 1
+        if self.our_hero.regen_timer > 0:
+            regen = int(self.our_hero.max_hp * .2)
+            self.our_hero.heal(regen)
+            self.our_hero.regen_timer -= 1
         # for haste potion for 5 turn dodge increases
-        self.ourhero.dodge = self.ourhero.basedodge
-        if self.ourhero.hastetimer > 0:
+        self.our_hero.dodge = self.our_hero.base_dodge
+        if self.our_hero.haste_timer > 0:
             centerprint('Your dodge chance is elevated')
-            self.ourhero.hastetimer -= 1
+            self.our_hero.haste_timer -= 1
         else:
-            self.ourhero.dodge = self.ourhero.basedodge
-        self.ourhero.applyequip()
+            self.our_hero.dodge = self.our_hero.base_dodge
+        self.our_hero.apply_equip()
         marqueeprint('[HERO TURN]')
         crit = 0
-        critrand = random.randrange(0, 100)
-        if critrand in range(self.ourhero.crit, critrand):
-            crit = self.ourhero.atk * .4
-        effatk = int(self.ourhero.atk + crit)
-        if effatk < 0:
-            effatk = 0
+        crit_rand = random.randrange(0, 100)
+        if crit_rand in range(self.our_hero.crit, crit_rand):
+            crit = self.our_hero.atk * .4
+        eff_atk = int(self.our_hero.atk + crit)
+        if eff_atk < 0:
+            eff_atk = 0
         if m == 'a' or m == '':
-            if critrand == 0:
+            if crit_rand == 0:
                 centerprint('CRITICAL HIT!')
-            self.ourenemy.damage(effatk + crit, self.ourhero.atkcurve)
-            self.ourhero.ourweapon.damagedur(effatk + crit, self.ourhero.defcurve)
-            if self.ourenemy.hp < 0:
-                self.ourenemy.hp = 0
-                self.ourhero.isbattling = False
+            self.our_enemy.damage(eff_atk + crit, self.our_hero.atk_curve)
+            self.our_hero.our_weapon.damagedur(eff_atk + crit, self.our_hero.def_curve)
+            if self.our_enemy.hp < 0:
+                self.our_enemy.hp = 0
+                self.our_hero.is_battling = False
             return False
         elif m == 'd':
             marqueeprint('[DEFENSE]')
-            self.ourhero.defn += self.ourhero.defn * self.ourhero.defcurve
+            self.our_hero.defn += self.our_hero.defn * self.our_hero.def_curve
             return False
         elif m == 'r':
             marqueeprint('[RUN ATTEMPT]')
             rand = random.randrange(0, 4)
             if rand == 0:
                 centerprint('you ran away')
-                self.ourhero.isbattling = False
+                self.our_hero.is_battling = False
             else:
                 centerprint('you can\'t run!')
             return False
         elif m == 'i':
-            itemnotchosen = True
-            while itemnotchosen:
-                itemnotchosen = self.item_management()
+            item_not_chosen = True
+            while item_not_chosen:
+                item_not_chosen = self.item_management()
             return False
         elif m == 'h':
-            self.ourhero.healflip()
-        wait = input()
+            self.our_hero.heal_flip()
+        input()  # Wait
 
     # One round of an enemy turn
-    def enemyturn(self):
+    def enemy_turn(self) -> None:
         overunder = random.randrange(0, 20)
-        if self.ourenemy.isalive:
+        if self.our_enemy.isalive:
             marqueeprint('[ENEMY ATTACK]')
             if overunder == 0:
-                self.ourenemy.anger()
+                self.our_enemy.anger()
             elif overunder == 1:
-                self.ourenemy.weaker()
+                self.our_enemy.weaker()
             elif overunder == 2:
-                centerprint(str(self.ourenemy.name) + ' ran away!')
-                self.ourenemy.hp = 0
-                self.ourhero.isbattling = False
+                centerprint(str(self.our_enemy.name) + ' ran away!')
+                self.our_enemy.hp = 0
+                self.our_hero.is_battling = False
                 return
-            if overunder in range(3, self.ourhero.dodge):
-                centerprint(str(self.ourenemy.name) + ' swings and misses!')
+            if overunder in range(3, self.our_hero.dodge):
+                centerprint(str(self.our_enemy.name) + ' swings and misses!')
                 return
-            if self.ourhero.isbattling:
-                effatk = int(self.ourenemy.atk)
-                if effatk < 0:
-                    effatk = 0
-                self.ourhero.ourarmor.damagedur(effatk, self.ourhero.defcurve)
-                self.ourhero.ourshield.damagedur(effatk, self.ourhero.defcurve)
-                self.ourhero.damage(effatk)
+            if self.our_hero.is_battling:
+                eff_atk = int(self.our_enemy.atk)
+                if eff_atk < 0:
+                    eff_atk = 0
+                self.our_hero.our_armor.damage_dur(eff_atk, self.our_hero.def_curve)
+                self.our_hero.our_shield.damage_dur(eff_atk, self.our_hero.def_curve)
+                self.our_hero.damage(eff_atk)
 
-    def riddle(self):
+    def riddle(self) -> None:
         marqueeprint('[RIDDLE]')
         centerprint('The area gets quiet. The wind blows.')
         centerprint('A torn page lands in your grasp. It reads:')
@@ -332,61 +326,60 @@ class Game:
         # query database for a single random riddle
         self.conn.execute('SELECT * FROM riddles ORDER BY RANDOM() LIMIT 1' + ';')
         row = self.conn.fetchall()[0]
-        ourriddle = [row[0], row[1]]
-        wrapstring = textwrap.wrap(ourriddle[0], width=self.datawidth)
-        answer = str(ourriddle[1]).lower()
-        for line in wrapstring:
+        our_riddle = [row[0], row[1]]
+        wrap_string = textwrap.wrap(our_riddle[0], width=self.data_width)
+        answer = str(our_riddle[1]).lower()
+        for line in wrap_string:
             centerprint(line)
         centerprint('Speak the answer to the wind...')
-        useranswer = input()
-        if useranswer == '' and self.riddlemode == 1:
-            while useranswer == '':
+        user_answer = input()
+        if user_answer == '' and self.riddle_mode == 1:
+            while user_answer == '':
                 centerprint('Please answer the riddle.')
-                useranswer = input()
+                user_answer = input()
                 if self.debugging:
-                    marqueeprint(answer + ', you cheater!')
-        if similarstring(useranswer, answer) and useranswer != '':
+                    marqueeprint(f'{answer}, you cheater!')
+        if similarstring(user_answer, answer) and user_answer != '':
             centerprint('You have successfully answered the riddle')
             centerprint('The answer was \"' + answer + '\"')
             centerprint('I present you with this:')
-            self.ourhero.addgold(self.ourhero.level * 44)
-            self.ourhero.addxp(self.ourhero.nextlevel * .17)
+            self.our_hero.add_gold(self.our_hero.level * 44)
+            self.our_hero.add_xp(self.our_hero.next_level * .17)
         else:
             centerprint('You Fail! Leave this place!')
 
-
     # fetch a new enemy that is at hero's level (for now...)
-    def getenemy(self):
-        self.conn.execute('SELECT * FROM enemies WHERE level = ' + str(self.ourhero.level) + ';')
+    def get_enemy(self) -> Enemy:
+        self.conn.execute('SELECT * FROM enemies WHERE level = ' + str(self.our_hero.level) + ';')
         rows = self.conn.fetchall()
         new_enemy = random.choice(rows)
 
         # create random enemy name
-        levelname = random.choice((rows[0][1], rows[1][1],
-                                   rows[2][1], rows[3][1],
-                                   rows[4][1]))
+        level_name = random.choice((rows[0][1], rows[1][1],
+                                    rows[2][1], rows[3][1],
+                                    rows[4][1]))
         # part of random name
         adjective = random.choice((rows[0][2], rows[1][2],
                                    rows[2][2], rows[3][2],
                                    rows[4][2]))
         # part of random name
-        enemyname = random.choice((rows[0][3], rows[1][3],
-                                   rows[2][3], rows[3][3],
-                                   rows[4][3]))
+        enemy_name = random.choice((rows[0][3], rows[1][3],
+                                    rows[2][3], rows[3][3],
+                                    rows[4][3]))
         # part of random name
-        ournewenemy = Enemy.Enemy(new_enemy[0], levelname, adjective, enemyname, new_enemy[4],
-                                  new_enemy[5], (new_enemy[6] + (new_enemy[6] * self.ourhero.defcurve)),
-                                  new_enemy[7], new_enemy[8], new_enemy[9])
-        return ournewenemy
+        our_new_enemy = Enemy.Enemy(new_enemy[0], level_name, adjective, enemy_name, new_enemy[4],
+                                    new_enemy[5], (new_enemy[6] + (new_enemy[6] * self.our_hero.def_curve)),
+                                    new_enemy[7], new_enemy[8], new_enemy[9])
+        return our_new_enemy
 
     # a blacksmith who can repair or sell gear
     def blacksmith(self):
         centerprint('An old Blacksmith rests at your camp')
         centerprint('He shows his wares and services:')
         centerprint('[f]ix gear [b]uy gear')
-        nextdecision = input()
-        centerprint('Gold: ' + str(self.ourhero.gold))
-        if nextdecision == 'f':
+        next_decision = input()
+        centerprint('Gold: ' + str(self.our_hero.gold))
+        if next_decision == 'f':
 
             # offer equipment repair for any of the 3 slots, for 1g/durability point
             centerprint('The Blacksmith can offer repair ')
@@ -394,71 +387,71 @@ class Game:
             centerprint('Here is your gear durability:')
 
             # print all your gear out
-            gridoutput(self.ourhero.ourweapon.datadict())
-            gridoutput(self.ourhero.ourshield.datadict())
-            gridoutput(self.ourhero.ourarmor.datadict())
+            gridoutput(self.our_hero.ourweapon.datadict())
+            gridoutput(self.our_hero.ourshield.datadict())
+            gridoutput(self.our_hero.ourarmor.datadict())
 
             # user input for what to repair, or all of it, for convenience
             decision = input('What do you want to repair? [a] for all')
             if decision == '1' or decision == 'a':
-                repaircost = self.ourhero.ourweapon.maxdur - self.ourhero.ourweapon.dur
+                repair_cost = self.our_hero.ourweapon.maxdur - self.our_hero.ourweapon.dur
                 centerprint('Repair Your weapon?')
-                centerprint('Cost: ' + str(repaircost) + ' gold')
+                centerprint(f'Cost: {repair_cost} gold')
                 centerprint('[y]es [n]o')
                 decision2 = input()
-                if decision2 == 'y' and self.ourhero.gold >= repaircost:
-                    self.ourhero.gold -= repaircost
-                    self.ourhero.ourweapon.dur = self.ourhero.ourweapon.maxdur
+                if decision2 == 'y' and self.our_hero.gold >= repair_cost:
+                    self.our_hero.gold -= repair_cost
+                    self.our_hero.ourweapon.dur = self.our_hero.ourweapon.maxdur
                     centerprint('Repair Success.')
             if decision == '2' or decision == 'a':
-                repaircost = self.ourhero.ourshield.maxdur - self.ourhero.ourshield.dur
+                repair_cost = self.our_hero.ourshield.max_dur - self.our_hero.ourshield.dur
                 centerprint('Repair Your shield?')
-                centerprint('Cost: ' + str(repaircost) + ' gold')
+                centerprint(f'Cost: {repair_cost} gold')
                 centerprint('[y]es [n]o')
                 decision2 = input()
-                if decision2 == 'y' and self.ourhero.gold >= repaircost:
-                    self.ourhero.gold -= repaircost
-                    self.ourhero.ourshield.dur = self.ourhero.ourshield.maxdur
+                if decision2 == 'y' and self.our_hero.gold >= repair_cost:
+                    self.our_hero.gold -= repair_cost
+                    self.our_hero.ourshield.dur = self.our_hero.ourshield.max_dur
                     centerprint('Repair Success.')
             if decision == '3' or decision == 'a':
-                repaircost = self.ourhero.ourarmor.maxdur - self.ourhero.ourarmor.dur
+                repair_cost = self.our_hero.ourarmor.max_dur - self.our_hero.ourarmor.dur
                 centerprint('Repair Your armor?)')
-                centerprint('Cost: ' + str(repaircost) + ' gold')
+                centerprint(f'Cost: {repair_cost} gold')
                 centerprint('[y]es [n]o')
                 decision2 = input()
-                if decision2 == 'y' and self.ourhero.gold >= repaircost:
-                    self.ourhero.gold -= repaircost
-                    self.ourhero.ourarmor.dur = self.ourhero.ourarmor.maxdur
+                if decision2 == 'y' and self.our_hero.gold >= repair_cost:
+                    self.our_hero.gold -= repair_cost
+                    self.our_hero.ourarmor.dur = self.our_hero.ourarmor.max_dur
                     centerprint('Repair Success')
 
         # offer random choice of weapon, armor, or shield at 1.5x value price
-        elif nextdecision == 'b':
-            weaponforsale = self.ourhero.newweapon()
-            armorforsale = self.ourhero.newarmor()
-            shieldforsale = self.ourhero.newshield()
+        elif next_decision == 'b':
+            weapon_for_sale = self.our_hero.new_weapon()
+            armor_for_sale = self.our_hero.new_armor()
+            shield_for_sale = self.our_hero.new_shield()
 
             marqueeprint('[YOUR GEAR]')
-            gridoutput(self.ourhero.ourweapon.datadict())
-            gridoutput(self.ourhero.ourshield.datadict())
-            gridoutput(self.ourhero.ourarmor.datadict())
+            gridoutput(self.our_hero.ourweapon.datadict())
+            gridoutput(self.our_hero.ourshield.datadict())
+            gridoutput(self.our_hero.ourarmor.datadict())
             print('')
 
             # determine weapon costs
-            wepcost = weaponforsale.level * 60 * self.ourhero.defcurve
-            armcost = armorforsale.level * 60 * self.ourhero.defcurve
-            shcost = shieldforsale.level * 60 * self.ourhero.defcurve
+            wepcost = weapon_for_sale.level * 60 * self.our_hero.def_curve
+            armcost = armor_for_sale.level * 60 * self.our_hero.def_curve
+            shcost = shield_for_sale.level * 60 * self.our_hero.def_curve
 
-            data1 = [str(weaponforsale.name), str(weaponforsale.type),
-                     str(weaponforsale.baseatk),
+            data1 = [str(weapon_for_sale.name), str(weapon_for_sale.type),
+                     str(weapon_for_sale.baseatk),
                      str(wepcost)]
-            data2 = [str(shieldforsale.name), str(shieldforsale.type),
-                     str(shieldforsale.basedefn),
+            data2 = [str(shield_for_sale.name), str(shield_for_sale.type),
+                     str(shield_for_sale.base_defn),
                      str(shcost)]
-            data3 = [str(armorforsale.name), str(armorforsale.type),
-                     str(armorforsale.basedefn),
+            data3 = [str(armor_for_sale.name), str(armor_for_sale.type),
+                     str(armor_for_sale.base_defn),
                      str(armcost)]
 
-            title = ('[GEAR FOR SALE]')
+            title = '[GEAR FOR SALE]'
             dataheader = ['Name', 'Type', 'Atk/Def', 'Cost']
             alldata = [data1, data2, data3]
             fiverowprintoptions(dataheader, alldata, title)
@@ -468,35 +461,35 @@ class Game:
             if itemindex not in ['1', '2', '3', '']:
                 centerprint('Please enter a valid choice')
             elif itemindex == '1':
-                self.ourhero.ourweapon = weaponforsale
-                if self.ourhero.gold < wepcost:
+                self.our_hero.ourweapon = weapon_for_sale
+                if self.our_hero.gold < wepcost:
                     centerprint('You don\'t have enough money!')
-                self.ourhero.gold -= wepcost
-                centerprint('You equip your new gear: ' + str(weaponforsale.name) + ' ' + str(weaponforsale.type))
+                self.our_hero.gold -= wepcost
+                centerprint('You equip your new gear: ' + str(weapon_for_sale.name) + ' ' + str(weapon_for_sale.type))
             elif itemindex == '2':
-                self.ourhero.ourshield = shieldforsale
-                if self.ourhero.gold < wepcost:
+                self.our_hero.ourshield = shield_for_sale
+                if self.our_hero.gold < wepcost:
                     centerprint('You don\'t have enough money!')
                     return
-                self.ourhero.gold -= armcost
-                centerprint('You equip your new gear: ' + str(shieldforsale.name) + ' ' + str(shieldforsale.type))
+                self.our_hero.gold -= armcost
+                centerprint('You equip your new gear: ' + str(shield_for_sale.name) + ' ' + str(shield_for_sale.type))
             elif itemindex == '3':
-                self.ourhero.ourarmor = armorforsale
-                if self.ourhero.gold < shcost:
+                self.our_hero.ourarmor = armor_for_sale
+                if self.our_hero.gold < shcost:
                     centerprint('You don\'t have enough money!')
                     return
-                self.ourhero.gold -= shcost
-                centerprint('You equip your new gear: ' + str(armorforsale.name) + ' ' + str(armorforsale.type))
-            self.ourhero.applyequip()
+                self.our_hero.gold -= shcost
+                centerprint('You equip your new gear: ' + str(armor_for_sale.name) + ' ' + str(armor_for_sale.type))
+            self.our_hero.apply_equip()
             return
 
     # a camp where you regain hp after so many fights.
     def camp(self):
         camping = True
         while camping:
-            self.ourhero.hp = self.ourhero.maxhp
+            self.our_hero.hp = self.our_hero.max_hp
             marqueeprint('[CAMP]')
-            centerprint('You rest at camp. Hero HP: ' + str(self.ourhero.hp))
+            centerprint('You rest at camp. Hero HP: ' + str(self.our_hero.hp))
             centerprint('[a]dventure [i]tem [h]ero')
             centerprint('[p]eddler [b]lacksmith')
             centerprint('[l]oad [s]ave [q]uit')
@@ -507,20 +500,20 @@ class Game:
                     iteming = self.item_management()
             elif m == 'h':
                 marqueeprint('[HERO DETAIL]')
-                gridoutput(self.ourhero.datadict())
-                wait = input()
-                gridoutput(self.ourhero.ourweapon.datadict())
-                wait = input()
-                gridoutput(self.ourhero.ourshield.datadict())
-                wait = input()
-                gridoutput(self.ourhero.ourarmor.datadict())
-                wait = input()
+                gridoutput(self.our_hero.datadict())
+                input()  # Wait
+                gridoutput(self.our_hero.our_weapon.datadict())
+                input()  # Wait
+                gridoutput(self.our_hero.our_shield.datadict())
+                input()  # Wait
+                gridoutput(self.our_hero.our_armor.datadict())
+                input()  # Wait
             elif m == 'a' or m == '':
                 return
                 # adventure()
             elif m == 'l':
                 marqueeprint('[LOAD GAME]')
-                self.ourhero = self.loadgame()
+                self.our_hero = self.load_game()
             elif m == 's':
                 marqueeprint('[SAVE GAME]')
                 self.savegame()
@@ -546,26 +539,26 @@ class Game:
         nextdecision = input()
         if nextdecision == 'b':
             pass
-            item1 = self.ourhero.newitem()
-            item2 = self.ourhero.newitem()
-            item3 = self.ourhero.newitem()
-            item4 = self.ourhero.newitem()
-            item5 = self.ourhero.newitem()
+            item1 = self.our_hero.new_item()
+            item2 = self.our_hero.new_item()
+            item3 = self.our_hero.new_item()
+            item4 = self.our_hero.new_item()
+            item5 = self.our_hero.new_item()
             itemarray = [item1, item2, item3, item4, item5]
             for i, item in enumerate(itemarray):
                 print(str(i + 1) + '\t' + item.name + '\t' + str(item.val * 1.5))
             print('Your selection? (ENTER to go back)')
             selection = input()
             if selection == '1':
-                self.ourhero.buyitem(item1)
+                self.our_hero.buy_item(item1)
             elif selection == '2':
-                self.ourhero.buyitem(item2)
+                self.our_hero.buy_item(item2)
             elif selection == '3':
-                self.ourhero.buyitem(item3)
+                self.our_hero.buy_item(item3)
             elif selection == '4':
-                self.ourhero.buyitem(item4)
+                self.our_hero.buy_item(item4)
             elif selection == '5':
-                self.ourhero.buyitem(item5)
+                self.our_hero.buy_item(item5)
             elif selection == '':
                 centerprint('\"WHYD YOU COME HERE AND NOT BUY ANYTHING?\"')
                 return
@@ -573,12 +566,13 @@ class Game:
                 centerprint('Get out of here you bum!')
                 # offer random choice of items at 1.5x value price
         if nextdecision == 'r':
-            if self.ourhero.canafford(100):
-                self.ourhero.gold -= 100
+            if self.our_hero.can_afford(100):
+                self.our_hero.gold -= 100
                 self.riddle()
 
     # pickle in to hero obj and start gameloop
-    def loadgame(self):
+    @staticmethod
+    def load_game():
         # load hero object from pickle file
         dirlist = os.listdir('./saves/')
         for i, item in enumerate(dirlist):
@@ -599,133 +593,131 @@ class Game:
     def savegame(self):
         # pickle hero object to file
         # should prompt to overwrite
-        heroname = input('Name your save file\nOr [c]ancel')
-        if heroname == 'c':
+        hero_name = input('Name your save file\nOr [c]ancel')
+        if hero_name == 'c':
             return
-        savefolder = "./saves/"
-        filepath = savefolder + heroname + '.hero'
-        gamedata = self.ourhero
+        save_directory = "./saves/"
+        filepath = save_directory + hero_name + '.hero'
+        game_data = self.our_hero
         if not os.path.isfile(filepath):
             with open(filepath, 'wb') as f:
-                pickle.dump(gamedata, f, -1)
+                pickle.dump(game_data, f, -1)
         else:
             answer = input('Overwrite?')
             if answer.lower() == 'y':
                 os.remove(filepath)
                 print(os.listdir('./saves/'))
                 with open(filepath, 'wb') as f:
-                    pickle.dump(gamedata, f, -1)
+                    pickle.dump(game_data, f, -1)
             elif answer.lower() == 'n':
                 newname = input('Enter New Save file name')
                 with open(filepath + str(newname), 'wb') as f:
-                    pickle.dump(gamedata, f, -1)
+                    pickle.dump(game_data, f, -1)
 
     # TODO: Go back from item menu without enemy turn happening
     # TODO: Make this into an item selection method, with an argument if [s]elling, [u]sing, or [d]iscarding
     # lets hero use items
     def item_management(self):
-        if not self.ourhero.items:
+        if not self.our_hero.items:
             centerprint('Inventory Empty')
             return False
         # print all the item's info
-        for i, item in enumerate(self.ourhero.items):
-            leftprint('ITEM: ' + str(i+1))
-            gridoutput(self.ourhero.items[i].datadict())
+        for i, item in enumerate(self.our_hero.items):
+            leftprint('ITEM: ' + str(i + 1))
+            gridoutput(self.our_hero.items[i].datadict())
         centerprint('Please enter decision, [ENTER] to go back')
         try:
             itemindex = input()
             itemindex = int(itemindex)
             itemindex -= 1
-            self.ourhero.ouritem = self.ourhero.items[int(itemindex)]
-            del (self.ourhero.items[int(itemindex)])
+            self.our_hero.ouritem = self.our_hero.items[int(itemindex)]
+            del (self.our_hero.items[int(itemindex)])
         except ValueError:
             centerprint('Please enter a valid choice')
             return False
         except IndexError:
             centerprint('Please enter a valid choice')
             return False
-        self.ourhero.activeitem = self.ourhero.ouritem
-        centerprint('Using ' + str(self.ourhero.ouritem.name))
-        if self.ourhero.ouritem.name == 'Healing Potion':
-            self.healingpotion()
-        if self.ourhero.ouritem.name == 'Explosive Mana Vial':
-            if self.ourhero.isbattling:
-                self.explosivemanavial()
+        self.our_hero.activeitem = self.our_hero.ouritem
+        centerprint('Using ' + str(self.our_hero.ouritem.name))
+        if self.our_hero.ouritem.name == 'Healing Potion':
+            self.healing_potion()
+        if self.our_hero.ouritem.name == 'Explosive Mana Vial':
+            if self.our_hero.is_battling:
+                self.explosive_mana_vial()
             else:
                 centerprint('You\'re not in battle!')
                 return False
-        if self.ourhero.ouritem.name == 'Health Regen Potion':
-            self.healthregenpotion()
-        if self.ourhero.ouritem.name == 'Haste Potion':
-            self.hastepotion()
-        if self.ourhero.ouritem.name == 'Weapon Repair Tincture':
-            self.weaponrepairtincture()
+        if self.our_hero.ouritem.name == 'Health Regen Potion':
+            self.health_regen_potion()
+        if self.our_hero.ouritem.name == 'Haste Potion':
+            self.haste_potion()
+        if self.our_hero.ouritem.name == 'Weapon Repair Tincture':
+            self.weapon_repair_tincture()
 
     # hero uses a healing potion
-    def healingpotion(self):
+    def healing_potion(self):
         marqueeprint('[HEALING POTION]')
-        healed = self.ourhero.activeitem.effect
-        self.ourhero.heal(healed)
-        self.ourhero.activeitem = 0
-
+        healed = self.our_hero.active_item.effect
+        self.our_hero.heal(healed)
+        self.our_hero.active_item = 0
 
     # hero uses an item that damages enemy
-    def explosivemanavial(self):
+    def explosive_mana_vial(self):
         marqueeprint('[EXPLOSIVE MANA BOMB]')
         centerprint('The Mana Vial EXPLODES!')
-        dmg = self.ourhero.activeitem.effect
-        self.ourenemy.damage(dmg, self.ourhero.atkcurve)
-        self.ourhero.activeitem = 0
-
+        dmg = self.our_hero.active_item.effect
+        self.our_enemy.damage(dmg, self.our_hero.atk_curve)
+        self.our_hero.active_item = 0
 
     # adds health per turn
-    def healthregenpotion(self):
+    def health_regen_potion(self):
         marqueeprint('[REGEN POTION]')
-        self.ourhero.regentimer += 5
-        centerprint(str(self.ourhero.regentimer) + ' turns health regen')
-        self.ourhero.activeitem = 0
+        self.our_hero.regen_timer += 5
+        centerprint(str(self.our_hero.regen_timer) + ' turns health regen')
+        self.our_hero.active_item = 0
 
     # dodge buff
-    def hastepotion(self):
+    def haste_potion(self):
         marqueeprint('[HASTE POTION]')
-        self.ourhero.hastetimer += 5
-        centerprint(str(self.ourhero.hastetimer) + ' turns dodge buff')
-        self.ourhero.activeitem = 0
+        self.our_hero.haste_timer += 5
+        centerprint(str(self.our_hero.haste_timer) + ' turns dodge buff')
+        self.our_hero.active_item = 0
 
     # heals 60% of dur points to weapon
-    def weaponrepairtincture(self):
+    def weapon_repair_tincture(self):
         marqueeprint('[WEAPON REPAIR]')
-        rep = self.ourhero.ourweapon.maxdur * .6
+        rep = self.our_hero.our_weapon.maxdur * .6
         centerprint('You repaired your weapon for ' + str(rep) + ' durability points')
-        self.ourhero.ourweapon.dur += rep
-        if self.ourhero.ourweapon.dur > self.ourhero.ourweapon.maxdur:
-            self.ourhero.ourweapon.dur = self.ourhero.ourweapon.maxdur
-        self.ourhero.activeitem = 0
+        self.our_hero.our_weapon.dur += rep
+        if self.our_hero.our_weapon.dur > self.our_hero.our_weapon.maxdur:
+            self.our_hero.our_weapon.dur = self.our_hero.our_weapon.maxdur
+        self.our_hero.active_item = 0
 
     # adds a little suspense to offset the monotony of text input
-    def suspense(self):
+    def suspense(self) -> None:
         s = ' '
-        if self.suspensemode:
+        if self.suspense_mode:
             time.sleep(.5)
             print(s)
 
     # Print hero and enemy justified on left and right
-    def printadversaries(self, datawidth):
-        self.textwidth = datawidth
-        centerprint(lr_justify('[HERO]', '[ENEMY]', self.textwidth))
-        centerprint(lr_justify(self.ourhero.name, self.ourenemy.name, self.textwidth))
-        centerprint(lr_justify(str('lvl: ' + str(self.ourhero.level)),
-                               str('lvl: ' + str(self.ourenemy.level)),self.textwidth))
-        centerprint(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)),
-                         str('HP: ' + str(self.ourenemy.hp) + '/' + str(self.ourenemy.maxhp)), self.textwidth))
-        centerprint(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)),
-                         str('XP drop: ' + str(self.ourenemy.xp)),self.textwidth))
+    def print_adversaries(self, datawidth):
+        self.text_width = datawidth
+        centerprint(lr_justify('[HERO]', '[ENEMY]', self.text_width))
+        centerprint(lr_justify(self.our_hero.name, self.our_enemy.name, self.text_width))
+        centerprint(lr_justify(str('lvl: ' + str(self.our_hero.level)),
+                               str('lvl: ' + str(self.our_enemy.level)), self.text_width))
+        centerprint(lr_justify(str('HP: ' + str(self.our_hero.hp) + '/' + str(self.our_hero.max_hp)),
+                               str('HP: ' + str(self.our_enemy.hp) + '/' + str(self.our_enemy.maxhp)), self.text_width))
+        centerprint(lr_justify(str('XP: ' + str(self.our_hero.xp) + '/' + str(self.our_hero.next_level)),
+                               str('XP drop: ' + str(self.our_enemy.xp)), self.text_width))
 
     # To be used on status screens
     def printmarqueehero(self, sometext):
         marqueeprint(sometext)
-        print(lr_justify('[HERO]', '', self.textwidth))
-        print(lr_justify(self.ourhero.name, '', self.textwidth))
-        print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', self.textwidth))
-        print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', self.textwidth))
-        print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', self.textwidth))
+        print(lr_justify('[HERO]', '', self.text_width))
+        print(lr_justify(self.our_hero.name, '', self.text_width))
+        print(lr_justify(f'lvl: {self.our_hero.level}', '', self.text_width))
+        print(lr_justify(f'HP: {self.our_hero.hp} / {self.our_hero.max_hp}', '', self.text_width))
+        print(lr_justify(f'XP: {self.our_hero.xp} / {self.our_hero.next_level}', '', self.text_width))
