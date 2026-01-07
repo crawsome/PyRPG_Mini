@@ -73,17 +73,21 @@ class Game:
     def newhero(self):
         self.conn.execute('SELECT * FROM levelnotes WHERE level = 1;')
         rows = self.conn.fetchall()
-        marqueeprint('[CHOOSE CLASS]')
-        centerprint('[w]arrior [m]age [h]unter')
-        ourclass = input()
-        if ourclass == 'w' or ourclass == '':
-            ourclass = 'warrior'
-        elif ourclass == 'm':
-            ourclass = 'mage'
-        elif ourclass == 'h':
-            ourclass = 'hunter'
-        else:
-            centerprint('Please enter a valid selection')
+        while True:
+            marqueeprint('[CHOOSE CLASS]')
+            centerprint('[w]arrior [m]age [h]unter')
+            ourclass = input()
+            if ourclass == 'w' or ourclass == '':
+                ourclass = 'warrior'
+                break
+            elif ourclass == 'm':
+                ourclass = 'mage'
+                break
+            elif ourclass == 'h':
+                ourclass = 'hunter'
+                break
+            else:
+                centerprint('Please enter a valid selection')
         marqueeprint('[CHOOSE DIFFICULTY]')
         centerprint('[1]easy [2]med [3]hard')
         diff = input()
@@ -729,3 +733,4 @@ class Game:
         print(lr_justify(str('lvl: ' + str(self.ourhero.level)), '', self.textwidth))
         print(lr_justify(str('HP: ' + str(self.ourhero.hp) + '/' + str(self.ourhero.maxhp)), '', self.textwidth))
         print(lr_justify(str('XP: ' + str(self.ourhero.xp) + '/' + str(self.ourhero.nextlevel)), '', self.textwidth))
+
