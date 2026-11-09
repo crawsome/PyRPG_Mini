@@ -1,5 +1,8 @@
 # PyRPG_Mini
 
+Update: Nov 2026:
+This game's concept has been evolved into my game Wyrm Warrior. [The demo for Wyrm Warrior is out now on Steam.](https://store.steampowered.com/app/5022170/Wyrm_Warrior_Demo/) Please wishlist. 
+
 A text RPG written in Python 3 with many technical RPG features you'd want.
 ## Requirements / Dependencies
 * Python3
